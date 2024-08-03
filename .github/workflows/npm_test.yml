@@ -14,13 +14,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: pnpm/action-setup@v4.0.0
         with:
-          node-version-file: '.nvmrc'
-          cache: 'pnpm'
-      - name: Install dependencies
-        run: pnpm install
-      - name: Run build
-        run: pnpm run build
-      - name: Run tests
-        run: pnpm test
+          run_install: pnpm install
