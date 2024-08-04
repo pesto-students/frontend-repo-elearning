@@ -24,7 +24,7 @@ import { useRouter } from 'next/navigation';
 const LoginForm = (props: PaperProps) => {
     const [type, toggle] = useToggle(['login', 'register']);
     const router = useRouter()
-    const { contextData, setContextData } = useContext(AppContext)
+    const { updateContextData } = useContext(AppContext)
 
     const form = useForm({
         initialValues: {
@@ -57,7 +57,7 @@ const LoginForm = (props: PaperProps) => {
 
             <Divider label="Or continue with email" labelPosition="center" my="lg" />
 
-            <form onSubmit={form.onSubmit(() => { setContextData({ loginModal: false }); router.push('/dashboard') })}>
+            <form onSubmit={form.onSubmit(() => { updateContextData({ loginModal: false }); router.push('/dashboard') })}>
                 <Stack>
                     {type === 'register' && (
                         <TextInput
@@ -114,11 +114,11 @@ const LoginForm = (props: PaperProps) => {
 }
 
 const LoginFormModal = () => {
-    const { contextData, setContextData } = useContext(AppContext)
+    const { contextData, updateContextData } = useContext(AppContext)
     const [, { close }] = useDisclosure(false);
 
     return (
-        <Modal opened={contextData.loginModal} onClose={() => { setContextData({ loginModal: false }); close() }} title="Sign In">
+        <Modal opened={Boolean(contextData.loginModal)} onClose={() => { updateContextData({ loginModal: false }); close() }} title="Sign In">
             <LoginForm></LoginForm>
         </Modal>
     )

@@ -1,18 +1,27 @@
 "use client"
-import React, { createContext, useState } from 'react';
+import React, { createContext, useCallback, useMemo, useState } from 'react';
 
-export const AppContext = createContext({});
+type AppContextType = {
+    contextData: {
+        loginModal?: boolean
+    };
+    updateContextData: (obj: {}) => void;
+}
 
-function AppContextProvider({ children }: { children: React.ReactNode }) {
-    const [contextData, updateContextData] = useState({});
+export const AppContext = createContext<AppContextType>({ contextData: { loginModal: false }, updateContextData: () => { } });
 
-    const setContextData = (obj: {}) => {
+function AppContextProvider({ children }: Readonly<{ children: React.ReactNode }>) {
+    const [contextData, setContextData] = useState({});
+
+    const updateContextData = useCallback((obj: {}) => {
         if (obj)
-            updateContextData(prevState => ({ ...prevState, ...obj }))
-    }
+            setContextData(prevState => ({ ...prevState, ...obj }))
+    }, [])
+
+    const value: AppContextType = useMemo(() => ({ contextData, updateContextData }), [contextData, updateContextData])
 
     return (
-        <AppContext.Provider value={{ contextData, setContextData }}>
+        <AppContext.Provider value={value}>
             {children}
         </AppContext.Provider>
     );
