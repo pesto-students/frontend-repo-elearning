@@ -1,4 +1,5 @@
 
+import AppContextProvider from '@/components/AppContextProvider/AppContextProvider';
 import { AppShellLayout } from '@/components/AppShell/AppShell';
 import { ColorSchemeScript, MantineProvider } from '@mantine/core';
 import '@mantine/core/styles.css';
@@ -23,8 +24,9 @@ export default function RootLayout({ children }: { children: any }) {
       </head>
       <body>
         <MantineProvider theme={theme}>
-          <AppShellLayout>{children}</AppShellLayout>
-
+          <AppContextProvider>
+            <AppShellLayout>{children}</AppShellLayout>
+          </AppContextProvider>
         </MantineProvider>
       </body>
     </html>

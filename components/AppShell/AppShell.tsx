@@ -1,23 +1,30 @@
 "use client"
-import { AppShell, Burger, Group, Skeleton } from '@mantine/core';
+import { AppShell, Burger, Button, Flex, Group, Skeleton } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import React from 'react';
 import AppLogo from '../AppLogo/AppLogo';
 import { FooterMenu } from '../FooterMenu/FooterMenu';
 import { HeaderMenu } from '../HeaderMenu/HeaderMenu';
+import LoginFormModal from '../LoginForm/LoginForm';
 
 export function AppShellLayout({ children }: { children: React.ReactNode }) {
     const [mobileOpened, { toggle: toggleMobile }] = useDisclosure();
     const [desktopOpened, { toggle: toggleDesktop }] = useDisclosure();
+    const router = useRouter()
 
     const HeaderMenuWithSideBar = () => {
         return (
-            <Group h="100%" px="md">
-                <Burger opened={mobileOpened} onClick={toggleMobile} hiddenFrom="sm" size="sm" />
-                <Burger opened={desktopOpened} onClick={toggleDesktop} visibleFrom="sm" size="sm" />
-                <AppLogo />
-            </Group>
+            <Flex justify="space-between">
+                <Group h="100%" px="md">
+                    <Burger opened={mobileOpened} onClick={toggleMobile} hiddenFrom="sm" size="sm" />
+                    <Burger opened={desktopOpened} onClick={toggleDesktop} visibleFrom="sm" size="sm" />
+                    <AppLogo />
+                </Group>
+                <Group px="md">
+                    <Button variant='default' onClick={() => router.push('/')}>Logout</Button>
+                </Group>
+            </Flex>
         )
     }
 
@@ -44,9 +51,10 @@ export function AppShellLayout({ children }: { children: React.ReactNode }) {
                     ))}
             </AppShell.Navbar>
             <AppShell.Main>{children}</AppShell.Main>
-            <AppShell.Footer>
+            <AppShell.Footer withBorder={false}>
                 <FooterMenu></FooterMenu>
             </AppShell.Footer>
+            <LoginFormModal></LoginFormModal>
         </AppShell>
     );
 }

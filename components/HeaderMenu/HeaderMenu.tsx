@@ -1,9 +1,11 @@
 "use client"
-import { Menu, Group, Center, Burger, Container } from '@mantine/core';
+import { Burger, Button, Center, Container, Group, Menu } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconChevronDown } from '@tabler/icons-react';
-import classes from './HeaderMenu.module.css';
+import { useContext } from 'react';
+import AppContextProvider, { AppContext } from '../AppContextProvider/AppContextProvider';
 import AppLogo from '../AppLogo/AppLogo';
+import classes from './HeaderMenu.module.css';
 
 const links = [
   { link: '/about', label: 'Features' },
@@ -33,6 +35,7 @@ const links = [
 
 export function HeaderMenu() {
   const [opened, { toggle }] = useDisclosure(false);
+  const { setContextData } = useContext(AppContext)
 
   const items = links.map((link) => {
     const menuItems = link.links?.map((item) => (
@@ -78,6 +81,9 @@ export function HeaderMenu() {
           <AppLogo />
           <Group gap={5} visibleFrom="sm">
             {items}
+          </Group>
+          <Group visibleFrom="sm">
+            <Button variant="default" onClick={(e) => { e.preventDefault(); setContextData({ loginModal: true }) }}>Log in</Button>
           </Group>
           <Burger opened={opened} onClick={toggle} size="sm" hiddenFrom="sm" />
         </div>
