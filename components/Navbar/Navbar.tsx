@@ -32,7 +32,7 @@ const data = [
 
 
 
-export function NavbarNested() {
+const Navbar = () => {
   const links = data.map((item) => <LinksGroup {...item} key={item.label} />);
 
   return (
@@ -59,3 +59,5 @@ export function NavbarNested() {
     </nav>
   );
 }
+
+export default Navbar;
