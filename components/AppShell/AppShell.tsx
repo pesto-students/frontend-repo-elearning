@@ -7,7 +7,7 @@ import AppLogo from '../AppLogo/AppLogo';
 import { FooterMenu } from '../FooterMenu/FooterMenu';
 import { HeaderMenu } from '../HeaderMenu/HeaderMenu';
 import LoginFormModal from '../LoginForm/LoginForm';
-import Navbar from '../Navbar/Navbar';
+import Navbar from '../Navbar/Navbar2';
 
 export function AppShellLayout({ children }: { children: React.ReactNode }) {
     const [mobileOpened, { toggle: toggleMobile }] = useDisclosure();
