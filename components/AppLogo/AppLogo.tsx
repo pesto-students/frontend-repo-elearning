@@ -1,8 +1,6 @@
-import React from 'react';
-import Logo from "../../app/public/elearning-logo.png"
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Logo from "../../app/public/elearning-logo.png";
 
 const AppLogo = () => {
     return (

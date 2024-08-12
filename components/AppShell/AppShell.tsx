@@ -1,17 +1,20 @@
 "use client"
+import { useAppSelector } from '@/app/lib/hooks';
+import { HMSRoomProvider } from '@100mslive/react-sdk';
 import { AppShell, Burger, Button, Flex, Group, Skeleton } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { usePathname, useRouter } from 'next/navigation';
 import React from 'react';
 import AppLogo from '../AppLogo/AppLogo';
-import { FooterMenu } from '../FooterMenu/FooterMenu';
 import { HeaderMenu } from '../HeaderMenu/HeaderMenu';
 import LoginFormModal from '../LoginForm/LoginForm';
+import ScheduleLiveClass from '../ScheduleLiveClassModal/ScheduleLiveClassModal';
 
 export function AppShellLayout({ children }: { children: React.ReactNode }) {
     const [mobileOpened, { toggle: toggleMobile }] = useDisclosure();
     const [desktopOpened, { toggle: toggleDesktop }] = useDisclosure();
     const router = useRouter()
+    const { store } = useAppSelector(state => state)
 
     const HeaderMenuWithSideBar = () => {
         return (
@@ -28,33 +31,36 @@ export function AppShellLayout({ children }: { children: React.ReactNode }) {
         )
     }
 
-    const isDashboard = usePathname() === '/dashboard';
+    const isDashboard = usePathname().includes("/dashboard");
 
     return (
-        <AppShell
-            header={{ height: 60 }}
-            navbar={{
-                width: 300,
-                breakpoint: 'sm',
-                collapsed: { mobile: !mobileOpened, desktop: !desktopOpened },
-            }}
-            padding="md"
-        >
-            <AppShell.Header>
-                {isDashboard ? <HeaderMenuWithSideBar></HeaderMenuWithSideBar> : <HeaderMenu></HeaderMenu>}
-            </AppShell.Header>
-            <AppShell.Navbar p="md">
-                {Array(15)
-                    .fill(0)
-                    .map((_, index) => (
-                        <Skeleton key={index} h={28} mt="sm" animate={false} />
-                    ))}
-            </AppShell.Navbar>
-            <AppShell.Main>{children}</AppShell.Main>
-            <AppShell.Footer withBorder={false}>
-                <FooterMenu></FooterMenu>
-            </AppShell.Footer>
-            <LoginFormModal></LoginFormModal>
-        </AppShell>
+        <HMSRoomProvider>
+            <AppShell
+                header={{ height: 60 }}
+                navbar={{
+                    width: 300,
+                    breakpoint: 'sm',
+                    collapsed: { mobile: !mobileOpened, desktop: !desktopOpened },
+                }}
+                padding="md"
+            >
+                <AppShell.Header>
+                    {isDashboard ? <HeaderMenuWithSideBar></HeaderMenuWithSideBar> : <HeaderMenu></HeaderMenu>}
+                </AppShell.Header>
+                <AppShell.Navbar p="md">
+                    {Array(15)
+                        .fill(0)
+                        .map((_, index) => (
+                            <Skeleton key={index} h={28} mt="sm" animate={false} />
+                        ))}
+                </AppShell.Navbar>
+                <AppShell.Main>{children}</AppShell.Main>
+                <AppShell.Footer >
+                    {/* <FooterMenu></FooterMenu> */}
+                </AppShell.Footer>
+                <LoginFormModal></LoginFormModal>
+                {store.scheduleLiveClassModal && <ScheduleLiveClass></ScheduleLiveClass>}
+            </AppShell>
+        </HMSRoomProvider>
     );
 }
