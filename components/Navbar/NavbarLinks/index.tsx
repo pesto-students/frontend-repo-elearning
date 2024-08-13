@@ -7,7 +7,7 @@ interface LinksGroupProps {
   icon: React.FC<any>;
   label: string;
   initiallyOpened?: boolean;
-  options?: { label: string; icon: ReactNode, onClick: () => void }[];
+  options?: { label: string; icon: ReactNode, onClick?: () => void }[];
 }
 
 export function LinksGroup({ icon: Icon, label, initiallyOpened, options }: LinksGroupProps) {
