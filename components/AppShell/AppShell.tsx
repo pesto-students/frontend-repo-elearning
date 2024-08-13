@@ -7,6 +7,7 @@ import AppLogo from '../AppLogo/AppLogo';
 import { FooterMenu } from '../FooterMenu/FooterMenu';
 import { HeaderMenu } from '../HeaderMenu/HeaderMenu';
 import LoginFormModal from '../LoginForm/LoginForm';
+import Navbar from '../Navbar/Navbar';
 
 export function AppShellLayout({ children }: { children: React.ReactNode }) {
     const [mobileOpened, { toggle: toggleMobile }] = useDisclosure();
@@ -22,7 +23,7 @@ export function AppShellLayout({ children }: { children: React.ReactNode }) {
                     <AppLogo />
                 </Group>
                 <Group px="md">
-                    <Button variant='default' onClick={() => router.push('/')}>Logout</Button>
+                    D.A.V School
                 </Group>
             </Flex>
         )
@@ -40,15 +41,11 @@ export function AppShellLayout({ children }: { children: React.ReactNode }) {
             }}
             padding="md"
         >
-            <AppShell.Header>
+            <AppShell.Header bg='#C9CEF5'>
                 {isDashboard ? <HeaderMenuWithSideBar></HeaderMenuWithSideBar> : <HeaderMenu></HeaderMenu>}
             </AppShell.Header>
-            <AppShell.Navbar p="md">
-                {Array(15)
-                    .fill(0)
-                    .map((_, index) => (
-                        <Skeleton key={index} h={28} mt="sm" animate={false} />
-                    ))}
+            <AppShell.Navbar >
+                <Navbar/>
             </AppShell.Navbar>
             <AppShell.Main>{children}</AppShell.Main>
             <AppShell.Footer withBorder={false}>
