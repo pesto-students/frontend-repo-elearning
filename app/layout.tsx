@@ -1,13 +1,14 @@
 
-import AppContextProvider from '@/components/AppContextProvider/AppContextProvider';
 import { AppShellLayout } from '@/components/AppShell/AppShell';
 import { ColorSchemeScript, MantineProvider } from '@mantine/core';
 import '@mantine/core/styles.css';
+import '@mantine/dates/styles.css';
 import { theme } from '../theme';
+import StoreProvider from './lib/storeprovider';
 
 export const metadata = {
-  title: 'eLearning Next.js template',
-  description: 'I am using eLearning with Next.js!',
+  title: 'eLearning- manage your education organization',
+  description: 'The eLearning aims to develop a comprehensive educational organization SaaS platform that enables them to efficiently manage administrative tasks and enhance communication with parents, teachers, and students through various modules.',
 };
 
 export default function RootLayout({ children }: { children: any }) {
@@ -24,9 +25,9 @@ export default function RootLayout({ children }: { children: any }) {
       </head>
       <body>
         <MantineProvider theme={theme}>
-          <AppContextProvider>
-            <AppShellLayout>{children}</AppShellLayout>
-          </AppContextProvider>
+          <StoreProvider>
+            <AppShellLayout>{children}</AppShellLayout>.
+          </StoreProvider>
         </MantineProvider>
       </body>
     </html>

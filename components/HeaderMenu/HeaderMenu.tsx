@@ -1,11 +1,11 @@
 "use client"
+import { useAppDispatch } from '@/app/lib/hooks';
 import { Burger, Button, Center, Container, Group, Menu } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconChevronDown } from '@tabler/icons-react';
-import { useContext } from 'react';
-import { AppContext } from '../AppContextProvider/AppContextProvider';
 import AppLogo from '../AppLogo/AppLogo';
 import classes from './HeaderMenu.module.css';
+import { setLoginModal } from '@/app/lib/slice';
 
 const links = [
   { link: '/about', label: 'Features' },
@@ -29,13 +29,12 @@ const links = [
       { link: '/demo', label: 'Book a demo' },
       { link: '/forums', label: 'Forums' },
     ],
-  },
-  { link: '/dashboard', label: 'Dashboard' },
+  }
 ];
 
 export function HeaderMenu() {
   const [opened, { toggle }] = useDisclosure(false);
-  const { updateContextData } = useContext(AppContext)
+  const dispatch = useAppDispatch()
 
   const items = links.map((link) => {
     const menuItems = link.links?.map((item) => (
@@ -83,7 +82,7 @@ export function HeaderMenu() {
             {items}
           </Group>
           <Group visibleFrom="sm">
-            <Button variant="default" onClick={(e) => { e.preventDefault(); updateContextData({ loginModal: true }) }}>Log in</Button>
+            <Button variant="default" onClick={() => { dispatch(setLoginModal(true)) }}>Log in</Button>
           </Group>
           <Burger opened={opened} onClick={toggle} size="sm" hiddenFrom="sm" />
         </div>
