@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import Logo from "../../app/public/elearning-logo.png";
+import Logo from "../../app/public/elearning-logo.svg";
 
 const AppLogo = () => {
     return (

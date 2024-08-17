@@ -23,16 +23,32 @@ const mockdata = {
     ],
 };
 
-export function ScheduledClassCard(props: { data: any; key: any; }) {
-    const { data, key, createRoomCodeByRoomId, handleJoinLiveClass, roomsCodeData, handleDeleteLiveClass, handleEditLiveClass } = props
-    const { image, title, description, country, badges } = mockdata;
-    const features = badges.map((badge) => (
-        <Badge variant="light" key={badge.label} leftSection={badge.emoji}>
-            {badge.label}
-        </Badge>
-    ));
+interface ScheduledClassCardPropsType {
+    data: { name: string; id: string, description: string, created_at: Date };
+    key: React.Key;
+    handleJoinLiveClass: (roomId: string) => void;
+    roomsCodeData: any;
+    handleDeleteLiveClass: (roomId: string) => void;
+    handleEditLiveClass: (data: object) => void;
+}
 
-    const { store } = useAppSelector(state => state)
+interface LiveClassFormData {
+    [id: string]: {
+        [key: string]: Date;
+    };
+}
+
+interface AppState {
+    store: {
+        liveClassFormData: LiveClassFormData;
+    };
+}
+
+export function ScheduledClassCard(props: ScheduledClassCardPropsType) {
+    const { data, key, handleJoinLiveClass, roomsCodeData, handleDeleteLiveClass, handleEditLiveClass } = props
+    const { country, badges } = mockdata;
+
+    const { store } = useAppSelector((state: AppState) => state)
 
     const getLiveClassFormData = (id = '', key = '') => {
         if (id && key) {
@@ -54,7 +70,7 @@ export function ScheduledClassCard(props: { data: any; key: any; }) {
                     <ActionIcon size={'xs'} onClick={() => handleEditLiveClass(data)}>
                         <IconPencil></IconPencil>
                     </ActionIcon>
-                    <ActionIcon size={'xs'} onClick={() => handleDeleteLiveClass()}>
+                    <ActionIcon size={'xs'} onClick={() => handleDeleteLiveClass(data.id)}>
                         <IconTrash></IconTrash>
                     </ActionIcon>
                     <Badge size="sm" variant="light">

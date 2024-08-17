@@ -1,15 +1,16 @@
 "use client"
 import { useAppSelector } from '@/app/lib/hooks';
 import { HMSRoomProvider } from '@100mslive/react-sdk';
-import { AppShell, Burger, Button, Flex, Group, Skeleton } from '@mantine/core';
+import { AppShell, Burger, Flex, Group } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { usePathname, useRouter } from 'next/navigation';
 import React from 'react';
 import AppLogo from '../AppLogo/AppLogo';
+import { FooterMenu } from '../FooterMenu/FooterMenu';
 import { HeaderMenu } from '../HeaderMenu/HeaderMenu';
 import LoginFormModal from '../LoginForm/LoginForm';
-import ScheduleLiveClass from '../ScheduleLiveClassModal/ScheduleLiveClassModal';
 import Navbar from '../Navbar/Navbar';
+import ScheduleLiveClass from '../ScheduleLiveClassModal/ScheduleLiveClassModal';
 
 export function AppShellLayout({ children }: { children: React.ReactNode }) {
     const [mobileOpened, { toggle: toggleMobile }] = useDisclosure();
@@ -56,9 +57,9 @@ export function AppShellLayout({ children }: { children: React.ReactNode }) {
                         ))} */}
                     <Navbar />
                 </AppShell.Navbar>
-                <AppShell.Main>{children}</AppShell.Main>
+                <AppShell.Main style={{ paddingLeft: isDashboard ? 24 : 16 }}>{children}</AppShell.Main>
                 <AppShell.Footer >
-                    {/* <FooterMenu></FooterMenu> */}
+                    <FooterMenu></FooterMenu>
                 </AppShell.Footer>
                 <LoginFormModal></LoginFormModal>
                 {store.scheduleLiveClassModal && <ScheduleLiveClass></ScheduleLiveClass>}

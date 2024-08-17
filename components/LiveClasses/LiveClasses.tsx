@@ -22,7 +22,7 @@ const LiveClasses = ({ rooms = { data: [] } }) => {
 
     const createRoomCodeByRoomId = async (roomId = '') => {
         if (roomId) {
-            const data = await getRoomCodeByRoomIdAction(roomId)
+            const data: {} = await getRoomCodeByRoomIdAction(roomId)
             return data
         }
     }
@@ -40,9 +40,10 @@ const LiveClasses = ({ rooms = { data: [] } }) => {
         }
     }
 
-    const handleDeleteLiveClass = (roomId = '') => {
+    const handleDeleteLiveClass = async (roomId = '') => {
         updateLiveClassByIdAction(roomId, { enabled: false })
-        getLiveClassesAction()
+        const response = await getLiveClassesAction()
+        setRoomsData(response)
     }
 
     const handleEditLiveClass = (data: {}) => {
@@ -61,7 +62,6 @@ const LiveClasses = ({ rooms = { data: [] } }) => {
                     roomsData?.map((liveClass: { id: string }, liveClassIndex: number) => (
                         <Grid.Col span={cardStyle} key={"card-" + liveClassIndex + "-" + liveClass.id} >
                             <ScheduledClassCard data={liveClass}
-                                createRoomCodeByRoomId={createRoomCodeByRoomId}
                                 roomsCodeData={store.roomsCodeData[liveClass.id]}
                                 handleJoinLiveClass={handleJoinLiveClass}
                                 handleDeleteLiveClass={handleDeleteLiveClass}
