@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const restClient = axios.create();
+const restClient = axios.create({
+    baseURL: process.env.NEXT_PUBLIC_BACKEND_URI
+});
 
 // Request interceptor
 restClient.interceptors.request.use(
