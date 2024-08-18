@@ -1,38 +1,39 @@
-import { Group, Code, ScrollArea, rem } from '@mantine/core';
+import { ScrollArea } from '@mantine/core';
 import {
-    IconSwitchHorizontal,
-    IconLogout,
-    IconChartPieFilled,
-    IconBriefcaseFilled,
-    IconIdBadge2,
-    IconDeviceDesktop,
-    IconBrandYoutubeFilled,
-    IconFileStack,
-    IconVideo,
-    IconUsers,
-    IconChevronUp,
-    IconEyeFilled,
-    IconCirclePlusFilled,
-  } from '@tabler/icons-react';
-import classes from './style.module.css';
+  IconBrandYoutubeFilled,
+  IconBriefcaseFilled,
+  IconChartPieFilled,
+  IconCirclePlusFilled,
+  IconDeviceDesktop,
+  IconEyeFilled,
+  IconFileStack,
+  IconIdBadge2,
+  IconLogout,
+  IconUsers,
+  IconVideo
+} from '@tabler/icons-react';
+import Link from 'next/link';
 import { LinksGroup } from './NavbarLinks';
+import classes from './style.module.css';
 
-const data = [
-    { link: '', label: 'Dashboard', icon: IconChartPieFilled },
-    { link: '', label: 'Manage Teachers', icon: IconBriefcaseFilled, options: [{label: 'Teachers', icon: <IconEyeFilled/>, onclick: () => {}}, {label: 'Add Teachers', icon: <IconCirclePlusFilled />, onclick: () => {}}] },
-    { link: '', label: 'Manage Students', icon: IconIdBadge2 , options: [{label: 'Students', icon: <IconEyeFilled/>, onclick: () => {}}, {label: 'Add Students', icon: <IconCirclePlusFilled />, onclick: () => {}}] },
-    { link: '', label: 'Manage Classes', icon: IconDeviceDesktop , options: [{label: 'Classes', icon:  <IconEyeFilled/>, onclick: () => {}}, {label: 'Add Classes', icon: <IconCirclePlusFilled />, onclick: () => {}}] },
-    { link: '', label: 'Live Classes', icon: IconBrandYoutubeFilled },
+
+
+
+
+
+const Navbar = (props) => {
+  // const router=useRouter()
+  const data = [
+    { link: '/dashboard', label: 'Dashboard', icon: IconChartPieFilled },
+    { link: '', label: 'Manage Teachers', icon: IconBriefcaseFilled, options: [{ label: 'Teachers', icon: <IconEyeFilled />, onclick: () => { } }, { label: 'Add Teachers', icon: <IconCirclePlusFilled />, onclick: () => { } }] },
+    { link: '', label: 'Manage Students', icon: IconIdBadge2, options: [{ label: 'Students', icon: <IconEyeFilled />, onclick: () => { } }, { label: 'Add Students', icon: <IconCirclePlusFilled />, onclick: () => { } }] },
+    { link: '', label: 'Manage Classes', icon: IconDeviceDesktop, options: [{ label: 'Classes', icon: <IconEyeFilled />, onclick: () => { } }, { label: 'Add Classes', icon: <IconCirclePlusFilled />, onclick: () => { } }] },
+    { link: '/dashboard/live-classes', label: 'Live Classes', icon: IconBrandYoutubeFilled },
     { link: '', label: 'Questionare', icon: IconFileStack },
     { link: '', label: 'Recorded Lectures', icon: IconVideo },
     { link: '', label: 'Manage Parents', icon: IconUsers },
-  
+
   ];
-
-
-
-
-const Navbar = () => {
   const links = data.map((item) => <LinksGroup {...item} key={item.label} />);
 
   return (
@@ -51,10 +52,13 @@ const Navbar = () => {
           <span>Change account</span>
         </a> */}
 
-        <a href="#" className={classes.link} onClick={(event) => event.preventDefault()}>
+        <Link href="/" className={classes.link} onClick={(e) => {
+          // e.preventDefault();
+          props.toggleDesktop()
+        }} >
           <IconLogout className={classes.linkIcon} stroke={1.5} />
           <span>Logout</span>
-        </a>
+        </Link>
       </div>
     </nav>
   );

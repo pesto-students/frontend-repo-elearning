@@ -55,13 +55,13 @@ export function AppShellLayout({ children }: { children: React.ReactNode }) {
                         .map((_, index) => (
                             <Skeleton key={index} h={28} mt="sm" animate={false} />
                         ))} */}
-                    <Navbar />
+                    <Navbar toggleDesktop={toggleDesktop} />
                 </AppShell.Navbar>
                 <AppShell.Main style={{ paddingLeft: isDashboard ? 24 : 16 }}>{children}</AppShell.Main>
                 <AppShell.Footer >
                     <FooterMenu></FooterMenu>
                 </AppShell.Footer>
-                <LoginFormModal></LoginFormModal>
+                {store.loginModal && <LoginFormModal></LoginFormModal>}
                 {store.scheduleLiveClassModal && <ScheduleLiveClass></ScheduleLiveClass>}
             </AppShell>
         </HMSRoomProvider>
