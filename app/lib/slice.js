@@ -6,7 +6,11 @@ const initialState = {
     liveClassFormData: {},
     roomsCodeData: {},
     scheduleLiveClassModal: false,
-    activeEditLiveClassData: {}
+    activeEditLiveClassData: {},
+    addStudentModalState: { show: false },
+    addTeacherModalState: { show: false },
+    addClassModalState: { show: false },
+    addParentModalState: { show: false }
 }
 
 const storeSlice = createSlice({
@@ -36,11 +40,24 @@ const storeSlice = createSlice({
         },
         resetActiveLiveClassFormData(state) {
             state.activeEditLiveClassData = {}
+        },
+        setAddStudentModalState(state, action) {
+            state.addStudentModalState = { ...state.addStudentModalState, ...action.payload }
+        },
+        setAddTeacherModalState(state, action) {
+            state.addTeacherModalState = { ...state.addTeacherModalState, ...action.payload }
+        },
+        setAddClassModalState(state, action) {
+            state.addClassModalState = { ...state.addClassModalState, ...action.payload }
+        },
+        setAddParentModalState(state, action) {
+            state.addParentModalState = { ...state.addParentModalState, ...action.payload }
         }
     },
 })
 
-export const { setLoginModal, setRoomsData, setLiveClassFormData, setRoomsCodeData, setScheduleLiveClassModal, setActiveLiveClassFormData, resetActiveLiveClassFormData } = storeSlice.actions
+export const { setLoginModal, setRoomsData, setLiveClassFormData, setRoomsCodeData, setScheduleLiveClassModal, setActiveLiveClassFormData, resetActiveLiveClassFormData,
+    setAddStudentModalState, setAddTeacherModalState, setAddClassModalState, setAddParentModalState } = storeSlice.actions
 export default storeSlice.reducer
 
 

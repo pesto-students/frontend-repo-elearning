@@ -1,3 +1,4 @@
+import { setAddClassModalState, setAddStudentModalState, setAddTeacherModalState } from '@/app/lib/slice';
 import { ScrollArea } from '@mantine/core';
 import {
   IconBrandYoutubeFilled,
@@ -13,6 +14,8 @@ import {
   IconVideo
 } from '@tabler/icons-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useDispatch } from 'react-redux';
 import { LinksGroup } from './NavbarLinks';
 import classes from './style.module.css';
 
@@ -22,16 +25,34 @@ import classes from './style.module.css';
 
 
 const Navbar = (props) => {
-  // const router=useRouter()
+  const router = useRouter()
+  const dispatch = useDispatch()
+
   const data = [
     { link: '/dashboard', label: 'Dashboard', icon: IconChartPieFilled },
-    { link: '', label: 'Manage Teachers', icon: IconBriefcaseFilled, options: [{ label: 'Teachers', icon: <IconEyeFilled />, onclick: () => { } }, { label: 'Add Teachers', icon: <IconCirclePlusFilled />, onclick: () => { } }] },
-    { link: '', label: 'Manage Students', icon: IconIdBadge2, options: [{ label: 'Students', icon: <IconEyeFilled />, onclick: () => { } }, { label: 'Add Students', icon: <IconCirclePlusFilled />, onclick: () => { } }] },
-    { link: '', label: 'Manage Classes', icon: IconDeviceDesktop, options: [{ label: 'Classes', icon: <IconEyeFilled />, onclick: () => { } }, { label: 'Add Classes', icon: <IconCirclePlusFilled />, onclick: () => { } }] },
+    {
+      link: '', label: 'Manage Teachers', icon: IconBriefcaseFilled, options: [{ label: 'Teachers', icon: <IconEyeFilled />, onClick: () => { router.push("/dashboard/teachers") } },
+      {
+        label: 'Add Teacher', icon: <IconCirclePlusFilled />, onClick: () => {
+          dispatch(setAddTeacherModalState({ show: true }))
+        }
+      }]
+    },
+    {
+      link: '', label: 'Manage Students', icon: IconIdBadge2, options: [{ label: 'Students', icon: <IconEyeFilled />, onClick: () => { router.push("/dashboard/students") } }, {
+        label: 'Add Student', icon: <IconCirclePlusFilled />, onClick: () => {
+          dispatch(setAddStudentModalState({ show: true }))
+        }
+      }]
+    },
+    {
+      link: '', label: 'Manage Classes', icon: IconDeviceDesktop, options: [{ label: 'Classes', icon: <IconEyeFilled />, onClick: () => { router.push("/dashboard/classes") } },
+      { label: 'Add Classes', icon: <IconCirclePlusFilled />, onClick: () => { dispatch(setAddClassModalState({ show: true })) } }]
+    },
     { link: '/dashboard/live-classes', label: 'Live Classes', icon: IconBrandYoutubeFilled },
-    { link: '', label: 'Questionare', icon: IconFileStack },
-    { link: '', label: 'Recorded Lectures', icon: IconVideo },
-    { link: '', label: 'Manage Parents', icon: IconUsers },
+    { link: '/dashboard/questionnaire', label: 'Questionnaire', icon: IconFileStack },
+    { link: '/dashboard/recorded-lectures', label: 'Recorded Lectures', icon: IconVideo },
+    { link: '/dashboard/parents', label: 'Manage Parents', icon: IconUsers },
 
   ];
   const links = data.map((item) => <LinksGroup {...item} key={item.label} />);

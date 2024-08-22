@@ -9,18 +9,19 @@ interface LinksGroupProps {
   label: string;
   initiallyOpened?: boolean;
   options?: { label: string; icon: ReactNode, onClick?: () => void }[];
+  link?: string
 }
 
 export function LinksGroup({ icon: Icon, label, initiallyOpened, options, link }: LinksGroupProps) {
   const hasLinks = Array.isArray(options);
   const [opened, setOpened] = useState(initiallyOpened || false);
-  const items = (hasLinks ? options : []).map((link) => (
+  const items = (hasLinks ? options : []).map((option) => (
     <div
       className={classes.link}
-      key={link.label}
-      onClick={link.onClick}
+      key={option.label}
+      onClick={option?.onClick}
     >
-      {link.icon}  {link.label}
+      {option.icon}  {option.label}
     </div>
   ));
 

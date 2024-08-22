@@ -1,8 +1,11 @@
 "use client"
 import { useAppDispatch } from '@/app/lib/hooks';
-import { setScheduleLiveClassModal } from '@/app/lib/slice';
-import { Button, Group } from '@mantine/core';
+import { Group } from '@mantine/core';
 import { useRouter } from 'next/navigation';
+import AddClassForm from '../AddClassForm/AddClassForm';
+import AddStudentForm from '../AddStudentForm/AddStudentForm';
+import AddTeacherForm from '../AddTeacherForm/AddTeacherForm';
+import { DashboardCards } from '../DashboardCards/DashboardCards';
 const Dashboard = () => {
     const router = useRouter()
     const dispatch = useAppDispatch()
@@ -11,10 +14,11 @@ const Dashboard = () => {
         <div>
             <h3>Dashboard</h3>
             <Group>
-                <Button onClick={() => dispatch(setScheduleLiveClassModal(true))} >Schedule live class</Button>
-                <Button onClick={() => router.push('/dashboard/live-classes')} >Live Classes</Button>
-                {/* <Button onClick={() => router.push('/dashboard/join-class/')} >Join class</Button> */}
+                <DashboardCards></DashboardCards>
             </Group>
+            <AddTeacherForm></AddTeacherForm>
+            <AddStudentForm></AddStudentForm>
+            <AddClassForm></AddClassForm>
         </div>
     );
 };
