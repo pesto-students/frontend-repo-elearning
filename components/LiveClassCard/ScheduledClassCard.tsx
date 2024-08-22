@@ -67,10 +67,10 @@ export function ScheduledClassCard(props: ScheduledClassCardPropsType) {
                     <Text fz="lg" fw={500}>
                         {data.name}
                     </Text>
-                    <ActionIcon size={'xs'} onClick={() => handleEditLiveClass(data)}>
+                    <ActionIcon variant='white' size={'xs'} onClick={() => handleEditLiveClass(data)}>
                         <IconPencil></IconPencil>
                     </ActionIcon>
-                    <ActionIcon size={'xs'} onClick={() => handleDeleteLiveClass(data.id)}>
+                    <ActionIcon variant='white' size={'xs'} onClick={() => handleDeleteLiveClass(data.id)}>
                         <IconTrash></IconTrash>
                     </ActionIcon>
                     <Badge size="sm" variant="light">
@@ -99,9 +99,9 @@ export function ScheduledClassCard(props: ScheduledClassCardPropsType) {
                     <Text mt="md" className={classes.label} c="dimmed">
                         Schedule on: {formatDate(getLiveClassFormData(data.id, "dateTime"))}
                     </Text>
-                    <Text mt="md" c="dimmed">
+                    {roomsCodeData?.[0]?.code ? <Text mt="md" c="dimmed">
                         Link: <Link target='_blank' referrerPolicy='no-referrer' href={APIS.LIVE_CLASS.replace(":roomCode", roomsCodeData?.[0]?.code)}>{roomsCodeData?.[0]?.code ? APIS.LIVE_CLASS.replace(":roomCode", roomsCodeData?.[0]?.code) : ''} </Link>
-                    </Text>
+                    </Text> : null}
                 </Stack>
             </Card.Section>
 
