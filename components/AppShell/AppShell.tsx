@@ -57,7 +57,7 @@ export function AppShellLayout({ children }: { children: React.ReactNode }) {
                         ))} */}
                     <Navbar toggleDesktop={toggleDesktop} />
                 </AppShell.Navbar>
-                <AppShell.Main style={{ paddingLeft: isDashboard ? 24 : 16 }}>{children}</AppShell.Main>
+                <AppShell.Main style={{ paddingLeft: isDashboard ? 24 : 16, paddingBottom: 94 }}>{children}</AppShell.Main>
                 <AppShell.Footer >
                     <FooterMenu></FooterMenu>
                 </AppShell.Footer>

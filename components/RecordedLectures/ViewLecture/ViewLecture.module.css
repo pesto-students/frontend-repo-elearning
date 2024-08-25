@@ -1,0 +1,12 @@
+.activeSession{
+    border: 1px solid blue;
+}
+
+.activeAsset{
+    border: 1px solid red;
+}
+
+.tabPanelContent{
+    width: 100%;
+    margin: 2rem 0px;
+}
