@@ -1,6 +1,5 @@
 'use client'
 
-import { getRoomDetailsByRoomIdAction } from "@/app/dashboard/recorded-lectures/page";
 import { Grid, useMatches } from "@mantine/core";
 import { useEffect, useState } from "react";
 import RecordedLectureCard from "./RecordedLectureCard/RecordedLectureCard";
@@ -10,29 +9,21 @@ const RecordedLectures = (props) => {
 
     useEffect(() => {
         if (recordedAssets.length) {
-            // const data = _.groupBy(recordedAssets, 'room_id')
-
-            // getRoomById(recordedAssets)
             setState(prevState => ({ ...prevState, assets: recordedAssets }))
         }
     }, [recordedAssets])
 
-    const getRoomById = async (assets) => {
-        const sessionsPromises = await assets.map(async (asset) => {
-            const { id, room_id } = asset
-            console.log("id, room_id===>", id, room_id)
-            return { roomDetails: await getRoomDetailsByRoomIdAction(room_id), ...asset }
-        })
-        const response = await Promise.all(sessionsPromises)
-        console.log('response', response)
-        setState((prevState) => ({ ...prevState, assets: response }))
-    }
 
-    const cardStyle = useMatches({ sm: 1, md: 6, lg: 4 })
+
+    const cardStyle = useMatches({ sm: 1, md: 6, lg: 3 })
 
     return (
         <div>
-            RecordedLectures
+            Recorded Lectures
+            {/* <div>
+                <h1>Video on Demand</h1>
+                <VODPlayerV2 url={"https://vod-in.100ms.live/66b2186633ce74ab9be938e8/66b2186633ce74ab9be938e9/66b71e309928c864eafbfcec/room-vod/20240817/66c048d24b92b6b97503e283/master.m3u8"} />
+            </div> */}
             <Grid>
                 {
                     state.assets.map(asset => (

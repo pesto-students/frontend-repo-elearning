@@ -1,41 +1,23 @@
-import hms from "@/app/api/hms";
 import RecordedLectures from "@/components/RecordedLectures/RecordedLectures";
-import asyncLib from "async";
+import { getLiveClassesAction } from "../live-classes/page";
 
 export const getRecordedSessionsAction = async () => {
-    const apiUrl = '/recording-assets'
-    const { data } = await hms.get(apiUrl)
-    return data?.data ? processAssets(data.data) : []
+    const allActiveRooms: { data: [] } = await getLiveClassesAction()
+    // const processAllActiveRooms = await asyncLib.mapLimit(allActiveRooms.data, 5, async (room = { id: '' }) => {
+    //     const { id } = room
+    //     const recordingAssets: [] = await getRecordingAssetByRoomId(id)
+    //     const processRecordingAssets = await asyncLib.mapLimit(recordingAssets, 5, async (asset = { id: '' }) => {
+    //         const { id } = asset
+    //         const urlDetails = await getRecordedLectureUrlAction(id)
+    //         return { ...asset, urlDetails }
+    //     })
+    //     return { ...room, assets: processRecordingAssets }
+    // })
+    // return JSON.parse(JSON.stringify(processAllActiveRooms))
+    return allActiveRooms.data
 }
 
-export const getRecordedLectureUrlAction = async (asset_id) => {
-    const apiUrl = "/recording-assets/" + asset_id + "/presigned-url"
-    const { data } = await hms.get(apiUrl)
-    return data
-}
 
-export const getRoomDetailsByRoomIdAction = async (room_id) => {
-    const apiUrl = '/rooms/' + room_id
-    const { data } = await hms.get(apiUrl)
-    return data
-}
-
-export const processAssets = async (recordingAssets) => {
-    const response = await asyncLib.mapLimit(recordingAssets, 5, async (asset) => {
-
-        const [roomDetails, urlDetails] = await Promise.all([
-            getRoomDetailsByRoomIdAction(asset.room_id),
-            getRecordedLectureUrlAction(asset.id),
-        ]);
-
-        return {
-            ...asset,
-            roomDetails,
-            urlDetails,
-        };
-    });
-    return response
-}
 
 export default async function Page() {
     const recordedAssets = await getRecordedSessionsAction()

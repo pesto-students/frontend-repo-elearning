@@ -28,15 +28,20 @@
     "@next/bundle-analyzer": "^14.2.4",
     "@reduxjs/toolkit": "^2.2.7",
     "@tabler/icons-react": "^3.6.0",
+    "@videojs/http-streaming": "^3.10.0",
     "async": "^3.2.6",
     "axios": "^1.7.3",
     "classnames": "^2.5.1",
+    "clsx": "^2.1.1",
     "dayjs": "^1.11.12",
+    "hls.js": "^1.5.15",
     "lodash": "^4.17.21",
     "next": "14.2.4",
+    "papaparse": "^5.4.1",
     "react": "18.3.1",
     "react-dom": "18.3.1",
-    "react-redux": "^9.1.2"
+    "react-redux": "^9.1.2",
+    "video.js": "^8.17.3"
   },
   "devDependencies": {
     "@babel/core": "^7.24.7",

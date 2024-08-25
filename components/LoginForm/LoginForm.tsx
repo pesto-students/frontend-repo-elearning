@@ -56,7 +56,7 @@ const LoginFormModal = (props: PaperProps) => {
     });
 
     return (
-        <Modal opened={Boolean(store.loginModal)} onClose={() => { dispatch(setLoginModal(false)); close() }} title={type === "login" ? "Sign In" : "Sign up"} >
+        <Modal opened={Boolean(store.loginModal)} onClose={() => { dispatch(setLoginModal(false)); close() }} title={type === "login" ? "Sign In" : "Sign up"} size={'l8g'} >
             <Paper radius="md" p="xl" withBorder {...props}>
                 <Text size="lg" fw={500}>
                     Welcome to eLearning, {type} with

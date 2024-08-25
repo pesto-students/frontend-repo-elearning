@@ -5,12 +5,6 @@ import { APIS } from "@/constant";
 export const getLiveClassesAction = async () => {
     try {
         const { data } = await hms.get(APIS.ROOMS + "?enabled=true")
-        // const promises = data.data.map(async (room: { id: '' }) => {
-        //     const { data } = await getActiveSessionByRoomIdAction(room.id)
-        //     return { ...room, activeSession: data || [] }
-        // })
-        // const promisesResult = await Promise.all(promises)
-        // return promisesResult
         return data
     } catch (error) {
         console.log(error)

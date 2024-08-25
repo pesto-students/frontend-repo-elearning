@@ -1,9 +1,11 @@
 'use client'
-import { formatDate } from '@/constant/utils';
 import { Badge, Button, Card, Group, Image, Text } from '@mantine/core';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 const RecordedLectureCard = (props) => {
     const { data } = props
+    const router = useRouter()
     return (
         <Card shadow="sm" padding="lg" radius="md" withBorder>
             <Card.Section>
@@ -24,24 +26,41 @@ const RecordedLectureCard = (props) => {
 
             <Group justify="space-between" mt="md" mb="xs">
                 <Text fw={500}>
-                    {data.id}
-                    {data.roomDetails?.name}
+                    {/* {data.id} */}
+                    {data?.name}
                 </Text>
                 <Badge color="pink">{data?.status}</Badge>
             </Group>
 
             <Text size="sm" c="dimmed">
-                {data.roomDetails?.description}
+                {data?.description}
             </Text>
             <Text size="sm" c="dimmed">
-                Recorded on:  {data?.created_at ? formatDate(data.created_at) : null}
+                {/* Recorded on:  {data?.created_at ? formatDate(data.created_at) : null} */}
+                {data.assets?.map(asset => (
+                    <div className='assets' style={{
+                        border: '1px solid red',
+                        padding: '1rem 0px',
+                        margin: '1rem 0px',
+                    }}>
+                        <Text style={{
+                            wordBreak: "break-word",
+                            fontWeight: "bold",
+
+                        }}>
+                            {/* {JSON.stringify(asset, null, 2)} */}
+                            {/* <Text>{} : {asset.urlDetails?.url}</Text> */}
+                            <Link href={asset.urlDetails?.url} target='_blank'>{asset.type}</Link>
+                        </Text>
+                    </div>
+                ))}
             </Text>
 
             {/* <Button color="blue" fullWidth mt="md" radius="md">
                 Play
             </Button> */}
-            <Button color="blue" fullWidth mt="md" radius="md">
-                View Transcript
+            <Button color="blue" fullWidth mt="md" radius="md" onClick={() => router.push('/dashboard/recorded-lectures/' + data.id)}>
+                View Recording
             </Button>
         </Card>
     );

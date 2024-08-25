@@ -26,7 +26,7 @@ hms.interceptors.response.use(
     },
     (error) => {
         // Handle response errors, e.g., redirect on 401
-        if (error.response.status === 401) {
+        if (error.response?.status === 401) {
             // Redirect to login page
         }
         return Promise.reject(error);
