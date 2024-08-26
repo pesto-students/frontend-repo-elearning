@@ -9,7 +9,8 @@ export const APIS = {
     SESSIONS_BY_ROOM_ID: "/sessions?roomId=:roomId&active=true",
     SESSION_BY_SESSION_ID: "/sessions/:sessionId",
     SCHEMA_BY_SERVICE: '/api/schema/:service',
-    CREATE_ORGANIZATION: "/api/organization/create"
+    CREATE_ORGANIZATION: "/api/organization/create",
+    USER_LOGIN: "/api/auth/login",
 }
 
 export const ORGANIZATION_TYPE = [

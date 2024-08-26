@@ -7,8 +7,12 @@ const restClient = axios.create({
 // Request interceptor
 restClient.interceptors.request.use(
     (config) => {
-        // Modify the request config, e.g., add headers
-        // config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`;
+        const accessToken = localStorage.getItem('accessToken');
+        if (accessToken) {
+            config.headers['Authorization'] = `Bearer ${accessToken}`;  // Example: Bearer token
+            config.headers['accessToken'] = accessToken; // Set custom accessToken header
+          }
+       
         return config;
     },
     (error) => {
