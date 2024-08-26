@@ -31,7 +31,7 @@ const AddStudentForm = (props) => {
         } catch (error) {
           console.error('Failed to fetch student schema:', error);
         }
-      };
+    };
 
     return (
         <Modal opened={Boolean(store.addStudentModalState.show)} onClose={() => { dispatch(setAddStudentModalState({ show: false })); close() }} title={"Add student"} >

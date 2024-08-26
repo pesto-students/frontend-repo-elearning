@@ -33,7 +33,6 @@ const AddTeacherForm = (props) => {
         }
       };
 
-
     return (
         <Modal size={"lg"} opened={Boolean(store.addTeacherModalState.show)} onClose={() => { dispatch(setAddTeacherModalState({ show: false })); close() }} title={"Add teacher"} >
             <Paper radius="md" p="xl" withBorder {...props}>
