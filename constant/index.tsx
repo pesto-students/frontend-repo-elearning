@@ -11,10 +11,19 @@ export const APIS = {
     SCHEMA_BY_SERVICE: '/api/schema/:service',
     CREATE_ORGANIZATION: "/api/organization/create",
     USER_LOGIN: "/api/auth/login",
+
+    CREATE_STUDENT: "/api/student/create",
+    LIST_STUDENT: "/api/student",
+    EDIT_STUDENT: "/api/student/:id",
 }
 
 export const SCHEMA_APIS = {
-    TEACHER: "/api/teacher/schema",
+    TEACHER: "/api/schema/Teacher",
+    STUDENT: "/api/schema/Student",
+    ORGANIZATION: "/api/schema/Organization",
+    BRANCH: "/api/schema/Branch",
+    AUTH: "/api/schema/Auth",
+    ONLINE_CLASS: "/api/schema/OnlineClass",
 }
 
 export const ORGANIZATION_TYPE = [
