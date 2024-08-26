@@ -13,6 +13,10 @@ export const APIS = {
     USER_LOGIN: "/api/auth/login",
 }
 
+export const SCHEMA_APIS = {
+    TEACHER: "/api/teacher/schema",
+}
+
 export const ORGANIZATION_TYPE = [
     'School',
     'College',
