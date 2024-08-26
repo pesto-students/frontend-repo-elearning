@@ -19,11 +19,6 @@ import { useDispatch } from 'react-redux';
 import { LinksGroup } from './NavbarLinks';
 import classes from './style.module.css';
 
-
-
-
-
-
 const Navbar = (props) => {
   const router = useRouter()
   const dispatch = useDispatch()
@@ -58,11 +53,7 @@ const Navbar = (props) => {
   const links = data.map((item) => <LinksGroup {...item} key={item.label} />);
 
   return (
-    <nav className={classes.navbar}>
-      {/* <div className={classes.header}>
-       
-      </div> */}
-
+    <nav className={classes.navbar}> 
       <ScrollArea className={classes.links}>
         <div className={classes.linksInner}>{links}</div>
       </ScrollArea>

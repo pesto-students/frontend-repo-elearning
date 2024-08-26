@@ -51,7 +51,7 @@ export function AppShellLayout({ children }: { children: React.ReactNode }) {
                 <AppShell.Header bg='#C9CEF5'>
                     {isDashboard ? <HeaderMenuWithSideBar></HeaderMenuWithSideBar> : <HeaderMenu></HeaderMenu>}
                 </AppShell.Header>
-                <AppShell.Navbar p="md">
+                <AppShell.Navbar>
                     {/* {Array(15)
                         .fill(0)
                         .map((_, index) => (
@@ -61,7 +61,7 @@ export function AppShellLayout({ children }: { children: React.ReactNode }) {
                 </AppShell.Navbar>
                 <AppShell.Main style={{ paddingLeft: isDashboard ? 24 : 16, paddingBottom: 94 }}>{children}</AppShell.Main>
                 <AppShell.Footer >
-                    <FooterMenu></FooterMenu>
+                {isDashboard ? null : <FooterMenu></FooterMenu>}
                 </AppShell.Footer>
                 {store.loginModal && <LoginFormModal></LoginFormModal>}
                 {store.scheduleLiveClassModal && <ScheduleLiveClass></ScheduleLiveClass>}
