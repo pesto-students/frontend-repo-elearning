@@ -1,5 +1,5 @@
 "use client"
-import { useAppDispatch } from '@/app/lib/hooks';
+import { useAppDispatch, useAppSelector } from '@/app/lib/hooks';
 import { Group } from '@mantine/core';
 import { useRouter } from 'next/navigation';
 import AddClassForm from '../AddClassForm/AddClassForm';
@@ -9,6 +9,7 @@ import { DashboardCards } from '../DashboardCards/DashboardCards';
 const Dashboard = () => {
     const router = useRouter()
     const dispatch = useAppDispatch()
+    const store = useAppSelector(state => state);
 
     return (
         <div>
@@ -16,7 +17,7 @@ const Dashboard = () => {
             <Group>
                 <DashboardCards></DashboardCards>
             </Group>
-            <AddTeacherForm></AddTeacherForm>
+            {store.store.addTeacherModalState.show ? <AddTeacherForm></AddTeacherForm> : null}
             <AddStudentForm></AddStudentForm>
             <AddClassForm></AddClassForm>
         </div>
