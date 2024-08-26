@@ -17,7 +17,7 @@ import {
     TextInput
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import { upperFirst, useDisclosure, useToggle } from '@mantine/hooks';
+import { upperFirst, useDisclosure, useLocalStorage, useToggle } from '@mantine/hooks';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import DynamicForm from '../common/DynamicForm/DynamicForm';
@@ -31,6 +31,8 @@ const LoginFormModal = (props: PaperProps) => {
 
     const [schemas, setSchemas] = useState({ organization: [] })
 
+    const [userData, setUserData] = useLocalStorage({key: 'access_token', defaultValue:null });
+      
     useEffect(() => {
         getOrganizationSchema()
     }, []);
@@ -51,9 +53,20 @@ const LoginFormModal = (props: PaperProps) => {
         },
         validate: {
             email: (val) => (/^\S+@\S+$/.test(val) ? null : 'Invalid email'),
-            password: (val) => (val.length <= 6 ? 'Password should include at least 6 characters' : null),
+            password: (val) => (val.length <= 2 ? 'Password should include at least 6 characters' : null),
         },
     });
+
+    const handleLogin = async () => {
+       const {email, password} = form.values;
+       const {data} = await restClient.post(APIS.USER_LOGIN, {username:email, password});
+       if(data.accessToken){
+           setUserData(data.accessToken);
+       }else{
+        console.log("Login res: ", data);
+       }
+       
+    }
 
     return (
         <Modal opened={Boolean(store.loginModal)} onClose={() => { dispatch(setLoginModal(false)); close() }} title={type === "login" ? "Sign In" : "Sign up"} size={'l8g'} >
@@ -129,7 +142,7 @@ const LoginFormModal = (props: PaperProps) => {
                                         ? 'Already have an account? Login'
                                         : "Don't have an account? Register"}
                                 </Anchor>
-                                <Button type="submit" radius="xl">
+                                <Button type="submit" radius="xl" onClick={handleLogin}>
                                     {upperFirst(type)}
                                 </Button>
                             </Group>
