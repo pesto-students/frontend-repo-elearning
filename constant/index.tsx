@@ -9,7 +9,21 @@ export const APIS = {
     SESSIONS_BY_ROOM_ID: "/sessions?roomId=:roomId&active=true",
     SESSION_BY_SESSION_ID: "/sessions/:sessionId",
     SCHEMA_BY_SERVICE: '/api/schema/:service',
-    CREATE_ORGANIZATION: "/api/organization/create"
+    CREATE_ORGANIZATION: "/api/organization/create",
+    USER_LOGIN: "/api/auth/login",
+
+    CREATE_STUDENT: "/api/student/create",
+    LIST_STUDENT: "/api/student",
+    EDIT_STUDENT: "/api/student/:id",
+}
+
+export const SCHEMA_APIS = {
+    TEACHER: "/api/schema/Teacher",
+    STUDENT: "/api/schema/Student",
+    ORGANIZATION: "/api/schema/Organization",
+    BRANCH: "/api/schema/Branch",
+    AUTH: "/api/schema/Auth",
+    ONLINE_CLASS: "/api/schema/OnlineClass",
 }
 
 export const ORGANIZATION_TYPE = [

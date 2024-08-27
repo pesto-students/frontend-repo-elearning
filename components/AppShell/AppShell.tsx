@@ -2,7 +2,7 @@
 import { useAppSelector } from '@/app/lib/hooks';
 import { HMSRoomProvider } from '@100mslive/react-sdk';
 import { AppShell, Burger, Flex, Group } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
+import { useDisclosure, useLocalStorage } from '@mantine/hooks';
 import { usePathname, useRouter } from 'next/navigation';
 import React from 'react';
 import AppLogo from '../AppLogo/AppLogo';
@@ -17,6 +17,7 @@ export function AppShellLayout({ children }: { children: React.ReactNode }) {
     const [desktopOpened, { toggle: toggleDesktop }] = useDisclosure();
     const router = useRouter()
     const { store } = useAppSelector(state => state)
+    const [value] = useLocalStorage({key: 'access_token'});
 
     const HeaderMenuWithSideBar = () => {
         return (
@@ -46,10 +47,11 @@ export function AppShellLayout({ children }: { children: React.ReactNode }) {
                 }}
                 padding="md"
             >
+
                 <AppShell.Header bg='#C9CEF5'>
                     {isDashboard ? <HeaderMenuWithSideBar></HeaderMenuWithSideBar> : <HeaderMenu></HeaderMenu>}
                 </AppShell.Header>
-                <AppShell.Navbar p="md">
+                <AppShell.Navbar>
                     {/* {Array(15)
                         .fill(0)
                         .map((_, index) => (
@@ -59,7 +61,7 @@ export function AppShellLayout({ children }: { children: React.ReactNode }) {
                 </AppShell.Navbar>
                 <AppShell.Main style={{ paddingLeft: isDashboard ? 24 : 16, paddingBottom: 94 }}>{children}</AppShell.Main>
                 <AppShell.Footer >
-                    <FooterMenu></FooterMenu>
+                {isDashboard ? null : <FooterMenu></FooterMenu>}
                 </AppShell.Footer>
                 {store.loginModal && <LoginFormModal></LoginFormModal>}
                 {store.scheduleLiveClassModal && <ScheduleLiveClass></ScheduleLiveClass>}
