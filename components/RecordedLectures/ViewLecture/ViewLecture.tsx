@@ -1,19 +1,25 @@
 'use client'
-import { Grid, Stack, Tabs, Text } from '@mantine/core';
-import classNames from 'classnames';
+import { Card, Grid, Group, Image, List, Stack, Tabs, Text, ThemeIcon } from '@mantine/core';
+import { IconPlayerPause, IconPlayerPlay } from '@tabler/icons-react';
 import uniqBy from "lodash/uniqBy";
-import { useState } from 'react';
-import VODPlayer from '../RecordedLectureCard/VODPlayer';
+import { useEffect, useState } from 'react';
+import VODPlayerV2 from '../RecordedLectureCard/VODPlayerv2';
 import classes from './ViewLecture.module.css';
 
 const ViewLecture = (props) => {
     const { sessionsRecordingAssets = [{ recording_assets: [] }], params } = props
     const [activeSession, setActiveSession] = useState({})
-    const [activeSessionVideoAsset, setActiveSessionVideoAsset] = useState({ urlDetails: { url: '' } })
 
-    // useEffect(() => {
-    //     setRecordingAssets(sessionsRecordingAssets)
-    // }, [sessionsRecordingAssets])
+    const [activeVideoUrl, setActiveVideoUrl] = useState('')
+
+    useEffect(() => {
+        if (sessionsRecordingAssets[0]) {
+            setActiveSession(sessionsRecordingAssets[0])
+            if (sessionsRecordingAssets[0]?.recording_assets?.mediaAssets[0]) {
+                setActiveVideoUrl(sessionsRecordingAssets[0]?.recording_assets?.mediaAssets[0].urlDetails.url)
+            }
+        }
+    }, [sessionsRecordingAssets])
 
     const iconStyle = { width: "2rem", height: "2rem" };
 
@@ -22,28 +28,22 @@ const ViewLecture = (props) => {
     return (
         <div>
             <Grid >
-                <Grid.Col span={8}>
-                    <VODPlayer url={activeSessionVideoAsset?.urlDetails?.url} ></VODPlayer>
+                <Grid.Col span={9}>
+                    <Card withBorder >
+                        <VODPlayerV2 url={activeVideoUrl} ></VODPlayerV2>
+                    </Card>
                 </Grid.Col>
-                <Grid.Col span={4}>
-                    <dl>
+                <Grid.Col span={3}>
+                    <Grid grow>
                         {
                             sessionsRecordingAssets.map(session => {
-                                const { mediaAssets = [] } = session.recording_assets || {}
-                                return <Grid className={classNames({ [classes.activeSession]: session.id === activeSession.id })}>
-                                    <dt onClick={() => setActiveSession(session)}>Session: {session.id}</dt>
-
-                                    {mediaAssets.map(asset => {
-                                        return <dd key={session.id} onClick={() => setActiveSessionVideoAsset(asset)} className={classNames({
-                                            [classes.activeAsset]: activeSessionVideoAsset.id === asset.id
-                                        })} >
-                                            <Text>{asset.type}:  {asset.id}</Text>
-                                        </dd>
-                                    })}
-                                </Grid>
+                                return (
+                                    <Grid.Col >
+                                        <SessionCard session={session} activeSession={activeSession} setActiveVideoUrl={setActiveVideoUrl} activeVideoUrl></SessionCard>
+                                    </Grid.Col>)
                             })
                         }
-                    </dl>
+                    </Grid>
                 </Grid.Col>
             </Grid>
             <Stack >
@@ -113,3 +113,46 @@ const ViewLecture = (props) => {
 };
 
 export default ViewLecture;
+
+
+const SessionCard = ({ session, activeSession, setActiveVideoUrl, activeVideoUrl }) => {
+    const { mediaAssets = [] } = session.recording_assets || {}
+
+
+    return (
+        <Card shadow="sm" padding="sm" radius="sm" withBorder>
+            <Card.Section component="a" href="https://mantine.dev/">
+                <Image
+                    src="https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-8.png"
+                    height={160}
+                    alt="Norway"
+                />
+            </Card.Section>
+            <Group justify="space-between" mt="md" mb="xs">
+                <List>
+                    {
+                        mediaAssets.map(asset => {
+                            return (
+                                <>
+                                    <List.Item onClick={() => setActiveVideoUrl(asset.urlDetails.url)} icon={<ThemeIcon>
+                                        {activeVideoUrl === asset.urlDetails.url ? <IconPlayerPlay /> : <IconPlayerPause />}
+                                    </ThemeIcon>}>
+                                        <Text size='sm' fw={500}>Session: {asset.id}</Text>
+                                        <Text size='sm' fw={500}>Asset: {asset.type}</Text>
+                                    </List.Item>
+                                </>
+                            )
+                        })
+                    }
+                </List>
+                {/* <Badge color="pink">On Sale</Badge> */}
+            </Group>
+
+            {/* <Text size="sm" c="dimmed">
+                With Fjord Tours you can
+            </Text> */}
+
+
+        </Card>
+    )
+}
