@@ -20,6 +20,7 @@ import { useForm } from '@mantine/form';
 import { upperFirst, useDisclosure, useLocalStorage, useToggle } from '@mantine/hooks';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { SCHEMA_APIS } from '../../constant/index';
 import DynamicForm from '../common/DynamicForm/DynamicForm';
 
 const LoginFormModal = (props: PaperProps) => {
@@ -31,14 +32,14 @@ const LoginFormModal = (props: PaperProps) => {
 
     const [schemas, setSchemas] = useState({ organization: [] })
 
-    const [userData, setUserData] = useLocalStorage({key: 'access_token', defaultValue:null });
-      
+    const [userData, setUserData] = useLocalStorage({ key: 'accessToken', defaultValue: null });
+
     useEffect(() => {
         getOrganizationSchema()
     }, []);
 
     const getOrganizationSchema = async () => {
-        const { data } = await restClient.get(APIS.SCHEMA_BY_SERVICE.replace(":service", "organization"))
+        const { data } = await restClient.get(SCHEMA_APIS.ORGANIZATION)
         if (data) {
             setSchemas(prevState => ({ ...prevState, organization: data }))
         }
@@ -58,14 +59,14 @@ const LoginFormModal = (props: PaperProps) => {
     });
 
     const handleLogin = async () => {
-       const {email, password} = form.values;
-       const {data} = await restClient.post(APIS.USER_LOGIN, {username:email, password});
-       if(data.accessToken){
-           setUserData(data.accessToken);
-       }else{
-        console.log("Login res: ", data);
-       }
-       
+        const { email, password } = form.values;
+        const { data } = await restClient.post(APIS.USER_LOGIN, { username: email, password });
+        if (data.accessToken) {
+            setUserData(data.accessToken);
+        } else {
+            console.log("Login res: ", data);
+        }
+
     }
 
     return (

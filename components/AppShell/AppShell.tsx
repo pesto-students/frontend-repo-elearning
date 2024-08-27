@@ -17,7 +17,7 @@ export function AppShellLayout({ children }: { children: React.ReactNode }) {
     const [desktopOpened, { toggle: toggleDesktop }] = useDisclosure();
     const router = useRouter()
     const { store } = useAppSelector(state => state)
-    const [value] = useLocalStorage({key: 'access_token'});
+    const [value] = useLocalStorage({ key: 'accessToken' });
 
     const HeaderMenuWithSideBar = () => {
         return (
@@ -61,7 +61,7 @@ export function AppShellLayout({ children }: { children: React.ReactNode }) {
                 </AppShell.Navbar>
                 <AppShell.Main style={{ paddingLeft: isDashboard ? 24 : 16, paddingBottom: 94 }}>{children}</AppShell.Main>
                 <AppShell.Footer >
-                {isDashboard ? null : <FooterMenu></FooterMenu>}
+                    {isDashboard ? null : <FooterMenu></FooterMenu>}
                 </AppShell.Footer>
                 {store.loginModal && <LoginFormModal></LoginFormModal>}
                 {store.scheduleLiveClassModal && <ScheduleLiveClass></ScheduleLiveClass>}
