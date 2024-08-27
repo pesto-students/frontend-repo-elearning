@@ -10,7 +10,7 @@ import { DashboardCards } from '../DashboardCards/DashboardCards';
 const Dashboard = () => {
     const router = useRouter()
     const dispatch = useAppDispatch()
-    const store = useAppSelector(state => state);
+    const { addTeacherModalState, addStudentModalState, addClassModalState } = useAppSelector(state => state.store);
 
     return (
         <div>
@@ -18,9 +18,9 @@ const Dashboard = () => {
             <Group>
                 <DashboardCards></DashboardCards>
             </Group>
-            {store.store.addTeacherModalState.show ? <AddTeacherForm></AddTeacherForm> : null}
-            <AddStudentForm></AddStudentForm>
-            <AddClassForm></AddClassForm>
+            {addTeacherModalState.show ? <AddTeacherForm></AddTeacherForm> : null}
+            {addStudentModalState.show ? <AddStudentForm></AddStudentForm> : null}
+            {addClassModalState.show ? <AddClassForm></AddClassForm> : null}
             <AppLoader></AppLoader>
         </div>
     );

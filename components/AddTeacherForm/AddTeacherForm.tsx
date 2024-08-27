@@ -63,8 +63,9 @@ const AddTeacherForm = (props) => {
                                     const { data } = await restClient.post(APIS.CREATE_TEACHER, payload)
                                     if (data) {
                                         dispatch(setAddTeacherModalState({ show: false }))
-                                        notifications.show({ title: 'Added teacher' })
+                                        notifications.show({ title: 'Added teacher', color: 'green' })
                                     }
+                                    notifications.show({ title: 'Failed to add teacher', color: 'red' })
                                 } catch (error) {
                                     console.log('error')
                                     notifications.show({ title: 'Failed to add teacher', color: 'red' })
