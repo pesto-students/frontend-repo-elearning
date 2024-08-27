@@ -3,7 +3,7 @@ import { Card, Grid, Group, Image, List, Stack, Tabs, Text, ThemeIcon } from '@m
 import { IconPlayerPause, IconPlayerPlay } from '@tabler/icons-react';
 import uniqBy from "lodash/uniqBy";
 import { useEffect, useState } from 'react';
-import VODPlayerV2 from '../RecordedLectureCard/VODPlayerv2';
+import VODPlayer from '../RecordedLectureCard/VODPlayer';
 import classes from './ViewLecture.module.css';
 
 const ViewLecture = (props) => {
@@ -30,7 +30,7 @@ const ViewLecture = (props) => {
             <Grid >
                 <Grid.Col span={9}>
                     <Card withBorder >
-                        <VODPlayerV2 url={activeVideoUrl} ></VODPlayerV2>
+                        <VODPlayer url={activeVideoUrl} ></VODPlayer>
                     </Card>
                 </Grid.Col>
                 <Grid.Col span={3}>
