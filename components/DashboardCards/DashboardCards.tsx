@@ -7,7 +7,7 @@ import {
   useMantineTheme
 } from '@mantine/core';
 import { IconCookie, IconGauge, IconUser } from '@tabler/icons-react';
-import classes from "./DashboardCards.modules.css";
+import classes from "./DashboardCards.module.css";
 
 const mockdata = [
   {

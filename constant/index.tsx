@@ -15,6 +15,8 @@ export const APIS = {
     CREATE_STUDENT: "/api/student/create",
     LIST_STUDENT: "/api/student",
     EDIT_STUDENT: "/api/student/:id",
+
+    CREATE_TEACHER: '/api/teacher/create'
 }
 
 export const SCHEMA_APIS = {
