@@ -26,7 +26,7 @@ const VODPlayer = ({ url }) => {
     }, [url]);
 
     return (
-        <video ref={videoRef} controls width="600" height="300" />
+        <video ref={videoRef} controls width="100%" height="100%" autoPlay='false' />
     );
 };
 

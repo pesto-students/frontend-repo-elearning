@@ -53,7 +53,7 @@ export const getRecordingsDataByRoomId = async (roomId = '') => {
     const processRecordings = await asyncLib.mapLimit(recordings.data, 5, async (recording) => {
         const { id } = recording
         const recordingDetails = await getRecordingDetailsById(id)
-        const processRecordingDetails = await asyncLib.mapLimit(recordingDetails.recording_assets, 5, async (asset) => {
+        const processRecordingDetails = await asyncLib.mapLimit(recordingDetails.recording_assets.filter(item => item.type !== "chat"), 5, async (asset) => {
             const { id } = asset
             const assetUrl = await getRecordedLectureUrlAction(id)
             return { ...asset, urlDetails: assetUrl }

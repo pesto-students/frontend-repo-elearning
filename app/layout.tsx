@@ -3,6 +3,8 @@ import { AppShellLayout } from '@/components/AppShell/AppShell';
 import { ColorSchemeScript, MantineProvider } from '@mantine/core';
 import '@mantine/core/styles.css';
 import '@mantine/dates/styles.css';
+import { Notifications } from '@mantine/notifications';
+import '@mantine/notifications/styles.css';
 import { theme } from '../theme';
 import StoreProvider from './lib/storeprovider';
 
@@ -28,6 +30,7 @@ export default function RootLayout({ children }: { children: any }) {
           <StoreProvider>
             <AppShellLayout>{children}</AppShellLayout>.
           </StoreProvider>
+          <Notifications />
         </MantineProvider>
       </body>
     </html>
