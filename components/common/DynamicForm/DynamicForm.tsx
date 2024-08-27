@@ -20,7 +20,7 @@ const DynamicForm = (props: DynamicFormProps) => {
     return (
         <div>
             <form onSubmit={formHook.onSubmit(formSubmit)}>
-                <ScrollArea style={{ maxHeight: "60vh", paddingRight: '1rem' }} type='always' offsetScrollbars>
+                <ScrollArea style={{ height: "60vh", paddingRight: '1rem' }} offsetScrollbars>
                     <Stack>
                         {
                             formData.map(field => {
