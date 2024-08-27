@@ -9,8 +9,7 @@ restClient.interceptors.request.use(
     (config) => {
         const accessToken = localStorage.getItem('accessToken');
         if (accessToken) {
-            config.headers['Authorization'] = `Bearer ${accessToken}`;  // Example: Bearer token
-            config.headers['accessToken'] = accessToken; // Set custom accessToken header
+            config.headers['Authorization'] = `Bearer ${accessToken.replace(/"/g, '')}`;  // Example: Bearer token
           }
        
         return config;
