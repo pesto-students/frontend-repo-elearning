@@ -8,9 +8,7 @@ import React from 'react';
 import AppLogo from '../AppLogo/AppLogo';
 import { FooterMenu } from '../FooterMenu/FooterMenu';
 import { HeaderMenu } from '../HeaderMenu/HeaderMenu';
-import LoginFormModal from '../LoginForm/LoginForm';
 import Navbar from '../Navbar/Navbar';
-import ScheduleOnlineClass from '../ScheduleOnlineClass/ScheduleOnlineClassModal';
 
 export function AppShellLayout({ children }: { children: React.ReactNode }) {
     const [mobileOpened, { toggle: toggleMobile }] = useDisclosure();
@@ -51,7 +49,7 @@ export function AppShellLayout({ children }: { children: React.ReactNode }) {
                 <AppShell.Header bg='#C9CEF5'>
                     {isDashboard ? <HeaderMenuWithSideBar></HeaderMenuWithSideBar> : <HeaderMenu></HeaderMenu>}
                 </AppShell.Header>
-                <AppShell.Navbar>
+                <AppShell.Navbar zIndex="0"  p="md">
                     {/* {Array(15)
                         .fill(0)
                         .map((_, index) => (
@@ -63,8 +61,8 @@ export function AppShellLayout({ children }: { children: React.ReactNode }) {
                 <AppShell.Footer >
                     {isDashboard ? null : <FooterMenu></FooterMenu>}
                 </AppShell.Footer>
-                {store.loginModalState.show && <LoginFormModal></LoginFormModal>}
-                {store.scheduleOnlineClassModalState.show ? <ScheduleOnlineClass></ScheduleOnlineClass> : null}
+                {/* {store.loginModalState.show && <LoginFormModal></LoginFormModal>}
+                {store.scheduleOnlineClassModalState.show ? <ScheduleOnlineClass></ScheduleOnlineClass> : null} */}
             </AppShell>
         </HMSRoomProvider>
     );
