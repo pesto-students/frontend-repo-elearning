@@ -1,4 +1,5 @@
 import dayjs from "dayjs"
+import mapValues from "lodash/mapValues"
 
 export const formatDate = (date, dateFormat = 'DD/MM/YYYY hh:mm') => {
     return date ? dayjs(date).format(dateFormat) : ''
@@ -19,4 +20,13 @@ export const safeJsonParse = (data) => {
         console.log(error)
         return data
     }
+}
+
+export const flattenObject = (values = {}) => {
+    mapValues(values, (value) => {
+        if (isObject(value) && value.id) {
+            return value.id;
+        }
+        return value;
+    })
 }

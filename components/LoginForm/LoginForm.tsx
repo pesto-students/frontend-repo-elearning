@@ -27,7 +27,7 @@ const LoginFormModal = (props: PaperProps) => {
     const [type, toggle] = useToggle(['login', 'register']);
     const router = useRouter()
     const dispatch = useAppDispatch()
-    const { store } = useAppSelector(state => state)
+    const store = useAppSelector(state => state.store)
     const [, { close }] = useDisclosure(false);
 
     const [schemas, setSchemas] = useState({ organization: [] })
@@ -70,7 +70,7 @@ const LoginFormModal = (props: PaperProps) => {
     }
 
     return (
-        <Modal opened={Boolean(store.loginModal)} onClose={() => { dispatch(setLoginModal(false)); close() }} title={type === "login" ? "Sign In" : "Sign up"} size={'l8g'} >
+        <Modal opened={Boolean(store.loginModalState.show)} onClose={() => { dispatch(setLoginModal({ show: false })); close() }} title={type === "login" ? "Sign In" : "Sign up"} size={'l8g'} >
             <Paper radius="md" p="xl" withBorder {...props}>
                 <Text size="lg" fw={500}>
                     Welcome to eLearning, {type} with
@@ -117,7 +117,7 @@ const LoginFormModal = (props: PaperProps) => {
                             />
                         </>
                     ) :
-                        <form onSubmit={form.onSubmit(() => { dispatch(setLoginModal(false)); router.push('/dashboard') })}>
+                        <form onSubmit={form.onSubmit(() => { dispatch(setLoginModal({ show: false })); router.push('/dashboard') })}>
                             <TextInput
                                 required
                                 label="Email"

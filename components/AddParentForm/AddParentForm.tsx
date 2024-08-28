@@ -12,7 +12,7 @@ const AddParentForm = (props) => {
     })
     const router = useRouter()
     const dispatch = useDispatch()
-    const { store } = useAppSelector(state => state)
+    const store = useAppSelector(state => state.store)
     const [, { close }] = useDisclosure(false);
     console.log("print---", store.addParentModalState.show)
     return (

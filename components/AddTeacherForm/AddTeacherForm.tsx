@@ -19,30 +19,62 @@ const AddTeacherForm = (props) => {
     })
     const router = useRouter()
     const dispatch = useDispatch()
-    const { store } = useAppSelector(state => state)
+    const store = useAppSelector(state => state.store)
     const [, { close }] = useDisclosure(false);
     const [teacherSchema, setTeacherSchema] = useState([]);
 
     useEffect(() => {
+
+        if (store.addTeacherModalState.teacherData) {
+            form.setValues(store.addTeacherModalState.teacherData);
+        }
+    }, [store.addTeacherModalState.teacherData]);
+
+    useEffect(() => {
         fetchTeacherSchema();
-    }, []);
+    }, [])
 
     const fetchTeacherSchema = async () => {
         try {
             dispatch(showLoader())
             const { data } = await restClient.get(SCHEMA_APIS.TEACHER);
-            setTeacherSchema(data);
+            if (data) {
+                setTeacherSchema(data)
+            }
             dispatch(hideLoader())
         } catch (error) {
             console.error('Failed to fetch teacher schema:', error);
         }
     };
 
+    const handleSubmit = async (values) => {
+        const payload = mapValues(values, (value) => {
+            if (isObject(value) && value.id) {
+                return value.id;
+            }
+            return value;
+        });
+
+        try {
+            const apiUrl = payload._id ? APIS.UPDATE_TEACHER : APIS.CREATE_TEACHER;
+            const { data } = await restClient.post(apiUrl, payload);
+            if (data) {
+                dispatch(setAddTeacherModalState({ show: false }));
+                notifications.show({ title: payload._id ? 'Updated teacher' : 'Added teacher', color: 'green' });
+            } else {
+                notifications.show({ title: `Failed to ${payload._id ? 'update' : 'add'} teacher`, color: 'red' });
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            notifications.show({ title: `Failed to ${payload._id ? 'update' : 'add'} teacher`, color: 'red' });
+        }
+    };
+
     return (
-        <Modal size={"lg"} opened={Boolean(store.addTeacherModalState.show)} onClose={() => { dispatch(setAddTeacherModalState({ show: false })); close() }} title={"Add teacher"} >
-            <Paper radius="md" p="xl" withBorder {...props}>
+        <Modal size={"lg"} opened={Boolean(store.addTeacherModalState.show)} onClose={() => { dispatch(setAddTeacherModalState({ show: false, teacherData: null })); close() }} title={store.addTeacherModalState.teacherData ? "Edit teacher" : "Add teacher"} >
+            <Paper radius="md" p="xl" withBorder >
                 <Text size="lg" fw={500}>
-                    Add Teacher
+                    {store.addTeacherModalState.teacherData ? "Edit Teacher" : "Add Teacher"}
                 </Text>
                 <Divider label="" labelPosition="center" my="lg" />
 
@@ -50,40 +82,18 @@ const AddTeacherForm = (props) => {
                     <>
                         <DynamicForm
                             formData={teacherSchema}
-                            formSubmit={async (values = {}) => {
-                                console.log(values);
-                                const payload = mapValues(values, (value) => {
-                                    // Check if the value is an object and has an 'id' property
-                                    if (isObject(value) && value.id) {
-                                        return value.id; // Return the 'id' if it exists
-                                    }
-                                    return value; // Otherwise, return the value as is
-                                });
-                                try {
-                                    const { data } = await restClient.post(APIS.CREATE_TEACHER, payload)
-                                    if (data) {
-                                        dispatch(setAddTeacherModalState({ show: false }))
-                                        notifications.show({ title: 'Added teacher' })
-                                    }
-                                } catch (error) {
-                                    console.log('error')
-                                    notifications.show({ title: 'Failed to add teacher', color: 'red' })
-                                }
-
-                            }}
-
+                            formSubmit={handleSubmit}
                             formSubmitButtonJsx={
                                 <>
                                     <Group justify="space-between" mt="md">
                                         <Button type="submit" radius="xl">
-                                            Add Teacher
+                                            {store.addTeacherModalState.teacherData ? "Update Teacher" : "Add Teacher"}
                                         </Button>
                                     </Group>
                                 </>
                             }
                         />
                     </>
-
                 </Stack>
             </Paper>
         </Modal >

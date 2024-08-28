@@ -1,15 +1,15 @@
 "use client"
-import { getLiveClassesAction, getRoomCodeByRoomIdAction, updateLiveClassByIdAction } from '@/app/dashboard/live-classes/page';
+import { getLiveClassesAction, getRoomCodeByRoomIdAction, updateLiveClassByIdAction } from '@/app/dashboard/online-classes/page';
 import { useAppDispatch, useAppSelector } from '@/app/lib/hooks';
-import { setActiveLiveClassFormData, setRoomsCodeData, setScheduleLiveClassModal } from '@/app/lib/slice';
-import { ScheduledClassCard } from '@/components/LiveClassCard/ScheduledClassCard';
+import { setActiveLiveClassFormData, setRoomsCodeData, setScheduleOnlineClassModal } from '@/app/lib/slice';
 import { APIS } from '@/constant';
 import { Button, Grid, Group, useMatches } from '@mantine/core';
 import { useEffect, useState } from 'react';
+import { ScheduledClassCard } from '../OnlineClassCard/OnlineClassCard';
 
-const LiveClasses = ({ rooms = { data: [] } }) => {
+const OnlineClasses = ({ rooms = { data: [] } }) => {
     const [roomsData, setRoomsData] = useState([])
-    const { store } = useAppSelector(state => state);
+    const store = useAppSelector(state => state.store);
     const dispatch = useAppDispatch()
 
     useEffect(() => {
@@ -48,14 +48,14 @@ const LiveClasses = ({ rooms = { data: [] } }) => {
 
     const handleEditLiveClass = (data: {}) => {
         dispatch(setActiveLiveClassFormData(data))
-        dispatch(setScheduleLiveClassModal(true))
+        dispatch(setScheduleOnlineClassModal({ show: true }))
     }
 
     return (
         <div>
             <Group>
                 <h1>Scheduled classes</h1>
-                <Button onClick={() => dispatch(setScheduleLiveClassModal(true))} >Schedule live class</Button>
+                <Button onClick={() => dispatch(setScheduleOnlineClassModal({ show: true }))} >Schedule online class</Button>
             </Group>
             <Grid >
                 {
@@ -77,4 +77,4 @@ const LiveClasses = ({ rooms = { data: [] } }) => {
     );
 };
 
-export default LiveClasses;
+export default OnlineClasses;

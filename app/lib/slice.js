@@ -1,19 +1,25 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-    loginModal: false,
+    loginModalState: { show: false },
     roomsData: [],
     liveClassFormData: {},
     roomsCodeData: {},
-    scheduleLiveClassModal: false,
+    scheduleOnlineClassModalState: { show: false, onlineClassData: null },
     activeEditLiveClassData: {},
     addStudentModalState: { show: false },
-    addTeacherModalState: { show: false },
+    addTeacherModalState: { show: false, teacherData: null },
     addClassModalState: { show: false },
     addParentModalState: { show: false },
     userData: {},
     notificationBarState: { show: false, title: 'success', description: '', isError: null },
-    isLoading: false
+    isLoading: false,
+    confirmationModal: {
+        isOpen: false,
+        title: '',
+        description: '',
+        onConfirm: null,
+    }
 }
 
 const storeSlice = createSlice({
@@ -21,7 +27,7 @@ const storeSlice = createSlice({
     initialState,
     reducers: {
         setLoginModal(state, action) {
-            state.loginModal = action.payload
+            state.loginModalState = { ...state.loginModalState, ...action.payload }
         },
         setRoomsData(state, action) {
             state.roomsData = action.payload
@@ -32,8 +38,8 @@ const storeSlice = createSlice({
         setRoomsCodeData(state, action) {
             state.roomsCodeData[action.payload.id] = action.payload.data
         },
-        setScheduleLiveClassModal(state, action) {
-            state.scheduleLiveClassModal = action.payload
+        setScheduleOnlineClassModal(state, action) {
+            state.scheduleOnlineClassModalState = { ...state.scheduleOnlineClassModalState, ...action.payload }
         },
         resetLiveClassFormData(state) {
             state.liveClassFormData = {}
@@ -68,11 +74,26 @@ const storeSlice = createSlice({
         hideLoader: (state) => {
             state.isLoading = false;
         },
+        showConfirmationModal: (state, action) => {
+            state.confirmationModal = {
+                isOpen: true,
+                ...action.payload,
+            };
+        },
+        hideConfirmationModal: (state) => {
+            state.confirmationModal = {
+                isOpen: false,
+                title: '',
+                description: '',
+                onConfirm: null,
+            };
+        }
     },
 })
 
-export const { setLoginModal, setRoomsData, setLiveClassFormData, setRoomsCodeData, setScheduleLiveClassModal, setActiveLiveClassFormData, resetActiveLiveClassFormData,
-    setAddStudentModalState, setAddTeacherModalState, setAddClassModalState, setAddParentModalState, setUserData, setNotificationBarState, showLoader, hideLoader } = storeSlice.actions
+export const { setLoginModal, setRoomsData, setLiveClassFormData, setRoomsCodeData, setScheduleOnlineClassModal, setActiveLiveClassFormData, resetActiveLiveClassFormData,
+    setAddStudentModalState, setAddTeacherModalState, setAddClassModalState, setAddParentModalState, setUserData, setNotificationBarState, showLoader, hideLoader, showConfirmationModal,
+    hideConfirmationModal } = storeSlice.actions
 export default storeSlice.reducer
 
 

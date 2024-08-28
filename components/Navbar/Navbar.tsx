@@ -44,7 +44,7 @@ const Navbar = (props) => {
       link: '', label: 'Manage Classes', icon: IconDeviceDesktop, options: [{ label: 'Classes', icon: <IconEyeFilled />, onClick: () => { router.push("/dashboard/classes") } },
       { label: 'Add Classes', icon: <IconCirclePlusFilled />, onClick: () => { dispatch(setAddClassModalState({ show: true })) } }]
     },
-    { link: '/dashboard/live-classes', label: 'Live Classes', icon: IconBrandYoutubeFilled },
+    { link: '/dashboard/online-classes', label: 'Online Classes', icon: IconBrandYoutubeFilled },
     { link: '/dashboard/questionnaire', label: 'Questionnaire', icon: IconFileStack },
     { link: '/dashboard/recorded-lectures', label: 'Recorded Lectures', icon: IconVideo },
     { link: '/dashboard/parents', label: 'Manage Parents', icon: IconUsers },
@@ -53,7 +53,7 @@ const Navbar = (props) => {
   const links = data.map((item) => <LinksGroup {...item} key={item.label} />);
 
   return (
-    <nav className={classes.navbar}> 
+    <nav className={classes.navbar}>
       <ScrollArea className={classes.links}>
         <div className={classes.linksInner}>{links}</div>
       </ScrollArea>

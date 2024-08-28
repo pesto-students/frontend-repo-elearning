@@ -1,5 +1,5 @@
 import hms from "@/app/api/hms";
-import LiveClasses from "@/components/LiveClasses/LiveClasses";
+import OnlineClasses from "@/components/OnlineClasses/OnlineClasses";
 import { APIS } from "@/constant";
 
 export const getLiveClassesAction = async () => {
@@ -44,5 +44,5 @@ export const getActiveSessionByRoomIdAction = async (roomId = '') => {
 
 export default async function Page() {
     let rooms = await getLiveClassesAction() || []
-    return <LiveClasses rooms={rooms} />;
+    return <OnlineClasses rooms={rooms} />;
 }
