@@ -1,5 +1,7 @@
 import { Autocomplete, Group, ScrollArea, Stack, TextInput } from '@mantine/core';
+import { DateInput, DateTimePicker, TimeInput } from '@mantine/dates';
 import { useForm } from '@mantine/form';
+import dayjs from 'dayjs';
 import DynamicAutocomplete from './DynamicAutoComplete';
 
 interface DynamicFormProps {
@@ -52,6 +54,29 @@ const DynamicForm = (props: DynamicFormProps) => {
                                                 formHook.setFieldValue(path, item)
                                             }}
                                         />
+                                    case 'dateTimePicker':
+                                        return <DateTimePicker
+                                            label={label}
+                                            placeholder="Pick date and time"
+                                            value={new Date()}
+                                            minDate={new Date()}
+                                            maxDate={dayjs(new Date()).add(1, 'month').toDate()}
+                                            {...formHook.getInputProps(path)}
+                                            required
+                                        />
+                                    case 'datePicker':
+                                        return <DateInput
+                                            label={label}
+                                            placeholder="Please select a date"
+                                            {...formHook.getInputProps(path)}
+                                            required
+                                        />
+                                    case 'timePicker':
+                                        return <TimeInput
+                                            label={label}
+                                            {...formHook.getInputProps(path)}
+                                            required
+                                        ></TimeInput>
                                     default:
                                         break;
                                 }

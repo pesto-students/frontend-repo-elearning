@@ -1,5 +1,5 @@
 import RecordedLectures from "@/components/RecordedLectures/RecordedLectures";
-import { getLiveClassesAction } from "../live-classes/page";
+import { getLiveClassesAction } from "../online-classes/page";
 
 export const getRecordedSessionsAction = async () => {
     const allActiveRooms: { data: [] } = await getLiveClassesAction()

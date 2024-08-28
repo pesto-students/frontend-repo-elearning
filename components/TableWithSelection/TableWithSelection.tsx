@@ -1,77 +1,63 @@
-import { Avatar, Checkbox, Group, ScrollArea, Table, Text, rem } from '@mantine/core';
+import { ActionIcon, Checkbox, Menu, ScrollArea, Table, rem } from '@mantine/core';
+import { IconDots } from '@tabler/icons-react';
 import classNames from 'classnames';
 import { useState } from 'react';
 import classes from './TableWithSelection.module.css';
 
-const data = [
-  {
-    id: '1',
-    avatar:
-      'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-1.png',
-    name: 'Robert Wolfkisser',
-    job: 'Engineer',
-    email: 'rob_wolf@gmail.com',
-  },
-  {
-    id: '2',
-    avatar:
-      'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-7.png',
-    name: 'Jill Jailbreaker',
-    job: 'Engineer',
-    email: 'jj@breaker.com',
-  },
-  {
-    id: '3',
-    avatar:
-      'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-2.png',
-    name: 'Henry Silkeater',
-    job: 'Designer',
-    email: 'henry@silkeater.io',
-  },
-  {
-    id: '4',
-    avatar:
-      'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-3.png',
-    name: 'Bill Horsefighter',
-    job: 'Designer',
-    email: 'bhorsefighter@gmail.com',
-  },
-  {
-    id: '5',
-    avatar:
-      'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-10.png',
-    name: 'Jeremy Footviewer',
-    job: 'Manager',
-    email: 'jeremy@foot.dev',
-  },
-];
+interface Column {
+  key: string;
+  label: string;
+}
 
-function TableWithSelection() {
-  const [selection, setSelection] = useState(['1']);
+interface MenuItem {
+  label: string;
+  onClick: (item: any) => void;
+}
+
+interface TableWithSelectionProps {
+  rows: any[];
+  columns: Column[];
+  menuItems: MenuItem[];
+  updateItem: (item: any) => void;
+}
+
+function TableWithSelection({ rows, columns, menuItems, updateItem }: TableWithSelectionProps) {
+  const [selection, setSelection] = useState<string[]>([]);
+
   const toggleRow = (id: string) =>
     setSelection((current) =>
       current.includes(id) ? current.filter((item) => item !== id) : [...current, id]
     );
-  const toggleAll = () =>
-    setSelection((current) => (current.length === data.length ? [] : data.map((item) => item.id)));
 
-  const rows = data.map((item) => {
-    const selected = selection.includes(item.id);
+  const toggleAll = () =>
+    setSelection((current) => (current.length === rows.length ? [] : rows.map((_, index) => index.toString())));
+
+  const tableRows = rows.map((item, index) => {
+    const selected = selection.includes(index.toString());
     return (
-      <Table.Tr key={item.id} className={classNames({ [classes.rowSelected]: selected })}>
+      <Table.Tr key={index} className={classNames({ [classes.rowSelected]: selected })}>
         <Table.Td>
-          <Checkbox checked={selection.includes(item.id)} onChange={() => toggleRow(item.id)} />
+          <Checkbox checked={selection.includes(index.toString())} onChange={() => toggleRow(index.toString())} />
         </Table.Td>
+        {columns.map((column) => (
+          <Table.Td key={column.key}>{item[column.key]}</Table.Td>
+        ))}
         <Table.Td>
-          <Group gap="sm">
-            <Avatar size={26} src={item.avatar} radius={26} />
-            <Text size="sm" fw={500}>
-              {item.name}
-            </Text>
-          </Group>
+          <Menu shadow="md" width={200}>
+            <Menu.Target>
+              <ActionIcon variant="subtle">
+                <IconDots size={16} />
+              </ActionIcon>
+            </Menu.Target>
+            <Menu.Dropdown>
+              {menuItems.map((menuItem, index) => (
+                <Menu.Item key={index} onClick={() => menuItem.onClick(item)}>
+                  {menuItem.label}
+                </Menu.Item>
+              ))}
+            </Menu.Dropdown>
+          </Menu>
         </Table.Td>
-        <Table.Td>{item.email}</Table.Td>
-        <Table.Td>{item.job}</Table.Td>
       </Table.Tr>
     );
   });
@@ -84,19 +70,20 @@ function TableWithSelection() {
             <Table.Th style={{ width: rem(40) }}>
               <Checkbox
                 onChange={toggleAll}
-                checked={selection.length === data.length}
-                indeterminate={selection.length > 0 && selection.length !== data.length}
+                checked={selection.length === rows.length}
+                indeterminate={selection.length > 0 && selection.length !== rows.length}
               />
             </Table.Th>
-            <Table.Th>User</Table.Th>
-            <Table.Th>Email</Table.Th>
-            <Table.Th>Job</Table.Th>
+            {columns.map((column) => (
+              <Table.Th key={column.key}>{column.label}</Table.Th>
+            ))}
+            <Table.Th>Actions</Table.Th>
           </Table.Tr>
         </Table.Thead>
-        <Table.Tbody>{rows}</Table.Tbody>
+        <Table.Tbody>{tableRows}</Table.Tbody>
       </Table>
     </ScrollArea>
   );
 }
 
-export default TableWithSelection
+export default TableWithSelection;

@@ -10,13 +10,13 @@ import { FooterMenu } from '../FooterMenu/FooterMenu';
 import { HeaderMenu } from '../HeaderMenu/HeaderMenu';
 import LoginFormModal from '../LoginForm/LoginForm';
 import Navbar from '../Navbar/Navbar';
-import ScheduleLiveClass from '../ScheduleLiveClassModal/ScheduleLiveClassModal';
+import ScheduleOnlineClass from '../ScheduleOnlineClass/ScheduleOnlineClassModal';
 
 export function AppShellLayout({ children }: { children: React.ReactNode }) {
     const [mobileOpened, { toggle: toggleMobile }] = useDisclosure();
     const [desktopOpened, { toggle: toggleDesktop }] = useDisclosure();
     const router = useRouter()
-    const { store } = useAppSelector(state => state)
+    const store = useAppSelector(state => state.store)
     const [value] = useLocalStorage({ key: 'accessToken' });
 
     const HeaderMenuWithSideBar = () => {
@@ -63,8 +63,8 @@ export function AppShellLayout({ children }: { children: React.ReactNode }) {
                 <AppShell.Footer >
                     {isDashboard ? null : <FooterMenu></FooterMenu>}
                 </AppShell.Footer>
-                {store.loginModal && <LoginFormModal></LoginFormModal>}
-                {store.scheduleLiveClassModal && <ScheduleLiveClass></ScheduleLiveClass>}
+                {store.loginModalState.show && <LoginFormModal></LoginFormModal>}
+                {store.scheduleOnlineClassModalState.show ? <ScheduleOnlineClass></ScheduleOnlineClass> : null}
             </AppShell>
         </HMSRoomProvider>
     );

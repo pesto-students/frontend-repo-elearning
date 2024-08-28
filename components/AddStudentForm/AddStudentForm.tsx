@@ -16,20 +16,20 @@ const AddStudentForm = (props) => {
     })
     const router = useRouter()
     const dispatch = useDispatch()
-    const { store } = useAppSelector(state => state)
+    const store = useAppSelector(state => state.store)
     const [, { close }] = useDisclosure(false);
     const [studentSchema, setStudentSchema] = useState([]);
 
-    useEffect(()=>{
+    useEffect(() => {
         fetchStudentSchema();
-    },[]);
+    }, []);
 
     const fetchStudentSchema = async () => {
         try {
-          const { data } = await restClient.get(SCHEMA_APIS.STUDENT);
-          setStudentSchema(data);
+            const { data } = await restClient.get(SCHEMA_APIS.STUDENT);
+            setStudentSchema(data);
         } catch (error) {
-          console.error('Failed to fetch student schema:', error);
+            console.error('Failed to fetch student schema:', error);
         }
     };
 
@@ -41,7 +41,7 @@ const AddStudentForm = (props) => {
                 </Text>
                 <Divider label="" labelPosition="center" my="lg" />
 
-                <Stack> 
+                <Stack>
                     <>
                         <DynamicForm
                             formData={studentSchema}
@@ -49,16 +49,16 @@ const AddStudentForm = (props) => {
                                 await restClient.post(APIS.CREATE_ORGANIZATION, values)
                             }}
                             formSubmitButtonJsx={
-                                <> 
+                                <>
                                     <Group justify="space-between" mt="md">
                                         <Button type="submit" radius="xl">
                                             Add Student
-                                        </Button> 
+                                        </Button>
                                     </Group>
                                 </>
                             }
                         />
-                    </>  
+                    </>
                 </Stack>
             </Paper>
         </Modal >

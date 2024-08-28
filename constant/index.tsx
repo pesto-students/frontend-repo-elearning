@@ -18,7 +18,10 @@ export const APIS = {
     CREATE_TEACHER: '/api/teacher/create',
 
     GET_CLASS: '/api/class/fetch',
-    CREATE_CLASS: '/api/class/create'
+    CREATE_CLASS: '/api/class/create',
+    GET_TEACHERS: '/api/teacher/fetch',
+
+    CREATE_ONLINE_CLASS: '/api/onlineClass/create'
 }
 
 export const SCHEMA_APIS = {

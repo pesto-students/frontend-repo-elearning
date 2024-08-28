@@ -15,7 +15,7 @@ const AddClassForm = (props) => {
     })
     const router = useRouter()
     const dispatch = useDispatch()
-    const { store } = useAppSelector(state => state)
+    const store = useAppSelector(state => state.store)
     const [, { close }] = useDisclosure(false);
 
     return (
