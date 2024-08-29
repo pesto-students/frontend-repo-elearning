@@ -29,6 +29,7 @@
     "@next/bundle-analyzer": "^14.2.4",
     "@reduxjs/toolkit": "^2.2.7",
     "@tabler/icons-react": "^3.6.0",
+    "@types/hls.js": "^1.0.0",
     "@videojs/http-streaming": "^3.10.0",
     "async": "^3.2.6",
     "axios": "^1.7.3",

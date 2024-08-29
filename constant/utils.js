@@ -30,3 +30,12 @@ export const flattenObject = (values = {}) => {
         return value;
     })
 }
+
+export function getRandomMantineColor() {
+    const mantineColors = [
+        'blue', 'cyan', 'green', 'grape', 'indigo', 'lime', 'orange',
+        'pink', 'red', 'teal', 'violet', 'yellow'
+    ];
+    const randomIndex = Math.floor(Math.random() * mantineColors.length);
+    return mantineColors[randomIndex];
+}

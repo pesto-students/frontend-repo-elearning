@@ -2,7 +2,7 @@ import hms from "@/app/api/hms";
 import OnlineClasses from "@/components/OnlineClasses/OnlineClasses";
 import { APIS } from "@/constant";
 
-export const getLiveClassesAction = async () => {
+export const getOnlineClassesAction = async () => {
     try {
         const { data } = await hms.get(APIS.ROOMS + "?enabled=true")
         return data
@@ -43,6 +43,6 @@ export const getActiveSessionByRoomIdAction = async (roomId = '') => {
 
 
 export default async function Page() {
-    let rooms = await getLiveClassesAction() || []
+    let rooms = await getOnlineClassesAction() || []
     return <OnlineClasses rooms={rooms} />;
 }

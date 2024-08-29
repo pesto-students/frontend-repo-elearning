@@ -1,5 +1,5 @@
 "use client"
-import { getLiveClassesAction, getRoomCodeByRoomIdAction, updateLiveClassByIdAction } from '@/app/dashboard/online-classes/page';
+import { getOnlineClassesAction, getRoomCodeByRoomIdAction, updateLiveClassByIdAction } from '@/app/dashboard/online-classes/page';
 import { useAppDispatch, useAppSelector } from '@/app/lib/hooks';
 import { setActiveLiveClassFormData, setRoomsCodeData, setScheduleOnlineClassModal } from '@/app/lib/slice';
 import { APIS } from '@/constant';
@@ -42,7 +42,7 @@ const OnlineClasses = ({ rooms = { data: [] } }) => {
 
     const handleDeleteLiveClass = async (roomId = '') => {
         updateLiveClassByIdAction(roomId, { enabled: false })
-        const response = await getLiveClassesAction()
+        const response = await getOnlineClassesAction()
         setRoomsData(response)
     }
 
