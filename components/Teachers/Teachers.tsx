@@ -2,6 +2,8 @@
 import restClient from '@/app/api/restClient';
 import { setAddTeacherModalState } from '@/app/lib/slice';
 import { APIS } from '@/constant';
+import { getRandomMantineColor } from '@/constant/utils';
+import { Avatar, Group, Text } from '@mantine/core';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import TableWithSelection from '../TableWithSelection/TableWithSelection';
@@ -67,8 +69,15 @@ const Teachers = () => {
     };
 
     const columns = [
-        { key: 'firstName', label: 'First Name' },
-        { key: 'lastName', label: 'Last Name' },
+        {
+            key: 'firstName', label: 'Name', render: (data = { firstName: '', lastName: '' }) => {
+                const { firstName, lastName } = data
+                return <Group gap={"sm"}>
+                    <Avatar size={"sm"} color={getRandomMantineColor()}>{firstName.charAt(0) + lastName.charAt(0)}</Avatar>
+                    <Text size="sm" fw={500}>{data.firstName + " " + data.lastName}</Text>
+                </Group>
+            }
+        },
         { key: 'email', label: 'Email' },
         { key: 'phone', label: 'Phone' },
         { key: 'address', label: 'Address' },

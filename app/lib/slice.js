@@ -19,7 +19,8 @@ const initialState = {
         title: '',
         description: '',
         onConfirm: null,
-    }
+    },
+    selectedRecordings: []
 }
 
 const storeSlice = createSlice({
@@ -87,13 +88,16 @@ const storeSlice = createSlice({
                 description: '',
                 onConfirm: null,
             };
+        },
+        setSelectedRecordings: (state, action) => {
+            state.selectedRecordings = action.payload
         }
     },
 })
 
 export const { setLoginModal, setRoomsData, setLiveClassFormData, setRoomsCodeData, setScheduleOnlineClassModal, setActiveLiveClassFormData, resetActiveLiveClassFormData,
     setAddStudentModalState, setAddTeacherModalState, setAddClassModalState, setAddParentModalState, setUserData, setNotificationBarState, showLoader, hideLoader, showConfirmationModal,
-    hideConfirmationModal } = storeSlice.actions
+    hideConfirmationModal, setSelectedRecordings } = storeSlice.actions
 export default storeSlice.reducer
 
 

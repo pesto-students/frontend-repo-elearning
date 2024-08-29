@@ -39,8 +39,10 @@ function TableWithSelection({ rows, columns, menuItems, updateItem }: TableWithS
         <Table.Td>
           <Checkbox checked={selection.includes(index.toString())} onChange={() => toggleRow(index.toString())} />
         </Table.Td>
-        {columns.map((column) => (
-          <Table.Td key={column.key}>{item[column.key]}</Table.Td>
+        {columns.map((column, columnIndex) => (
+          <Table.Td key={column.key + "-" + columnIndex} width={'100%'}>
+            {column.render?.(item) || item[column.key]}
+          </Table.Td>
         ))}
         <Table.Td>
           <Menu shadow="md" width={200}>
@@ -58,15 +60,15 @@ function TableWithSelection({ rows, columns, menuItems, updateItem }: TableWithS
             </Menu.Dropdown>
           </Menu>
         </Table.Td>
-      </Table.Tr>
+      </Table.Tr >
     );
   });
 
   return (
     <ScrollArea>
-      <Table miw={800} verticalSpacing="sm">
+      <Table miw={800} verticalSpacing="sm" striped highlightOnHover withTableBorder withRowBorders={false}>
         <Table.Thead>
-          <Table.Tr>
+          <Table.Tr >
             <Table.Th style={{ width: rem(40) }}>
               <Checkbox
                 onChange={toggleAll}
