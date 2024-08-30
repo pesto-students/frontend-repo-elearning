@@ -1,11 +1,11 @@
 "use client"
 import { useAppDispatch } from '@/app/lib/hooks';
+import { setLoginModal } from '@/app/lib/slice';
 import { Burger, Button, Center, Container, Group, Menu } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconChevronDown } from '@tabler/icons-react';
 import AppLogo from '../AppLogo/AppLogo';
 import classes from './HeaderMenu.module.css';
-import { setLoginModal } from '@/app/lib/slice';
 
 const links = [
   { link: '/about', label: 'Features' },
@@ -82,7 +82,7 @@ export function HeaderMenu() {
             {items}
           </Group>
           <Group visibleFrom="sm">
-            <Button variant="default" onClick={() => { dispatch(setLoginModal(true)) }}>Log in</Button>
+            <Button variant="default" onClick={() => { dispatch(setLoginModal({ show: true })) }}>Log in</Button>
           </Group>
           <Burger opened={opened} onClick={toggle} size="sm" hiddenFrom="sm" />
         </div>

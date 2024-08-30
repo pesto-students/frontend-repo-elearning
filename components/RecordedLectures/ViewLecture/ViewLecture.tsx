@@ -1,6 +1,7 @@
 'use client'
-import { Card, Grid, Group, Image, List, Stack, Tabs, Text, ThemeIcon } from '@mantine/core';
+import { Card, Grid, Group, List, Tabs, Text, ThemeIcon } from '@mantine/core';
 import { IconPlayerPause, IconPlayerPlay } from '@tabler/icons-react';
+import classNames from 'classnames';
 import uniqBy from "lodash/uniqBy";
 import { useEffect, useState } from 'react';
 import VODPlayer from '../RecordedLectureCard/VODPlayer';
@@ -39,17 +40,17 @@ const ViewLecture = (props) => {
                             sessionsRecordingAssets.map(session => {
                                 return (
                                     <Grid.Col >
-                                        <SessionCard session={session} activeSession={activeSession} setActiveVideoUrl={setActiveVideoUrl} activeVideoUrl></SessionCard>
+                                        <SessionCard session={session} activeSession={activeSession} setActiveVideoUrl={setActiveVideoUrl}
+                                            activeVideoUrl={activeVideoUrl}></SessionCard>
                                     </Grid.Col>)
                             })
                         }
                     </Grid>
                 </Grid.Col>
             </Grid>
-            <Stack >
-                {console.log("activeSession", activeSession, activeSession.recording_assets?.nonMediaAssets)}
+            <div style={{ marginTop: '1rem', border: "1px solid #9093a424" }}>
                 {activeSession.recording_assets?.nonMediaAssets &&
-                    <Tabs>
+                    <Tabs variant='outline' defaultValue={activeSession.recording_assets?.nonMediaAssets[0]?.type}>
                         <Tabs.List>
                             {activeSession.recording_assets.nonMediaAssets && uniqBy(activeSession.recording_assets.nonMediaAssets, 'type').map(nonMediaAsset => {
                                 return (
@@ -59,20 +60,9 @@ const ViewLecture = (props) => {
                                             nonMediaAsset.type &&
                                             tabsPanelJsx.push(
                                                 <Tabs.Panel value={nonMediaAsset.type} className={classes.tabPanelContent}>
-                                                    <Grid>
-                                                        {/* <h3>Content:</h3> */}
-                                                        {
-                                                            // nonMediaAsset.type === 'chat' ?
-                                                            //     <div>
-                                                            //         <Link href={nonMediaAsset.urlDetails?.url}>{nonMediaAsset.urlDetails?.url}</Link>
-                                                            //         <ShowChat csvUrl={nonMediaAsset.urlDetails?.url}></ShowChat>
-                                                            //     </div>
-                                                            //     :
-                                                            //     <p>{nonMediaAsset.urlDetails?.url}</p>
-                                                            <iframe src={nonMediaAsset.urlDetails?.url} className='' style={{ width: "100%" }}></iframe>
-                                                        }
-
-                                                    </Grid>
+                                                    <div>
+                                                        {<iframe src={nonMediaAsset.urlDetails?.url} className='' style={{ width: "100%", border: 'none' }}></iframe>}
+                                                    </div>
                                                 </Tabs.Panel>)
                                         }
                                     </>)
@@ -80,34 +70,7 @@ const ViewLecture = (props) => {
                         </Tabs.List>
                         {tabsPanelJsx}
                     </Tabs>}
-
-                {/* <Tabs defaultValue="gallery">
-                    <Tabs.List>
-                        <Tabs.Tab value="gallery" leftSection={<IconPhoto style={iconStyle} />}>
-                            Gallery
-                        </Tabs.Tab>
-                        <Tabs.Tab value="messages" leftSection={<IconMessageCircle style={iconStyle} />}>
-                            Messages
-                        </Tabs.Tab>
-                        <Tabs.Tab value="settings" leftSection={<IconSettings style={iconStyle} />}>
-                            Settings
-                        </Tabs.Tab>
-                    </Tabs.List>
-
-                    <Tabs.Panel value="gallery">
-                        Gallery tab content
-                    </Tabs.Panel>
-
-                    <Tabs.Panel value="messages">
-                        Messages tab content
-                    </Tabs.Panel>
-
-                    <Tabs.Panel value="settings">
-                        Settings tab content
-                    </Tabs.Panel>
-                </Tabs> */}
-
-            </Stack>
+            </div>
         </div >
     );
 };
@@ -122,11 +85,11 @@ const SessionCard = ({ session, activeSession, setActiveVideoUrl, activeVideoUrl
     return (
         <Card shadow="sm" padding="sm" radius="sm" withBorder>
             <Card.Section component="a" href="https://mantine.dev/">
-                <Image
+                {/* <Image
                     src="https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-8.png"
                     height={160}
                     alt="Norway"
-                />
+                /> */}
             </Card.Section>
             <Group justify="space-between" mt="md" mb="xs">
                 <List>
@@ -134,11 +97,12 @@ const SessionCard = ({ session, activeSession, setActiveVideoUrl, activeVideoUrl
                         mediaAssets.map(asset => {
                             return (
                                 <>
-                                    <List.Item onClick={() => setActiveVideoUrl(asset.urlDetails.url)} icon={<ThemeIcon>
-                                        {activeVideoUrl === asset.urlDetails.url ? <IconPlayerPlay /> : <IconPlayerPause />}
-                                    </ThemeIcon>}>
-                                        <Text size='sm' fw={500}>Session: {asset.id}</Text>
-                                        <Text size='sm' fw={500}>Asset: {asset.type}</Text>
+                                    <List.Item onClick={() => setActiveVideoUrl(asset.urlDetails.url)} icon={
+                                        <ThemeIcon>
+                                            {activeVideoUrl === asset.urlDetails.url ? <IconPlayerPlay /> : <IconPlayerPause />}
+                                        </ThemeIcon>} className={classNames(classes.assetContainerPadding, { [classes.activeVideoUrl]: activeVideoUrl === asset.urlDetails.url })}>
+                                        <Text size='sm' fw={500}>Assest id: {asset.id}</Text>
+                                        <Text size='sm' fw={500}>Asset type: {asset.type}</Text>
                                     </List.Item>
                                 </>
                             )
