@@ -12,7 +12,9 @@ import AppLogo from '../AppLogo/AppLogo';
 import ConfirmationModal from '../ConfirmationModal/ConfirmationModal';
 import { FooterMenu } from '../FooterMenu/FooterMenu';
 import { HeaderMenu } from '../HeaderMenu/HeaderMenu';
+import LoginFormModal from '../LoginForm/LoginForm';
 import Navbar from '../Navbar/Navbar';
+import ScheduleOnlineClass from '../ScheduleOnlineClass/ScheduleOnlineClassModal';
 
 export function AppShellLayout({ children }: { children: React.ReactNode }) {
     const [mobileOpened, { toggle: toggleMobile }] = useDisclosure();

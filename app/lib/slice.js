@@ -6,6 +6,8 @@ const initialState = {
     liveClassFormData: {},
     roomsCodeData: {},
     scheduleLiveClassModal: false,
+    loginModalState: {show: false},
+    scheduleOnlineClassModalState: {show: false},
     activeEditLiveClassData: {},
     addStudentModalState: { show: false },
     addTeacherModalState: { show: false },
