@@ -16,7 +16,7 @@ export const APIS = {
     CREATE_TEACHER: '/api/teacher/create',
     GET_CLASS: '/api/class/fetch',
     CREATE_CLASS: '/api/class/create',
-    GET_TEACHERS: '/api/teacher/fetch',
+    FETCH_TEACHERS: '/api/teacher/fetch',
 
     CREATE_ONLINE_CLASS: '/api/onlineClass/create',
     FETCH_ONLINE_CLASS: '/api/onlineClass/fetch',
@@ -27,10 +27,12 @@ export const APIS = {
 
     GET_STUDENTS: '/api/student/fetch',
 
-    CREATE_ONLINE_CLASS: '/api/onlineClass/create',
     UPLOAD_DOCUMENT: 'api/gemini/upload-file',
     CREATE_QUESTIONS: 'api/gemini/create-questions',
-    CHAT_BOT: 'api/gemini/chat-assistance'
+    CHAT_BOT: 'api/gemini/chat-assistance',
+
+    GET_CLASSES: "/api/class/fetch",
+    WHOAMI: '/api/user/whoami'
 }
 
 export const SCHEMA_APIS = {

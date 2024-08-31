@@ -4,6 +4,7 @@ import { setAddTeacherModalState } from '@/app/lib/slice';
 import { APIS } from '@/constant';
 import { getRandomMantineColor } from '@/constant/utils';
 import { Avatar, Group, Text } from '@mantine/core';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import TableWithSelection from '../TableWithSelection/TableWithSelection';
@@ -24,6 +25,7 @@ interface Teacher {
 const Teachers = () => {
     const [teachers, setTeachers] = useState<Teacher[]>([]);
     const dispatch = useDispatch();
+    const router = useRouter()
 
     useEffect(() => {
         getTeachers();
@@ -31,7 +33,7 @@ const Teachers = () => {
 
     const getTeachers = async () => {
         try {
-            const { data } = await restClient.post(APIS.GET_TEACHERS, {});
+            const { data } = await restClient.post(APIS.FETCH_TEACHERS, {});
             if (data?.length) {
                 const formattedData: Teacher[] = data.map(teacher => ({
                     firstName: teacher.firstName,
@@ -43,7 +45,8 @@ const Teachers = () => {
                     city: teacher.city?.name || '',
                     state: teacher.state?.name || '',
                     country: teacher.country?.name || '',
-                    branch: teacher.branch?.name || ''
+                    branch: teacher.branch?.name || '',
+                    _id: teacher._id
                 }));
                 setTeachers(formattedData);
             }
@@ -66,6 +69,11 @@ const Teachers = () => {
 
     const handleEditTeacher = (teacher) => {
         dispatch(setAddTeacherModalState({ show: true, teacherData: teacher }));
+    };
+
+    const handleRowClick = (teacher: Teacher) => {
+        console.log('Row clicked:', teacher);
+        router.push(`/dashboard/teachers/${teacher._id}`)
     };
 
     const columns = [
@@ -102,6 +110,7 @@ const Teachers = () => {
                 columns={columns}
                 menuItems={menuItems}
                 updateItem={updateTeacher}
+                rowClick={handleRowClick}
             />
         </div>
     );

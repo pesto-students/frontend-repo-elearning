@@ -70,6 +70,7 @@ const Navbar = (props) => {
         <Link href="/" className={classes.link} onClick={(e) => {
           // e.preventDefault();
           // props.toggleDesktop()
+          localStorage.removeItem('accessToken')
         }} >
           <IconLogout className={classes.linkIcon} stroke={1.5} />
           <span>Logout</span>
