@@ -1,18 +1,16 @@
 import { APIS } from "@/constant";
 import restClient from "../restClient";
 
-export const getOnlineClassesApi = async () => {
+export const getOnlineClassesApi = async (payload = {}) => {
     try {
-        console.log('APIS.FETCH_ONLINE_CLASS', APIS.FETCH_ONLINE_CLASS)
-
-        const data = await restClient.post(APIS.FETCH_ONLINE_CLASS, {})
+        const { data } = await restClient.post(APIS.FETCH_ONLINE_CLASS, payload)
         return data
     } catch (error) {
         console.log(error)
     }
 }
 
-export const getRecordingsByRoomIdApi = async (roomId = '', retCount) => {
+export const getRecordingsByRoomIdApi = async (roomId = '', retCount = false) => {
     const apiUrl = APIS.FETCH_RECORDINGS_BY_ROOM_ID
     try {
         const { data } = await restClient.post(apiUrl, { roomId })

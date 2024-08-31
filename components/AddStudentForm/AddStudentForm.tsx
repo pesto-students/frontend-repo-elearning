@@ -5,6 +5,7 @@ import { APIS, SCHEMA_APIS } from '@/constant';
 import { Button, Divider, Group, Modal, Paper, Stack, Text } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useDisclosure } from '@mantine/hooks';
+import { isObject, mapValues } from 'lodash';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -34,7 +35,7 @@ const AddStudentForm = (props) => {
     };
 
     return (
-        <Modal opened={Boolean(store.addStudentModalState.show)} onClose={() => { dispatch(setAddStudentModalState({ show: false })); close() }} title={"Add student"} >
+        <Modal size='lg' opened={Boolean(store.addStudentModalState.show)} onClose={() => { dispatch(setAddStudentModalState({ show: false })); close() }} title={"Add student"} >
             <Paper radius="md" p="xl" withBorder {...props}>
                 <Text size="lg" fw={500}>
                     Add Student
@@ -42,23 +43,29 @@ const AddStudentForm = (props) => {
                 <Divider label="" labelPosition="center" my="lg" />
 
                 <Stack>
-                    <>
-                        <DynamicForm
-                            formData={studentSchema}
-                            formSubmit={async (values = {}) => {
-                                await restClient.post(APIS.CREATE_ORGANIZATION, values)
-                            }}
-                            formSubmitButtonJsx={
-                                <>
-                                    <Group justify="space-between" mt="md">
-                                        <Button type="submit" radius="xl">
-                                            Add Student
-                                        </Button>
-                                    </Group>
-                                </>
-                            }
-                        />
-                    </>
+
+                    <DynamicForm
+                        formData={studentSchema}
+                        formSubmit={async (values = {}) => {
+                            const payload = mapValues(values, (value) => {
+                                if (isObject(value) && value.id) {
+                                    return value.id || value._id;
+                                }
+                                return value;
+                            });
+                            await restClient.post(APIS.CREATE_STUDENT, payload)
+                        }}
+                        formSubmitButtonJsx={
+                            <>
+                                <Group justify="space-between" mt="md">
+                                    <Button type="submit" radius="xl">
+                                        Add Student
+                                    </Button>
+                                </Group>
+                            </>
+                        }
+                    />
+
                 </Stack>
             </Paper>
         </Modal >

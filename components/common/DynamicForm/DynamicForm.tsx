@@ -1,4 +1,4 @@
-import { Autocomplete, Group, ScrollArea, Stack, TextInput } from '@mantine/core';
+import { Autocomplete, Group, ScrollArea, Stack, Textarea, TextInput } from '@mantine/core';
 import { DateInput, DateTimePicker, TimeInput } from '@mantine/dates';
 import { useForm } from '@mantine/form';
 import dayjs from 'dayjs';
@@ -77,6 +77,12 @@ const DynamicForm = (props: DynamicFormProps) => {
                                             {...formHook.getInputProps(path)}
                                             required
                                         ></TimeInput>
+                                    case 'textarea':
+                                        return <Textarea
+                                            label={label}
+                                            {...formHook.getInputProps(path)}
+                                            required
+                                        ></Textarea>
                                     default:
                                         break;
                                 }

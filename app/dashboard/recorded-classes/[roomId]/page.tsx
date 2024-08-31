@@ -1,7 +1,6 @@
 import hms from "@/app/api/hms";
 import ViewLecture from "@/components/RecordedLectures/ViewLecture/ViewLecture";
 import asyncLib from 'async';
-import axios from "axios";
 import partition from 'lodash/partition';
 import { redirect } from "next/navigation";
 
@@ -52,40 +51,51 @@ export const getSessionsByRoomId = async (roomId = '') => {
 }
 
 export const getRecordingsDataByRoomId = async (roomId = '') => {
-    const apiUrl = '/recordings?room_id=' + roomId
-    const { data: recordings } = await hms.get(apiUrl)
-    const processRecordings = await asyncLib.mapLimit(recordings.data, 5, async (recording) => {
-        const { id } = recording
-        const recordingDetails = await getRecordingDetailsById(id)
-        const processRecordingDetails = await asyncLib.mapLimit(recordingDetails.recording_assets.filter(item => item.type !== "chat"), 5, async (asset) => {
+    try {
+        const apiUrl = '/recordings?room_id=' + roomId
+        const { data: recordings } = await hms.get(apiUrl)
+        const processRecordings = await asyncLib.mapLimit(recordings.data || [], 5, async (recording = { id: "" }) => {
+            const { id } = recording
+            const recordingDetails = await getRecordingDetailsById(id)
+
+            const [mediaAssets, nonMediaAssets] = partition(recordingDetails.recording_assets, (asset = { type: '' }) => asset.type === 'room-vod');
+            const filteredNonMediaAssets = nonMediaAssets.filter((asset = { type: '' }) => ['summary', 'transcript'].includes(asset.type));
+            return { ...recording, recording_assets: { mediaAssets: await getProcessedAssets(mediaAssets), nonMediaAssets: await getProcessedAssets(filteredNonMediaAssets) } }
+        })
+        return processRecordings || []
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+const getProcessedAssets = async (assets = []) => {
+    try {
+        const processAssets = await asyncLib.mapLimit(assets, 5, async (asset = { id: '' }) => {
             const { id } = asset
             const assetUrl = await getRecordedLectureUrlAction(id)
-            return { ...asset, urlDetails: assetUrl }
+            return assetUrl ? { ...asset, urlDetails: assetUrl } : asset
         })
+        return processAssets
+    } catch (error) {
+        console.log(error)
+        return assets
+    }
 
-        const mediaTypes = ['room-composite', 'room-vod'];
-
-        const [mediaAssets = [], nonMediaAssets = []] = partition(processRecordingDetails, (asset) => mediaTypes.includes(asset.type));
-
-        return { ...recording, recording_assets: { mediaAssets, nonMediaAssets } }
-    })
-    return processRecordings || []
 }
 
 export const getRecordingDetailsById = async (recordingId = '') => {
-    const apiUrl = '/recordings/' + recordingId
-    const { data } = await hms.get(apiUrl)
-    return data
+    try {
+        const apiUrl = '/recordings/' + recordingId
+        const { data } = await hms.get(apiUrl)
+        return data
+    } catch (error) {
+        console.log(error)
+    }
 }
 
-export const getChatCsvAction = async (url = '') => {
-    const { data } = await axios.get(url)
-    return data
-}
-
-export default async function Page(props) {
+export default async function Page(props = { params: { roomId: '' } }) {
     const { params } = props
-    // const recordingAssets = await getRecordingAssetsAction(params.roomId)
     const sessionsRecordingAssets = await getRecordingsDataByRoomId(params.roomId)
-    return <ViewLecture sessionsRecordingAssets={sessionsRecordingAssets} ></ViewLecture>
+
+    return <ViewLecture sessionsRecordingAssets={sessionsRecordingAssets}  {...props}></ViewLecture>
 }

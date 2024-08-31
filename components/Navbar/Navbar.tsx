@@ -69,7 +69,7 @@ const Navbar = (props) => {
 
         <Link href="/" className={classes.link} onClick={(e) => {
           // e.preventDefault();
-          props.toggleDesktop()
+          // props.toggleDesktop()
         }} >
           <IconLogout className={classes.linkIcon} stroke={1.5} />
           <span>Logout</span>

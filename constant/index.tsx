@@ -25,6 +25,8 @@ export const APIS = {
     GET_RECORDINGS_BY_ROOM_ID: '/recordings?room_id=:roomId',
     FETCH_RECORDINGS_BY_ROOM_ID: '/api/onlineClass/recordings',
 
+    GET_STUDENTS: '/api/student/fetch',
+
     CREATE_ONLINE_CLASS: '/api/onlineClass/create',
     UPLOAD_DOCUMENT: 'api/gemini/upload-file',
     CREATE_QUESTIONS: 'api/gemini/create-questions',
@@ -40,7 +42,7 @@ export const SCHEMA_APIS = {
     ONLINE_CLASS: "/api/schema/OnlineClass",
     SCHEMA_BY_SERVICE: '/api/schema/:service',
     CREATE_ORGANIZATION: "/api/organization/create",
-  
+
 }
 
 export const ORGANIZATION_TYPE = [
@@ -96,7 +98,7 @@ export const examplePrompt = ` <!DOCTYPE html>
         </ul>
     </div>
 
-   
+
 
     <div class="answer-key">
         <h2>Answer Key:</h2>

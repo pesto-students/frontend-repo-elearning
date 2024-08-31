@@ -2,20 +2,36 @@
 import { useAppSelector } from '@/app/lib/hooks';
 import { HMSRoomProvider } from '@100mslive/react-sdk';
 import { AppShell, Burger, Flex, Group } from '@mantine/core';
-import { useDisclosure, useLocalStorage } from '@mantine/hooks';
+import { useDisclosure } from '@mantine/hooks';
 import { usePathname, useRouter } from 'next/navigation';
-import React from 'react';
+import React, { useState } from 'react';
+import AddClassForm from '../AddClassForm/AddClassForm';
+import AddStudentForm from '../AddStudentForm/AddStudentForm';
+import AddTeacherForm from '../AddTeacherForm/AddTeacherForm';
 import AppLogo from '../AppLogo/AppLogo';
+import ConfirmationModal from '../ConfirmationModal/ConfirmationModal';
 import { FooterMenu } from '../FooterMenu/FooterMenu';
 import { HeaderMenu } from '../HeaderMenu/HeaderMenu';
+import LoginFormModal from '../LoginForm/LoginForm';
 import Navbar from '../Navbar/Navbar';
+import ScheduleOnlineClass from '../ScheduleOnlineClass/ScheduleOnlineClassModal';
 
 export function AppShellLayout({ children }: { children: React.ReactNode }) {
     const [mobileOpened, { toggle: toggleMobile }] = useDisclosure();
-    const [desktopOpened, { toggle: toggleDesktop }] = useDisclosure();
+    const [desktopOpened, setDesktopOpened] = useState(true);
     const router = useRouter()
+    const pathname = usePathname()
     const store = useAppSelector(state => state.store)
-    const [value] = useLocalStorage({ key: 'accessToken' });
+
+    const isDashboard = pathname.includes("/dashboard");
+
+    React.useEffect(() => {
+        setDesktopOpened(false);
+    }, [pathname]);
+
+    const toggleDesktop = () => {
+        setDesktopOpened(!desktopOpened);
+    };
 
     const HeaderMenuWithSideBar = () => {
         return (
@@ -32,37 +48,42 @@ export function AppShellLayout({ children }: { children: React.ReactNode }) {
         )
     }
 
-    const isDashboard = usePathname().includes("/dashboard");
-
     return (
         <HMSRoomProvider>
             <AppShell
                 header={{ height: 60 }}
                 navbar={{
-                    width: 300,
+                    width: 235,
                     breakpoint: 'sm',
                     collapsed: { mobile: !mobileOpened, desktop: !desktopOpened },
                 }}
                 padding="md"
             >
-
                 <AppShell.Header bg='#C9CEF5'>
-                    {isDashboard ? <HeaderMenuWithSideBar></HeaderMenuWithSideBar> : <HeaderMenu></HeaderMenu>}
+                    {isDashboard ? <HeaderMenuWithSideBar /> : <HeaderMenu />}
                 </AppShell.Header>
-                <AppShell.Navbar zIndex="0"  p="md">
-                    {/* {Array(15)
-                        .fill(0)
-                        .map((_, index) => (
-                            <Skeleton key={index} h={28} mt="sm" animate={false} />
-                        ))} */}
-                    <Navbar toggleDesktop={toggleDesktop} />
-                </AppShell.Navbar>
-                <AppShell.Main style={{ paddingLeft: isDashboard ? 24 : 16, paddingBottom: 94 }}>{children}</AppShell.Main>
+                {isDashboard ?
+                    <AppShell.Navbar >
+                        <Navbar toggleDesktop={toggleDesktop} />
+                    </AppShell.Navbar> : null
+                }
+                <AppShell.Main
+                    style={{
+                        paddingLeft: isDashboard && desktopOpened ? 235 : 24,
+                        paddingBottom: 94
+                    }}
+                >
+                    {children}
+                </AppShell.Main>
                 <AppShell.Footer >
                     {isDashboard ? null : <FooterMenu></FooterMenu>}
                 </AppShell.Footer>
-                {/* {store.loginModalState.show && <LoginFormModal></LoginFormModal>}
-                {store.scheduleOnlineClassModalState.show ? <ScheduleOnlineClass></ScheduleOnlineClass> : null} */}
+                {store.loginModalState.show && <LoginFormModal></LoginFormModal>}
+                {store.scheduleOnlineClassModalState.show ? <ScheduleOnlineClass></ScheduleOnlineClass> : null}
+                {store.addTeacherModalState.show ? <AddTeacherForm></AddTeacherForm> : null}
+                {store.addStudentModalState.show ? <AddStudentForm></AddStudentForm> : null}
+                {store.addClassModalState.show ? <AddClassForm></AddClassForm> : null}
+                {store.confirmationModal.isOpen ? <ConfirmationModal></ConfirmationModal> : null}
             </AppShell>
         </HMSRoomProvider>
     );
