@@ -62,9 +62,11 @@ export function AppShellLayout({ children }: { children: React.ReactNode }) {
                 <AppShell.Header bg='#C9CEF5'>
                     {isDashboard ? <HeaderMenuWithSideBar /> : <HeaderMenu />}
                 </AppShell.Header>
-                <AppShell.Navbar zIndex="0" p="md">
-                    {isDashboard && <Navbar toggleDesktop={toggleDesktop} />}
-                </AppShell.Navbar>
+                {isDashboard ?
+                    <AppShell.Navbar >
+                        <Navbar toggleDesktop={toggleDesktop} />
+                    </AppShell.Navbar> : null
+                }
                 <AppShell.Main
                     style={{
                         paddingLeft: isDashboard && desktopOpened ? 235 : 24,
