@@ -1,7 +1,6 @@
 'use client'
 
 import { useAppDispatch } from "@/app/lib/hooks";
-import { setSelectedRecordings } from "@/app/lib/slice";
 import { ROUTES } from "@/constant";
 import { Grid, useMatches } from "@mantine/core";
 import { useRouter } from "next/navigation";
@@ -31,27 +30,26 @@ const RecordedLectures = (props) => {
     }, [])
 
     const getOnlineClasses = async () => {
-        const { data } = await getOnlineClassesApi()
+        const data = await getOnlineClassesApi()
         if (data?.length) {
             setState(prevState => ({ ...prevState, rooms: data }))
         }
     }
 
-    const handleViewRecording = async (data = { hmsRoomInfo: { id: '' } }) => {
+    const handleViewRecording = async (data = { hmsRoomInfo: { id: '' }, }, apiCallInProgressKey = '') => {
         try {
             const { hmsRoomInfo } = data
-            updateState({ apiCallInProgress: true })
+            updateState({ apiCallInProgress: true, apiCallInProgressKey: apiCallInProgressKey })
             const recordings = await getRecordingsByRoomIdApi(hmsRoomInfo.id)
-            updateState({ apiCallInProgress: false })
+            updateState({ apiCallInProgress: false, })
             if (recordings.length) {
-                dispatch(setSelectedRecordings(recordings))
                 router.push(ROUTES.RECORDED_CLASS_BY_ROOM_ID.replace(":roomId", hmsRoomInfo.id))
             } else {
                 updateState({ showNoRecordingFound: true })
             }
         } catch (error) {
             console.log(error)
-            updateState({ apiCallInProgress: false })
+            updateState({ apiCallInProgress: false, })
         }
     }
 
@@ -73,6 +71,8 @@ const RecordedLectures = (props) => {
                                 handleViewRecording={handleViewRecording}
                                 showNoRecordingFound={state.showNoRecordingFound}
                                 apiCallInProgress={state.apiCallInProgress}
+                                cardKey={roomData._id}
+                                apiCallInProgressKey={state.apiCallInProgressKey}
                             />
                         </Grid.Col>
                     ))

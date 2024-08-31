@@ -46,7 +46,7 @@ const Navbar = (props) => {
     },
     { link: '/dashboard/online-classes', label: 'Online Classes', icon: IconBrandYoutubeFilled },
     { link: '/dashboard/questionnaire', label: 'Questionnaire', icon: IconFileStack },
-    { link: '/dashboard/recorded-lectures', label: 'Recorded Lectures', icon: IconVideo },
+    { link: '/dashboard/recorded-classes', label: 'Recorded Lectures', icon: IconVideo },
     { link: '/dashboard/parents', label: 'Manage Parents', icon: IconUsers },
 
   ];
@@ -66,7 +66,7 @@ const Navbar = (props) => {
 
         <Link href="/" className={classes.link} onClick={(e) => {
           // e.preventDefault();
-          props.toggleDesktop()
+          // props.toggleDesktop()
         }} >
           <IconLogout className={classes.linkIcon} stroke={1.5} />
           <span>Logout</span>

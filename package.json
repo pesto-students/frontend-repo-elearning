@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbo",
+    "dev": "next dev",
     "build": "next build",
     "analyze": "ANALYZE=true next build",
     "start": "next start",
@@ -16,7 +16,8 @@
     "prettier:write": "prettier --write \"**/*.{ts,tsx}\"",
     "test": "npm run prettier:check && npm run lint && npm run typecheck && npm run jest",
     "storybook": "storybook dev -p 6006",
-    "storybook:build": "storybook build"
+    "storybook:build": "storybook build",
+    "turbo": "next dev --turbo"
   },
   "dependencies": {
     "@100mslive/react-sdk": "^0.10.16",
@@ -30,6 +31,7 @@
     "@reduxjs/toolkit": "^2.2.7",
     "@tabler/icons-react": "^3.6.0",
     "@types/hls.js": "^1.0.0",
+    "@types/lodash": "^4.17.7",
     "@videojs/http-streaming": "^3.10.0",
     "async": "^3.2.6",
     "axios": "^1.7.3",

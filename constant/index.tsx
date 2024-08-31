@@ -26,7 +26,9 @@ export const APIS = {
     FETCH_RECORDINGS: '/api/recordedClass/fetch',
 
     GET_RECORDINGS_BY_ROOM_ID: '/recordings?room_id=:roomId',
-    FETCH_RECORDINGS_BY_ROOM_ID: '/api/onlineClass/recordings'
+    FETCH_RECORDINGS_BY_ROOM_ID: '/api/onlineClass/recordings',
+
+    GET_STUDENTS: '/api/student/fetch'
 }
 
 export const SCHEMA_APIS = {
