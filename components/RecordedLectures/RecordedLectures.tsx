@@ -1,19 +1,57 @@
 'use client'
 
+import { useAppDispatch } from "@/app/lib/hooks";
+import { ROUTES } from "@/constant";
 import { Grid, useMatches } from "@mantine/core";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { getOnlineClassesApi, getRecordingsByRoomIdApi } from "../../app/api/common";
 import RecordedLectureCard from "./RecordedLectureCard/RecordedLectureCard";
+
 const RecordedLectures = (props) => {
     const { recordedAssets = [] } = props
-    const [state, setState] = useState({ assets: [] })
+    const [state, setState] = useState({ assets: [], rooms: [], recordings: [], showNoRecordingFound: false, apiCallInProgress: false })
+    const dispatch = useAppDispatch()
+    const router = useRouter()
+
+    const updateState = (obj) => {
+        setState(prevState => ({ ...prevState, ...obj }))
+    }
 
     useEffect(() => {
         if (recordedAssets.length) {
-            setState(prevState => ({ ...prevState, assets: recordedAssets }))
+            // setState(prevState => ({ ...prevState, assets: recordedAssets }))
         }
     }, [recordedAssets])
 
 
+    useEffect(() => {
+        getOnlineClasses()
+    }, [])
+
+    const getOnlineClasses = async () => {
+        const data = await getOnlineClassesApi()
+        if (data?.length) {
+            setState(prevState => ({ ...prevState, rooms: data }))
+        }
+    }
+
+    const handleViewRecording = async (data = { hmsRoomInfo: { id: '' }, }, apiCallInProgressKey = '') => {
+        try {
+            const { hmsRoomInfo } = data
+            updateState({ apiCallInProgress: true, apiCallInProgressKey: apiCallInProgressKey })
+            const recordings = await getRecordingsByRoomIdApi(hmsRoomInfo.id)
+            updateState({ apiCallInProgress: false, })
+            if (recordings.length) {
+                router.push(ROUTES.RECORDED_CLASS_BY_ROOM_ID.replace(":roomId", hmsRoomInfo.id))
+            } else {
+                updateState({ showNoRecordingFound: true })
+            }
+        } catch (error) {
+            console.log(error)
+            updateState({ apiCallInProgress: false, })
+        }
+    }
 
     const cardStyle = useMatches({ sm: 1, md: 6, lg: 3 })
 
@@ -26,9 +64,16 @@ const RecordedLectures = (props) => {
             </div> */}
             <Grid>
                 {
-                    state.assets.map(asset => (
-                        <Grid.Col key={asset.id} span={cardStyle}>
-                            <RecordedLectureCard data={asset}></RecordedLectureCard>
+                    state.rooms?.map(roomData => (
+                        <Grid.Col key={roomData._id} span={cardStyle}>
+                            <RecordedLectureCard
+                                data={roomData}
+                                handleViewRecording={handleViewRecording}
+                                showNoRecordingFound={state.showNoRecordingFound}
+                                apiCallInProgress={state.apiCallInProgress}
+                                cardKey={roomData._id}
+                                apiCallInProgressKey={state.apiCallInProgressKey}
+                            />
                         </Grid.Col>
                     ))
                 }

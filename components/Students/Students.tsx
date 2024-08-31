@@ -21,34 +21,34 @@ interface Teacher {
     branch: string;
 }
 
-const Teachers = () => {
-    const [teachers, setTeachers] = useState<Teacher[]>([]);
+const Students = () => {
+    const [students, setStudents] = useState<Teacher[]>([]);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        getTeachers();
+        getStudents();
     }, []);
 
-    const getTeachers = async () => {
+    const getStudents = async () => {
         try {
-            const { data } = await restClient.post(APIS.GET_TEACHERS, {});
+            const { data } = await restClient.post(APIS.GET_STUDENTS, {});
             if (data?.length) {
-                const formattedData: Teacher[] = data.map(teacher => ({
-                    firstName: teacher.firstName,
-                    lastName: teacher.lastName,
-                    email: teacher.email,
-                    phone: teacher.phone,
-                    address: teacher.address,
-                    pincode: teacher.pincode,
-                    city: teacher.city?.name || '',
-                    state: teacher.state?.name || '',
-                    country: teacher.country?.name || '',
-                    branch: teacher.branch?.name || ''
+                const formattedData: Teacher[] = data.map(student => ({
+                    firstName: student.firstName,
+                    lastName: student.lastName,
+                    email: student.email,
+                    phone: student.phone,
+                    address: student.address,
+                    pincode: student.pincode,
+                    city: student.city?.name || '',
+                    state: student.state?.name || '',
+                    country: student.country?.name || '',
+                    branch: student.branch?.name || ''
                 }));
-                setTeachers(formattedData);
+                setStudents(formattedData);
             }
         } catch (error) {
-            console.error('Error fetching teachers:', error);
+            console.error('Error fetching students:', error);
         }
     };
 
@@ -56,16 +56,16 @@ const Teachers = () => {
         try {
             const { data } = await restClient.post(APIS.UPDATE_TEACHER, teacherData);
             if (data) {
-                // Refresh the teachers list after update
-                getTeachers();
+                // Refresh the students list after update
+                getStudents();
             }
         } catch (error) {
-            console.error('Error updating teacher:', error);
+            console.error('Error updating student:', error);
         }
     };
 
-    const handleEditTeacher = (teacher) => {
-        dispatch(setAddTeacherModalState({ show: true, teacherData: teacher }));
+    const handleEditTeacher = (student) => {
+        dispatch(setAddTeacherModalState({ show: true, teacherData: student }));
     };
 
     const columns = [
@@ -90,15 +90,15 @@ const Teachers = () => {
 
     const menuItems = [
         { label: 'Edit', onClick: handleEditTeacher },
-        { label: 'Delete', onClick: (teacher) => console.log('Delete', teacher) },
-        { label: 'View Details', onClick: (teacher) => console.log('View Details', teacher) },
-        { label: 'Assign to Class', onClick: (teacher) => console.log('Assign to Class', teacher) },
+        { label: 'Delete', onClick: (student) => console.log('Delete', student) },
+        { label: 'View Details', onClick: (student) => console.log('View Details', student) },
+        { label: 'Assign to Class', onClick: (student) => console.log('Assign to Class', student) },
     ];
 
     return (
         <div>
             <TableWithSelection
-                rows={teachers}
+                rows={students}
                 columns={columns}
                 menuItems={menuItems}
                 updateItem={updateTeacher}
@@ -107,4 +107,4 @@ const Teachers = () => {
     );
 };
 
-export default Teachers;
+export default Students;

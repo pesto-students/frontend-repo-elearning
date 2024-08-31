@@ -1,5 +1,6 @@
 "use client"
-import { getLiveClassesAction, getRoomCodeByRoomIdAction, updateLiveClassByIdAction } from '@/app/dashboard/online-classes/page';
+import { getOnlineClassesApi } from '@/app/api/common';
+import { getOnlineClassesAction, getRoomCodeByRoomIdAction, updateLiveClassByIdAction } from '@/app/dashboard/online-classes/page';
 import { useAppDispatch, useAppSelector } from '@/app/lib/hooks';
 import { setActiveLiveClassFormData, setRoomsCodeData, setScheduleOnlineClassModal } from '@/app/lib/slice';
 import { APIS } from '@/constant';
@@ -12,11 +13,22 @@ const OnlineClasses = ({ rooms = { data: [] } }) => {
     const store = useAppSelector(state => state.store);
     const dispatch = useAppDispatch()
 
+    // useEffect(() => {
+    //     if (rooms?.data?.length) {
+    //         setRoomsData(rooms.data)
+    //     }
+    // }, [rooms])
+
     useEffect(() => {
-        if (rooms?.data?.length) {
-            setRoomsData(rooms.data)
+        getOnlineClasses()
+    }, [])
+
+    const getOnlineClasses = async () => {
+        const data = await getOnlineClassesApi()
+        if (data?.length) {
+            setRoomsData(data)
         }
-    }, [rooms])
+    }
 
     const cardStyle = useMatches({ sm: 1, md: 4, lg: 3 })
 
@@ -42,7 +54,7 @@ const OnlineClasses = ({ rooms = { data: [] } }) => {
 
     const handleDeleteLiveClass = async (roomId = '') => {
         updateLiveClassByIdAction(roomId, { enabled: false })
-        const response = await getLiveClassesAction()
+        const response = await getOnlineClassesAction()
         setRoomsData(response)
     }
 
