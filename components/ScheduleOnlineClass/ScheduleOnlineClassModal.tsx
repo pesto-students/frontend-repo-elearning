@@ -1,7 +1,7 @@
 'use client';
 import hms from '@/app/api/hms';
 import restClient from '@/app/api/restClient';
-import { getLiveClassesAction } from '@/app/dashboard/online-classes/page';
+import { getOnlineClassesAction } from '@/app/dashboard/online-classes/page';
 import { useAppDispatch, useAppSelector } from '@/app/lib/hooks';
 import { hideLoader, resetActiveLiveClassFormData, setLiveClassFormData, setScheduleOnlineClassModal, showLoader } from '@/app/lib/slice';
 import { APIS, SCHEMA_APIS } from '@/constant';
@@ -45,7 +45,7 @@ const ScheduleOnlineClass = () => {
         dispatch(setLiveClassFormData({ id: newRoomData.id, data: values }))
         dispatch(setScheduleOnlineClassModal({ show: false }))
         dispatch(resetActiveLiveClassFormData())
-        getLiveClassesAction()
+        getOnlineClassesAction()
     }
 
     const [onlineClassSchema, setOnlineClassSchema] = useState([])

@@ -27,9 +27,13 @@ export const getRecordingAssetByRoomId = async (roomId = '') => {
 }
 
 export const getRecordedLectureUrlAction = async (asset_id = '') => {
-    const apiUrl = "/recording-assets/" + asset_id + "/presigned-url"
-    const { data } = await hms.get(apiUrl)
-    return data
+    try {
+        const apiUrl = "/recording-assets/" + asset_id + "/presigned-url"
+        const { data } = await hms.get(apiUrl)
+        return data
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 export const getSessionsByRoomId = async (roomId = '') => {

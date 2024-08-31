@@ -11,6 +11,16 @@ const initialState = {
     addTeacherModalState: { show: false },
     addClassModalState: { show: false },
     addParentModalState: { show: false },
+    userData: {},
+    notificationBarState: { show: false, title: 'success', description: '', isError: null },
+    isLoading: false,
+    confirmationModal: {
+        isOpen: false,
+        title: '',
+        description: '',
+        onConfirm: null,
+    },
+    selectedRecordings: [],
     chatBotData:{loading: false, data: [], currentChatId:''},
     ChatHistoryData: []
 }
@@ -61,16 +71,41 @@ const storeSlice = createSlice({
         setChatHistoryList(state, action){
            state.ChatHistoryData = [...state.ChatHistoryData, ...action.payload]
         },
+        showLoader: (state) => {
+            state.isLoading = true;
+        },
+        hideLoader: (state) => {
+            state.isLoading = false;
+        },
+        showConfirmationModal: (state, action) => {
+            state.confirmationModal = {
+                isOpen: true,
+                ...action.payload,
+            };
+        },
+        hideConfirmationModal: (state) => {
+            state.confirmationModal = {
+                isOpen: false,
+                title: '',
+                description: '',
+                onConfirm: null,
+            };
+        },
+        setSelectedRecordings: (state, action) => {
+            state.selectedRecordings = action.payload
+        },
         updateChatHistory(state, action, id){
             const chatHistory = state.ChatHistoryData.filter((chatHistory) => chatHistory.id === id);
             chatHistory.data = {...chatHistory, data: action.payload}
-        }
-    
+      },
     },
 })
 
-export const { setLoginModal, setRoomsData, setLiveClassFormData, setRoomsCodeData, setScheduleLiveClassModal, setActiveLiveClassFormData, resetActiveLiveClassFormData,
-    setAddStudentModalState, setAddTeacherModalState, setAddClassModalState, setAddParentModalState, setChatBotData, setChatHistoryList } = storeSlice.actions
+
+export const { setLoginModal, setRoomsData, setLiveClassFormData, setRoomsCodeData, setScheduleOnlineClassModal, setActiveLiveClassFormData, resetActiveLiveClassFormData,
+    setAddStudentModalState, setAddTeacherModalState, setAddClassModalState, setAddParentModalState, setUserData, setNotificationBarState, showLoader, hideLoader, showConfirmationModal,
+    hideConfirmationModal, setSelectedRecordings,setChatBotData, setChatHistoryList } = storeSlice.actions
+
 export default storeSlice.reducer
 
 

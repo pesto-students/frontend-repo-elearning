@@ -1,10 +1,10 @@
 
-const LiveClassPage = (props) => {
+const OnlineClassPage = (props: {}) => {
     return (
         <div>
-            live class page, {JSON.stringify(props, null, 2)}
+            Online class page, {JSON.stringify(props, null, 2)}
         </div>
     );
 };
 
-export default LiveClassPage;
+export default OnlineClassPage;
