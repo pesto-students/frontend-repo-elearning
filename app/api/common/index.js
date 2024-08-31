@@ -1,10 +1,9 @@
 import { APIS } from "@/constant";
 import restClient from "../restClient";
 
-export const getOnlineClassesApi = async (payload) => {
-    console.log('APIS.FETCH_ONLINE_CLASS, payload', APIS.FETCH_ONLINE_CLASS, payload)
+export const getOnlineClassesApi = async (payload = {}) => {
     try {
-        const { data } = await restClient.post(APIS.FETCH_ONLINE_CLASS, {})
+        const { data } = await restClient.post(APIS.FETCH_ONLINE_CLASS, payload)
         return data
     } catch (error) {
         console.log(error)

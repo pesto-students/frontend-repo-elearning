@@ -1,6 +1,7 @@
 import { setAddClassModalState, setAddStudentModalState, setAddTeacherModalState } from '@/app/lib/slice';
 import { ScrollArea } from '@mantine/core';
 import {
+  IconAi,
   IconBrandYoutubeFilled,
   IconBriefcaseFilled,
   IconChartPieFilled,
@@ -46,7 +47,9 @@ const Navbar = (props) => {
     },
     { link: '/dashboard/online-classes', label: 'Online Classes', icon: IconBrandYoutubeFilled },
     { link: '/dashboard/questionnaire', label: 'Questionnaire', icon: IconFileStack },
-    { link: '/dashboard/recorded-classes', label: 'Recorded Lectures', icon: IconVideo },
+    { link: '/dashboard/ai-assistance', label: 'AI Assistance', icon: IconAi },
+
+    { link: '/dashboard/recorded-lectures', label: 'Recorded Lectures', icon: IconVideo },
     { link: '/dashboard/parents', label: 'Manage Parents', icon: IconUsers },
 
   ];
