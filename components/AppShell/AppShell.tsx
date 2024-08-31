@@ -12,6 +12,7 @@ import AppLogo from '../AppLogo/AppLogo';
 import ConfirmationModal from '../ConfirmationModal/ConfirmationModal';
 import { FooterMenu } from '../FooterMenu/FooterMenu';
 import { HeaderMenu } from '../HeaderMenu/HeaderMenu';
+import { LandingPage } from '../LandingPage/LandingPage';
 import LoginFormModal from '../LoginForm/LoginForm';
 import Navbar from '../Navbar/Navbar';
 import ScheduleOnlineClass from '../ScheduleOnlineClass/ScheduleOnlineClassModal';
@@ -50,7 +51,7 @@ export function AppShellLayout({ children }: { children: React.ReactNode }) {
 
     return (
         <HMSRoomProvider>
-            <AppShell
+            {isDashboard ? <AppShell
                 header={{ height: 60 }}
                 navbar={{
                     width: 235,
@@ -84,7 +85,7 @@ export function AppShellLayout({ children }: { children: React.ReactNode }) {
                 {store.addStudentModalState.show ? <AddStudentForm></AddStudentForm> : null}
                 {store.addClassModalState.show ? <AddClassForm></AddClassForm> : null}
                 {store.confirmationModal.isOpen ? <ConfirmationModal></ConfirmationModal> : null}
-            </AppShell>
+            </AppShell> : <LandingPage></LandingPage>}
         </HMSRoomProvider>
     );
 }
