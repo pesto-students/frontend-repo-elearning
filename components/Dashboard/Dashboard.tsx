@@ -1,6 +1,5 @@
 "use client"
 import { useAppDispatch, useAppSelector } from '@/app/lib/hooks';
-import withAuth from '@/app/lib/withAuth';
 import { Group, } from '@mantine/core';
 import { useRouter } from 'next/navigation';
 import { DashboardCards } from '../DashboardCards/DashboardCards';
@@ -20,4 +19,4 @@ const Dashboard = () => {
     );
 };
 
-export default withAuth(Dashboard);
+export default Dashboard;
