@@ -2,21 +2,25 @@
 import classNames from 'classnames';
 import ReactMarkdown from 'react-markdown';
 
-import { IdefaultMsgBody } from '@/constant/types';
 import style from '../style.module.css';
 
 enum UserType {
-  chatbot = 'chatbot',
+  model = 'model',
   user = 'user',
 }
 
-const ChatBox = ({ text, userType }: IdefaultMsgBody) => {
+interface IChatBox {
+  role: string;
+  text: string;
+}
+
+const ChatBox = ({ role, text }: IChatBox) => {
  
   return (
     <div
       className={classNames(
         style.chatBoxContainer,
-        userType === UserType.chatbot ? style.chatBoxLeft : style.chatBoxRight
+        role === UserType.model ? style.chatBoxLeft : style.chatBoxRight
       )}
     >
       <div className={style.chatBox}><ReactMarkdown>{text}</ReactMarkdown></div>

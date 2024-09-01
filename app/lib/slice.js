@@ -1,4 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit';
+
+
 
 const initialState = {
     loginModal: false,
@@ -23,9 +25,8 @@ const initialState = {
         onConfirm: null,
     },
     selectedClassForViewRecordings: [],
-    selectedRecordings: [],
-    chatBotData:{loading: false, data: [], currentChatId:''},
-    ChatHistoryData: []
+    chatBotData: { loading: false, data: [], chatId: '' },
+    ChatHistoryData: [] 
 }
 
 const storeSlice = createSlice({
@@ -69,11 +70,10 @@ const storeSlice = createSlice({
             state.addParentModalState = { ...state.addParentModalState, ...action.payload }
         },
         setChatBotData(state, action){
-           state.chatBotData = {...state.chatBotData, ...action.payload}
+           console.log(action.payload);
+           state.chatBotData = action.payload
         },
-        setChatHistoryList(state, action){
-           state.ChatHistoryData = [...state.ChatHistoryData, ...action.payload]
-        },
+
         showLoader: (state) => {
             state.isLoading = true;
         },
@@ -95,14 +95,22 @@ const storeSlice = createSlice({
             };
         },
         setSelectedClassForViewRecordings: (state, action) => {
+            
             state.selectedClassForViewRecordings = action.payload
         },
         setChatHistoryList(state, action) {
-            state.ChatHistoryData = [...state.ChatHistoryData, ...action.payload]
+            console.log(action.payload, 'chatListtt');
+            state.ChatHistoryData = [...state.ChatHistoryData, action.payload]
         },
-        updateChatHistory(state, action, id) {
-            const chatHistory = state.ChatHistoryData.filter((chatHistory) => chatHistory.id === id);
-            chatHistory.data = { ...chatHistory, data: action.payload }
+        updateChatHistory(state, action) {
+            const { data, id} = action.payload;
+            const chatHistoryIndex = state.ChatHistoryData.findIndex((chatHistory) => chatHistory.chatId === id);
+            console.log(id, data,chatHistoryIndex, 'what the fuck is wrong with you');
+
+            if(chatHistoryIndex !== -1){
+                state.ChatHistoryData[chatHistoryIndex] = { ...state.ChatHistoryData[chatHistoryIndex],data }
+            }
+            
         },
   
     },

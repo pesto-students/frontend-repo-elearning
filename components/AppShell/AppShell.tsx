@@ -58,13 +58,14 @@ export function AppShellLayout({ children }: { children: React.ReactNode }) {
                     breakpoint: 'sm',
                     collapsed: { mobile: !mobileOpened, desktop: !desktopOpened },
                 }}
+               
                 padding="md"
             >
                 <AppShell.Header bg='#C9CEF5'>
                     {isDashboard ? <HeaderMenuWithSideBar /> : <HeaderMenu />}
                 </AppShell.Header>
                 {isDashboard ?
-                    <AppShell.Navbar >
+                    <AppShell.Navbar  zIndex={10} >
                         <Navbar toggleDesktop={toggleDesktop} />
                     </AppShell.Navbar> : null
                 }
