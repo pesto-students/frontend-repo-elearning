@@ -1,5 +1,9 @@
 export function LandingPage(){
-    return <>
-    Test
-    </>
+    return (
+        <>
+        <h1 className="text-[red]">
+            Hii
+        </h1>
+        </>
+    );
 }

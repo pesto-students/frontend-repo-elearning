@@ -5,6 +5,7 @@ import '@mantine/core/styles.css';
 import '@mantine/dates/styles.css';
 import { Notifications } from '@mantine/notifications';
 import '@mantine/notifications/styles.css';
+import '../styles/globals.css';
 import { theme } from '../theme';
 import StoreProvider from './lib/storeprovider';
 
