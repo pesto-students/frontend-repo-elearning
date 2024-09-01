@@ -39,3 +39,13 @@ export function getRandomMantineColor() {
     const randomIndex = Math.floor(Math.random() * mantineColors.length);
     return mantineColors[randomIndex];
 }
+
+export const cleanChatData =  ( chatData) => {
+
+
+    return chatData.map((chat) => {
+        const chatCopy = { ...chat };
+        chatCopy['id'] = undefined;
+        return chatCopy; 
+    })
+}

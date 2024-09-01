@@ -14,6 +14,21 @@
   text-align: left;
 }
 
+.startChatMsg{
+    position: fixed;
+    top: 48%;
+    left: 55%;
+}
+
+.chatHistoryBox{
+    padding: 5px;
+    border-bottom: 1px solid lightgray ;
+    white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+
 .chatBox > p{
     font-size: 14px;
     margin: 0;

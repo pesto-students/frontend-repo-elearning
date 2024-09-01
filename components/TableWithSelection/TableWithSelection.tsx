@@ -48,9 +48,9 @@ function TableWithSelection<T extends { [key: string]: any }>({
       <Table.Tr
         key={index}
         className={classNames({ [classes.rowSelected]: selected })}
-        onClick={(e) => { 
+        onClick={(e) => {
           if (e.defaultPrevented) return; // Don't trigger if menu item was clicked
-          e.preventDefault(); 
+          e.preventDefault();
           rowClick && rowClick(item);
         }}
         style={{ cursor: rowClick ? 'pointer' : 'default' }}
@@ -72,7 +72,7 @@ function TableWithSelection<T extends { [key: string]: any }>({
             </Menu.Target>
             <Menu.Dropdown>
               {menuItems.map((menuItem, index) => (
-                <Menu.Item key={index} onClick={(e) => { 
+                <Menu.Item key={index} onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
                   menuItem.onClick && menuItem.onClick(item);
