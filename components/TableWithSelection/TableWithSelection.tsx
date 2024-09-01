@@ -48,10 +48,14 @@ function TableWithSelection<T extends { [key: string]: any }>({
       <Table.Tr
         key={index}
         className={classNames({ [classes.rowSelected]: selected })}
-        onClick={() => rowClick && rowClick(item)}
+        onClick={(e) => {
+          if (e.defaultPrevented) return; // Don't trigger if menu item was clicked
+          e.preventDefault();
+          rowClick && rowClick(item);
+        }}
         style={{ cursor: rowClick ? 'pointer' : 'default' }}
       >
-        <Table.Td>
+        <Table.Td onClick={(e) => e.stopPropagation()}>
           <Checkbox checked={selection.includes(index.toString())} onChange={() => toggleRow(index.toString())} />
         </Table.Td>
         {columns.map((column, columnIndex) => (
@@ -59,7 +63,7 @@ function TableWithSelection<T extends { [key: string]: any }>({
             {column.render ? column.render(item) : item[column.key]}
           </Table.Td>
         ))}
-        <Table.Td>
+        <Table.Td onClick={(e) => e.stopPropagation()}>
           <Menu shadow="md" width={200}>
             <Menu.Target>
               <ActionIcon variant="subtle">
@@ -68,7 +72,11 @@ function TableWithSelection<T extends { [key: string]: any }>({
             </Menu.Target>
             <Menu.Dropdown>
               {menuItems.map((menuItem, index) => (
-                <Menu.Item key={index} onClick={() => menuItem.onClick(item)}>
+                <Menu.Item key={index} onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  menuItem.onClick && menuItem.onClick(item);
+                }}>
                   {menuItem.label}
                 </Menu.Item>
               ))}
