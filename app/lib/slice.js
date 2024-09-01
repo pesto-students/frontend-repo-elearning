@@ -13,7 +13,6 @@ const initialState = {
     addTeacherModalState: { show: false },
     addClassModalState: { show: false },
     addParentModalState: { show: false },
-    chatBotData:{loading: false, data: [], currentChatId:''},
     userData: {},
     notificationBarState: { show: false, title: 'success', description: '', isError: null },
     isLoading: false,
@@ -24,7 +23,8 @@ const initialState = {
         onConfirm: null,
     },
     selectedClassForViewRecordings: [],
-    chatBotData: { loading: false, data: [], currentChatId: '' },
+    selectedRecordings: [],
+    chatBotData:{loading: false, data: [], currentChatId:''},
     ChatHistoryData: []
 }
 
