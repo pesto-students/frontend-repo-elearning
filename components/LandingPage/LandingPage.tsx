@@ -1,3 +1,4 @@
+import { ReactNode } from "react";
 import AboutSection from "./AboutSection";
 import CtaSection from "./CtaSection";
 import FeatureSection from "./Feature";
@@ -9,10 +10,15 @@ import './LandingPage.module.css';
 import PricingSection from "./PricingSection";
 import TestimonialSection from "./TestimonialSection";
 
-export function LandingPage() {
+interface LandingPageProps {
+  children: ReactNode;
+}
+
+const LandingPage: React.FC<LandingPageProps> = ({ children }) => {
   return (
     <>
       <div className="bg-gray-50">
+        {children}
         <Header></Header>
         <HeroSection></HeroSection>
         <FeatureSection></FeatureSection>
@@ -26,3 +32,5 @@ export function LandingPage() {
     </>
   );
 }
+
+export default LandingPage;

@@ -13,7 +13,7 @@ import AppLogo from '../AppLogo/AppLogo';
 import ConfirmationModal from '../ConfirmationModal/ConfirmationModal';
 import { FooterMenu } from '../FooterMenu/FooterMenu';
 import { HeaderMenu } from '../HeaderMenu/HeaderMenu';
-import { LandingPage } from '../LandingPage/LandingPage';
+import LandingPage from '../LandingPage/LandingPage';
 import LoginFormModal from '../LoginForm/LoginForm';
 import Navbar from '../Navbar/Navbar';
 import AddParentForm from '../Parents/AddParentForm/AddParentForm';
@@ -89,7 +89,7 @@ export function AppShellLayout({ children }: { children: React.ReactNode }) {
                 {store.confirmationModal.isOpen ? <ConfirmationModal></ConfirmationModal> : null}
                 {store.isLoading && <AppLoader></AppLoader>}
                 {store.addParentModalState.show ? <AddParentForm></AddParentForm> : null}
-            </AppShell> : <LandingPage></LandingPage>}
+            </AppShell> : <LandingPage>{store.loginModalState.show && <LoginFormModal></LoginFormModal>}</LandingPage>}
         </HMSRoomProvider>
     );
 }
