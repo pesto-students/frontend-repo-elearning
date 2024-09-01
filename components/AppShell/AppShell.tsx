@@ -15,6 +15,7 @@ import { FooterMenu } from '../FooterMenu/FooterMenu';
 import { HeaderMenu } from '../HeaderMenu/HeaderMenu';
 import LoginFormModal from '../LoginForm/LoginForm';
 import Navbar from '../Navbar/Navbar';
+import AddParentForm from '../Parents/AddParentForm/AddParentForm';
 import ScheduleOnlineClass from '../ScheduleOnlineClass/ScheduleOnlineClassModal';
 
 export function AppShellLayout({ children }: { children: React.ReactNode }) {
@@ -86,6 +87,7 @@ export function AppShellLayout({ children }: { children: React.ReactNode }) {
                 {store.addClassModalState.show ? <AddClassForm></AddClassForm> : null}
                 {store.confirmationModal.isOpen ? <ConfirmationModal></ConfirmationModal> : null}
                 {store.isLoading && <AppLoader></AppLoader>}
+                {store.addParentModalState.show ? <AddParentForm></AddParentForm> : null}
             </AppShell>
         </HMSRoomProvider>
     );

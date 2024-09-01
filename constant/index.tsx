@@ -42,6 +42,7 @@ export const SCHEMA_APIS = {
     ONLINE_CLASS: "/api/schema/OnlineClass",
     SCHEMA_BY_SERVICE: '/api/schema/:service',
     CREATE_ORGANIZATION: "/api/organization/create",
+    PARENT: '/api/schema/Parent'
 }
 
 export const ORGANIZATION_TYPE = [
