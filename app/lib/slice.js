@@ -21,8 +21,9 @@ const initialState = {
         onConfirm: null,
     },
     selectedClassForViewRecordings: [],
-    chatBotData: { loading: false, data: [], currentChatId: '' },
+    chatBotData: { loading: false, data: [], chatId: '' },
     ChatHistoryData: []
+
 }
 
 const storeSlice = createSlice({
@@ -97,16 +98,23 @@ const storeSlice = createSlice({
         setChatHistoryList(state, action) {
             state.ChatHistoryData = [...state.ChatHistoryData, ...action.payload]
         },
-        updateChatHistory(state, action, id) {
-            const chatHistory = state.ChatHistoryData.filter((chatHistory) => chatHistory.id === id);
-            chatHistory.data = { ...chatHistory, data: action.payload }
+        updateChatHistory(state, action ) {
+            const { data, id } = action.payload;
+            const chatHistoryIndex = state.ChatHistoryData.findIndex((chatHistory) => chatHistory.chatId === id);
+            if (chatHistoryIndex !== -1) {
+                state.ChatHistoryData[chatHistoryIndex] = { ...state.ChatHistoryData[chatHistoryIndex], data }
+            }
+
+        },
+        setChatBotData(state, action) {
+            state.chatBotData = action.payload
         },
     },
 })
 
 export const { setLoginModal, setRoomsData, setLiveClassFormData, setRoomsCodeData, setScheduleOnlineClassModal, setActiveLiveClassFormData, resetActiveLiveClassFormData,
     setAddStudentModalState, setAddTeacherModalState, setAddClassModalState, setAddParentModalState, setUserData, setNotificationBarState, showLoader, hideLoader, showConfirmationModal,
-    hideConfirmationModal, setSelectedClassForViewRecordings, setChatBotData, setChatHistoryList } = storeSlice.actions
+    hideConfirmationModal, setSelectedClassForViewRecordings, setChatBotData, setChatHistoryList, updateChatHistory } = storeSlice.actions
 export default storeSlice.reducer
 
 

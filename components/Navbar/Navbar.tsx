@@ -20,7 +20,7 @@ import { useDispatch } from 'react-redux';
 import { LinksGroup } from './NavbarLinks';
 import classes from './style.module.css';
 
-const Navbar = (props) => {
+const Navbar = () => {
   const router = useRouter()
   const dispatch = useDispatch()
 
@@ -46,10 +46,10 @@ const Navbar = (props) => {
       { label: 'Add Classes', icon: <IconCirclePlusFilled />, onClick: () => { dispatch(setAddClassModalState({ show: true })) } }]
     },
     { link: '/dashboard/online-classes', label: 'Online Classes', icon: IconBrandYoutubeFilled },
-    { link: '/dashboard/questionnaire', label: 'Questionnaire', icon: IconFileStack },
+    { link: '/dashboard/questionnaire/create-questions', label: 'Questionnaire', icon: IconFileStack },
     { link: '/dashboard/ai-assistance', label: 'AI Assistance', icon: IconAi },
 
-    { link: '/dashboard/recorded-lectures', label: 'Recorded Lectures', icon: IconVideo },
+    { link: '/dashboard/recorded-classes', label: 'Recorded Lectures', icon: IconVideo },
     { link: '/dashboard/parents', label: 'Manage Parents', icon: IconUsers },
 
   ];

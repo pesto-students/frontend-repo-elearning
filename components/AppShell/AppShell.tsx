@@ -65,7 +65,7 @@ export function AppShellLayout({ children }: { children: React.ReactNode }) {
                     {isDashboard ? <HeaderMenuWithSideBar /> : <HeaderMenu />}
                 </AppShell.Header>
                 {isDashboard ?
-                    <AppShell.Navbar >
+                    <AppShell.Navbar   >
                         <Navbar toggleDesktop={toggleDesktop} />
                     </AppShell.Navbar> : null
                 }

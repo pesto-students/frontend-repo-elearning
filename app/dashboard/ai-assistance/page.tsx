@@ -1,11 +1,13 @@
 import geminiClient from "@/app/api/gemini";
 import AiAssistance from "@/components/AiAssistance";
 import { APIS } from "@/constant";
+import { IdefaultMsgBody } from "@/constant/types";
 
 
-export const handleChat = async (data: string) => {
+export const handleChat = async (msg: string, history: [IdefaultMsgBody]) => {
     try {
-        const res = await geminiClient.get(`${APIS.CHAT_BOT}?prompt=${data}`)
+        const reqBody = {msg, history}
+        const res = await geminiClient.post(APIS.CHAT_BOT, reqBody);
         return res.data.data
     } catch (error) {
         console.log(error)
@@ -13,5 +15,5 @@ export const handleChat = async (data: string) => {
 }
 
 export default async function Page() {
-    return <AiAssistance /> 
+    return <AiAssistance /> ;
 }
