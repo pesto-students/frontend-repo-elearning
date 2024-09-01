@@ -49,7 +49,7 @@ const Navbar = (props) => {
     { link: '/dashboard/questionnaire', label: 'Questionnaire', icon: IconFileStack },
     { link: '/dashboard/ai-assistance', label: 'AI Assistance', icon: IconAi },
 
-    { link: '/dashboard/recorded-lectures', label: 'Recorded Lectures', icon: IconVideo },
+    { link: '/dashboard/recorded-classes', label: 'Recorded Lectures', icon: IconVideo },
     { link: '/dashboard/parents', label: 'Manage Parents', icon: IconUsers },
 
   ];
