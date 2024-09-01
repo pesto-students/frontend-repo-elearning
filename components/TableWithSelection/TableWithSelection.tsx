@@ -4,9 +4,10 @@ import classNames from 'classnames';
 import { useState } from 'react';
 import classes from './TableWithSelection.module.css';
 
-interface Column {
+interface Column<T> {
   key: string;
   label: string;
+  render?: (item: T) => React.ReactNode;
 }
 
 interface MenuItem {
@@ -14,14 +15,23 @@ interface MenuItem {
   onClick: (item: any) => void;
 }
 
-interface TableWithSelectionProps {
-  rows: any[];
-  columns: Column[];
+interface TableWithSelectionProps<T> {
+  rows: T[];
+  columns: Column<T>[];
   menuItems: MenuItem[];
-  updateItem: (item: any) => void;
+  updateItem: (item: T) => void;
+  autoWidth?: boolean;
+  rowClick?: (item: T) => void;
 }
 
-function TableWithSelection({ rows, columns, menuItems, updateItem }: TableWithSelectionProps) {
+function TableWithSelection<T extends { [key: string]: any }>({
+  rows,
+  columns,
+  menuItems,
+  updateItem,
+  autoWidth,
+  rowClick
+}: TableWithSelectionProps<T>) {
   const [selection, setSelection] = useState<string[]>([]);
 
   const toggleRow = (id: string) =>
@@ -35,13 +45,18 @@ function TableWithSelection({ rows, columns, menuItems, updateItem }: TableWithS
   const tableRows = rows.map((item, index) => {
     const selected = selection.includes(index.toString());
     return (
-      <Table.Tr key={index} className={classNames({ [classes.rowSelected]: selected })}>
+      <Table.Tr
+        key={index}
+        className={classNames({ [classes.rowSelected]: selected })}
+        onClick={() => rowClick && rowClick(item)}
+        style={{ cursor: rowClick ? 'pointer' : 'default' }}
+      >
         <Table.Td>
           <Checkbox checked={selection.includes(index.toString())} onChange={() => toggleRow(index.toString())} />
         </Table.Td>
         {columns.map((column, columnIndex) => (
-          <Table.Td key={column.key + "-" + columnIndex} width={'100%'}>
-            {column.render?.(item) || item[column.key]}
+          <Table.Td key={column.key + "-" + columnIndex} width={autoWidth ? 'auto' : '100%'}>
+            {column.render ? column.render(item) : item[column.key]}
           </Table.Td>
         ))}
         <Table.Td>
