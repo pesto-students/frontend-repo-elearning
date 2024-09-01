@@ -2,7 +2,8 @@
 import restClient from "@/app/api/restClient";
 import { APIS } from "@/constant";
 import { getRandomMantineColor } from "@/constant/utils";
-import { Avatar, Badge, Button, Card, Grid, Group, Text, useMatches } from "@mantine/core";
+import { Avatar, Badge, Button, Card, Grid, Group, Paper, Text } from "@mantine/core";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import TableWithSelection from '../TableWithSelection/TableWithSelection';
 
@@ -30,31 +31,37 @@ interface ClassObject {
 const Classes = () => {
     const [classes, setClasses] = useState<ClassObject[]>([]);
     const [selectedClass, setSelectedClass] = useState<ClassObject | null>(null);
+    const router = useRouter();
+    const { classId } = useParams();  // Get classId from the URL
 
     useEffect(() => {
-        getClasses()
-    }, [])
+        getClasses();
+    }, []);
+
+    useEffect(() => {
+        if (classId) {
+            const matchedClass = classes.find(c => c._id === classId);
+            setSelectedClass(matchedClass || null);  // Automatically select class if classId is present
+        }
+    }, [classId, classes]);
 
     const getClasses = async () => {
-        const { data } = await restClient.post<ClassObject[]>(APIS.GET_CLASSES, {})
+        const { data } = await restClient.post<ClassObject[]>(APIS.GET_CLASSES, {});
         if (data?.length) {
-            setClasses(data)
+            setClasses(data);
         }
-    }
-    const colSpan = useMatches({ sm: 1, md: 1, lg: 2 }) as number
-
-    const handleViewDetails = (classObj: ClassObject) => {
-        setSelectedClass(classObj);
     };
+
+    const colSpan = 2; // Adjust based on your grid requirements
 
     const teacherColumns = [
         {
             key: 'firstName', label: 'Name', render: (data = { firstName: '', lastName: '' }) => {
-                const { firstName, lastName } = data
+                const { firstName, lastName } = data;
                 return <Group gap={"sm"}>
                     <Avatar size={"sm"} color={getRandomMantineColor()}>{firstName.charAt(0) + lastName.charAt(0)}</Avatar>
                     <Text size="sm" fw={500}>{data.firstName + " " + data.lastName}</Text>
-                </Group>
+                </Group>;
             }
         },
         { key: 'email', label: 'Email' },
@@ -64,70 +71,76 @@ const Classes = () => {
     const studentColumns = [
         {
             key: 'firstName', label: 'Name', render: (data = { firstName: '', lastName: '' }) => {
-                const { firstName, lastName } = data
+                const { firstName, lastName } = data;
                 return <Group gap={"sm"}>
                     <Avatar size={"sm"} color={getRandomMantineColor()}>{firstName.charAt(0) + lastName.charAt(0)}</Avatar>
                     <Text size="sm" fw={500}>{data.firstName + " " + data.lastName}</Text>
-                </Group>
+                </Group>;
             }
         },
         { key: 'email', label: 'Email' },
         { key: 'phone', label: 'Phone' },
     ];
 
-    const menuItems = [
-        { label: 'Edit', onClick: (item: Teacher | Student) => console.log('Edit', item) },
-        { label: 'Delete', onClick: (item: Teacher | Student) => console.log('Delete', item) },
-    ];
-
     return (
         <div>
-            <Text size="xl" fw={700} mb="md">Class List</Text>
-            <Grid>
-                {
-                    classes.map((classObj, classObjIndex) => (
-                        <Grid.Col span={colSpan} key={classObj._id + "-" + classObjIndex}>
-                            <ClassCard
-                                data={classObj}
-                                handleViewDetails={() => handleViewDetails(classObj)}
-                            />
-                        </Grid.Col>
-                    ))
-                }
-            </Grid>
-
-            {selectedClass && (
+            {!classId ? (
                 <>
-                    {selectedClass.teachers?.length &&
-                        <>
-                            <Text size="lg" fw={600} mt="xl" mb="md">
-                                {selectedClass.className} - Teachers
-                            </Text>
-                            <TableWithSelection
-                                rows={selectedClass.teachers}
-                                columns={teacherColumns}
-                                menuItems={menuItems}
-                                updateItem={() => { }}
-                                autoWidth={true}
-                            />
-                        </>
-                    }
-
-                    {selectedClass.students?.length &&
-                        <>
-                            <Text size="lg" fw={600} mt="xl" mb="md">
-                                {selectedClass.className} - Students
-                            </Text>
-                            <TableWithSelection
-                                rows={selectedClass.students}
-                                columns={studentColumns}
-                                menuItems={menuItems}
-                                updateItem={() => { }}
-                                autoWidth={true}
-                            />
-                        </>
-                    }
+                    <Text size="xl" fw={700} mb="md">Class List</Text>
+                    <Grid>
+                        {classes.map((classObj, classObjIndex) => (
+                            <Grid.Col span={colSpan} key={classObj._id + "-" + classObjIndex}>
+                                <ClassCard
+                                    data={classObj}
+                                    handleViewDetails={() => router.push(`/dashboard/classes/${classObj._id}`)}
+                                />
+                            </Grid.Col>
+                        ))}
+                    </Grid>
                 </>
+            ) : (
+                selectedClass && (
+                    <>
+                        <Paper p="md" withBorder>
+                            <Group >
+                                {/* <Grid key={selectedClass._id} span={6}> */}
+                                {/* <Stack spacing="xs"> */}
+                                <Text>Class: </Text>
+                                <Text fw={700} size="sm" c="dimmed">{selectedClass.className}</Text>
+                                {/* <Text>{detail.value}</Text> */}
+                                {/* </Stack> */}
+                                {/* </Grid> */}
+                            </Group>
+                        </Paper>
+                        {selectedClass.teachers?.length && (
+                            <>
+                                <Text size="lg" fw={600} mt="xl" mb="md">
+                                    {selectedClass.className} - Teachers
+                                </Text>
+                                <TableWithSelection
+                                    rows={selectedClass.teachers}
+                                    columns={teacherColumns}
+                                    autoWidth={true}
+                                    rowClick={(teacher) => router.push(`/dashboard/teachers/${teacher._id}`)}
+                                />
+                            </>
+                        )}
+
+                        {selectedClass.students?.length && (
+                            <>
+                                <Text size="lg" fw={600} mt="xl" mb="md">
+                                    {selectedClass.className} - Students
+                                </Text>
+                                <TableWithSelection
+                                    rows={selectedClass.students}
+                                    columns={studentColumns}
+                                    autoWidth={true}
+                                    rowClick={(student) => router.push(`/dashboard/students/${student._id}`)}
+                                />
+                            </>
+                        )}
+                    </>
+                )
             )}
         </div>
     );
