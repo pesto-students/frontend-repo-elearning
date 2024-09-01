@@ -8,6 +8,7 @@ import React, { useState } from 'react';
 import AddClassForm from '../AddClassForm/AddClassForm';
 import AddStudentForm from '../AddStudentForm/AddStudentForm';
 import AddTeacherForm from '../AddTeacherForm/AddTeacherForm';
+import AppLoader from '../AppLoader/AppLoader';
 import AppLogo from '../AppLogo/AppLogo';
 import ConfirmationModal from '../ConfirmationModal/ConfirmationModal';
 import { FooterMenu } from '../FooterMenu/FooterMenu';
@@ -53,7 +54,7 @@ export function AppShellLayout({ children }: { children: React.ReactNode }) {
             <AppShell
                 header={{ height: 60 }}
                 navbar={{
-                    width: 235,
+                    width: 250,
                     breakpoint: 'sm',
                     collapsed: { mobile: !mobileOpened, desktop: !desktopOpened },
                 }}
@@ -69,7 +70,7 @@ export function AppShellLayout({ children }: { children: React.ReactNode }) {
                 }
                 <AppShell.Main
                     style={{
-                        paddingLeft: isDashboard && desktopOpened ? 235 : 24,
+                        paddingLeft: isDashboard && desktopOpened ? 250 : 24,
                         paddingBottom: 94
                     }}
                 >
@@ -84,6 +85,7 @@ export function AppShellLayout({ children }: { children: React.ReactNode }) {
                 {store.addStudentModalState.show ? <AddStudentForm></AddStudentForm> : null}
                 {store.addClassModalState.show ? <AddClassForm></AddClassForm> : null}
                 {store.confirmationModal.isOpen ? <ConfirmationModal></ConfirmationModal> : null}
+                {store.isLoading && <AppLoader></AppLoader>}
             </AppShell>
         </HMSRoomProvider>
     );

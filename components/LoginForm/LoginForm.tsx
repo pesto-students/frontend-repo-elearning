@@ -18,10 +18,18 @@ import {
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { upperFirst, useDisclosure, useLocalStorage, useToggle } from '@mantine/hooks';
+import { notifications } from '@mantine/notifications';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { SCHEMA_APIS } from '../../constant/index';
 import DynamicForm from '../common/DynamicForm/DynamicForm';
+
+interface FormValues {
+    email: string;
+    name: string;
+    password: string;
+    terms: boolean;
+}
 
 const LoginFormModal = (props: PaperProps) => {
     const [type, toggle] = useToggle(['login', 'register']);
@@ -30,9 +38,9 @@ const LoginFormModal = (props: PaperProps) => {
     const store = useAppSelector(state => state.store)
     const [, { close }] = useDisclosure(false);
 
-    const [schemas, setSchemas] = useState({ organization: [] })
+    const [schemas, setSchemas] = useState<{ organization: any[] }>({ organization: [] })
 
-    const [userData, setUserData] = useLocalStorage({ key: 'accessToken', defaultValue: null });
+    const [, setAccessToken] = useLocalStorage({ key: 'accessToken', defaultValue: null });
 
     useEffect(() => {
         getOrganizationSchema()
@@ -45,28 +53,49 @@ const LoginFormModal = (props: PaperProps) => {
         }
     }
 
-    const form = useForm({
-        initialValues: type === 'register' ? schemas.organization : {
+    const form = useForm<FormValues>({
+        initialValues: type === 'register' ? {
+            email: '',
+            name: '',
+            password: '',
+            terms: true,
+        } : {
             email: '',
             name: '',
             password: '',
             terms: true,
         },
         validate: {
-            email: (val) => (/^\S+@\S+$/.test(val) ? null : 'Invalid email'),
-            password: (val) => (val.length <= 2 ? 'Password should include at least 6 characters' : null),
+            email: (val: string) => (/^\S+@\S+$/.test(val) ? null : 'Invalid email'),
+            password: (val: string) => (val.length <= 2 ? 'Password should include at least 6 characters' : null),
         },
     });
 
-    const handleLogin = async () => {
-        const { email, password } = form.values;
-        const { data } = await restClient.post(APIS.USER_LOGIN, { username: email, password });
-        if (data.accessToken) {
-            setUserData(data.accessToken);
-        } else {
-            console.log("Login res: ", data);
+    const handleLogin = async (values: { email: string; password: string }) => {
+        try {
+            const { email, password } = values;
+            const { data } = await restClient.post(APIS.USER_LOGIN, { username: email, password });
+            if (data.accessToken) {
+                document.cookie = `token=${data.accessToken}; path=/; secure; HttpOnly`;
+                setAccessToken(data.accessToken);
+                dispatch(setLoginModal({ show: false }));
+                router.push('/dashboard');
+                notifications.show({
+                    title: 'Success',
+                    message: 'Logged in successfully',
+                    color: 'green',
+                });
+            } else {
+                throw new Error('Invalid credentials');
+            }
+        } catch (error) {
+            console.error("Login error:", error);
+            notifications.show({
+                title: 'Error',
+                message: error instanceof Error ? error.message : 'An unexpected error occurred',
+                color: 'red',
+            });
         }
-
     }
 
     return (
@@ -75,19 +104,6 @@ const LoginFormModal = (props: PaperProps) => {
                 <Text size="lg" fw={500}>
                     Welcome to eLearning, {type} with
                 </Text>
-
-                {/* <Group grow mb="md" mt="md"> */}
-                {/* <GoogleButton radius="xl">Google</GoogleButton> */}
-                {/* <Button leftSection={<IconBrandGoogle></IconBrandGoogle>} radius={"xl"} variant='outline'>
-                        Google
-                    </Button>
-                    <Button leftSection={<IconBrandTwitter ></IconBrandTwitter>} radius={"xl"}>
-                        Twitter
-                    </Button>
-                </Group>
-
-                <Divider label="Or continue with email" labelPosition="center" my="lg" /> */}
-
 
                 <Stack>
                     {type === 'register' ? (
@@ -101,7 +117,6 @@ const LoginFormModal = (props: PaperProps) => {
                                     <>
                                         <Checkbox
                                             label="I accept terms and conditions"
-                                            key={form.key('terms')}
                                             {...form.getInputProps('terms')}
                                         />
                                         <Group justify="space-between" mt="md">
@@ -117,7 +132,7 @@ const LoginFormModal = (props: PaperProps) => {
                             />
                         </>
                     ) :
-                        <form onSubmit={form.onSubmit(() => { dispatch(setLoginModal({ show: false })); router.push('/dashboard') })}>
+                        <form onSubmit={form.onSubmit((values) => { handleLogin(values) })}>
                             <TextInput
                                 required
                                 label="Email"
@@ -143,7 +158,7 @@ const LoginFormModal = (props: PaperProps) => {
                                         ? 'Already have an account? Login'
                                         : "Don't have an account? Register"}
                                 </Anchor>
-                                <Button type="submit" radius="xl" onClick={handleLogin}>
+                                <Button type="submit" radius="xl">
                                     {upperFirst(type)}
                                 </Button>
                             </Group>
