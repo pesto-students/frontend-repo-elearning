@@ -4,18 +4,19 @@ import { handleChat } from '@/app/dashboard/ai-assistance/page';
 import { useAppSelector } from '@/app/lib/hooks';
 import { setChatBotData } from '@/app/lib/slice';
 import typingAnimation from '@/app/public/typingAnimation.json';
-import { IdefaultMsgBody } from '@/constant/types';
+import { cleanChatData } from '@/constant/utils';
 import { Button, Container, Flex, Textarea } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { IconSend2 } from '@tabler/icons-react';
 import Lottie from 'react-lottie';
 import { useDispatch } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';
 import style from '../style.module.css';
 import ChatBox from './Chatbox';
 
 const defaultMsgBody = {
-  text: '',
-  userType: 'user',
+  parts: [{ text: "" }],
+  role: 'user',
 };
 
 const ChatContainer = () => {
@@ -26,9 +27,8 @@ const ChatContainer = () => {
   });
   const dispatch = useDispatch();
   const { store } = useAppSelector((state) => state);
-  let { chatBotData: {data, loading} } = store;
+  let { chatBotData: {data: chatData, chatId ,loading} } = store;
   const { chat } = form.getValues();
-  
   const option ={
     loop: true,
     autoplay: true, 
@@ -39,31 +39,31 @@ const ChatContainer = () => {
   }
 
   const handleSubmit = async () => {
-    const msgBody = {...defaultMsgBody, text: chat }
-    data = [...data, msgBody] 
-    dispatch(setChatBotData(  {data: data, loading: true}));
+    const msgBody = {...defaultMsgBody, parts: [{text: chat}], id: uuidv4() }
+    const updatedData = [...chatData, msgBody] 
+    dispatch(setChatBotData(  {chatId , data: updatedData, loading: true}));
     form.setFieldValue('chat', '');
-    const res = await handleChat(msgBody.text);
-    dispatch(setChatBotData( {data: [...data, res], loading: false} ))
+    const res = await handleChat(msgBody.parts[0].text, cleanChatData(chatData) as never);
+    dispatch(setChatBotData( {chatId, data: [...updatedData, res], loading: false} ))
   };
-  console.log(data, 'chatBotData')
+  console.log(chatData, chatId, 'chatBotData')
 
   return (
     <main>
-      <h1>Chat</h1>
-      <Container mah="60vh" mih="60vh" className={style.chatContainer}>
-        {data.map((chat) => {
-          return <ChatBox key={chat.text} {...chat as IdefaultMsgBody} />;
+      <h1>Ai Assistant</h1>
+      <Container p="0" mah="70vh" mih="70vh" className={style.chatContainer}>
+        {!chatId ? <h1 className={style.startChatMsg}>Start Chat</h1> : chatData.map((chat) => {
+          return <ChatBox key={chat.id} role={chat.role} text={chat.parts[0].text} />;
         })}
         { loading? <Lottie height={50}
               width={50} options={option}/> : null}
       </Container>
-      <Flex direction="row" align="center" gap="sm">
-        <Textarea {...form.getInputProps('chat')} resize="none" h="auto" w="90%" />
+      {chatId && <Flex direction="row" align="center" gap="sm">
+        <Textarea placeholder='Please type your query here...' {...form.getInputProps('chat')} resize="none" h="auto" w="90%" />
         <Button onClick={handleSubmit}>
           <IconSend2 />
         </Button>
-      </Flex>
+      </Flex>}
     </main>
   );
 };

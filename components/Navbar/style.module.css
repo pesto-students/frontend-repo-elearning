@@ -5,6 +5,7 @@
     padding: var(--mantine-spacing-md);
     padding-bottom: 0;
     display: flex;
+    z-index: 10;
     flex-direction: column;
     border-right: rem(1px) solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
   }
