@@ -33,7 +33,7 @@ const handleError = (error: any, context: string) => {
 };
 
 // Use for GET requests with React Query's useQuery
-export const useFetchData = (key: string | string[], apiProps: ApiRequestProps) => {
+export const useFetchData = (key: string | string[], apiProps: ApiRequestProps, options = {}) => {
   const dispatch = useAppDispatch();
 
   return useQuery({
@@ -54,6 +54,11 @@ export const useFetchData = (key: string | string[], apiProps: ApiRequestProps) 
       dispatch(hideLoader());
     },
     retry: false, // Disable retrying failed requests, or customize retry logic
+    staleTime: 5 * 60 * 1000, // Data is considered fresh for 5 minutes
+    cacheTime: 10 * 60 * 1000, // Cache data for 10 minutes
+    refetchOnWindowFocus: false,
+    ...options, // Allow overriding options,
+    refetchOnMount: false,
   });
 };
 
