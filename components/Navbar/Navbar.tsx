@@ -37,7 +37,7 @@ const Navbar = () => {
     {
       link: '', label: 'Manage Students', icon: IconIdBadge2, options: [{ label: 'Students', icon: <IconEyeFilled />, onClick: () => { router.push("/dashboard/students") } }, {
         label: 'Add Student', icon: <IconCirclePlusFilled />, onClick: () => {
-          dispatch(setAddStudentModalState({ show: true }))
+          dispatch(setAddStudentModalState({ show: true, studentData: null, isEdit: false, makeRequest: null }))
         }
       }]
     },
