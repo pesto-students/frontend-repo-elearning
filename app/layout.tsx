@@ -6,6 +6,7 @@ import '@mantine/dates/styles.css';
 import { Notifications } from '@mantine/notifications';
 import '@mantine/notifications/styles.css';
 import { QueryClient } from '@tanstack/react-query';
+import '../styles/globals.css';
 import { theme } from '../theme';
 import { ClientQueryProvider } from './lib/reactQueryProvider';
 import StoreProvider from './lib/storeprovider';

@@ -30,7 +30,6 @@ const ScheduleLiveClass = () => {
     }
 
     const handleScheduleLiveClassFormSubmit = async (values: { name: string, liveClassDescription: string, id: string }) => {
-        console.log(values)
         const { name = '', liveClassDescription = '', id = '' } = values
         const { data: newRoomData } = await hms.post(APIS.ROOMS, {
             name: name,

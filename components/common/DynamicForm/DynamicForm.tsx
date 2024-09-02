@@ -14,11 +14,13 @@ interface DynamicFormProps {
     ],
     formSubmit: () => void,
     formSubmitButtonJsx: any
+    formValues: any;
+    isEdit: boolean;
 }
 
 const DynamicForm = (props: DynamicFormProps) => {
-    const { formData, formSubmit, formSubmitButtonJsx } = props
-    const formHook = useForm({ initialValues: {} })
+    const { formData, formSubmit, formSubmitButtonJsx, formValues, isEdit } = props
+    const formHook = useForm({ initialValues: isEdit ? formValues : {} })
     return (
         <div>
             <form onSubmit={formHook.onSubmit(formSubmit)}>

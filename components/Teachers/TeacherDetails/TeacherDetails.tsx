@@ -1,9 +1,10 @@
 'use client'
 import { useFetchData } from '@/app/api/queryApiData';
 import { useAppSelector } from '@/app/lib/hooks';
+import ViewDetails from '@/components/ViewDetails/ViewDetails';
 import { APIS } from '@/constant';
 import { getRandomMantineColor } from '@/constant/utils';
-import { Avatar, Grid, Group, Paper, Skeleton, Stack, Text } from '@mantine/core';
+import { Avatar, Group, Skeleton, Text } from '@mantine/core';
 import { useParams, useRouter } from 'next/navigation';
 import TableWithSelection from '../../TableWithSelection/TableWithSelection';
 
@@ -61,18 +62,7 @@ const TeacherDetails = () => {
 
     return (
         <>
-            <Paper p="md" withBorder>
-                <Grid gutter="md">
-                    {details.map((detail, index) => (
-                        <Grid.Col key={index} span={6}>
-                            <Stack spacing="xs">
-                                <Text fw={700} size="sm" c="dimmed">{detail.label}</Text>
-                                <Text>{detail.value}</Text>
-                            </Stack>
-                        </Grid.Col>
-                    ))}
-                </Grid>
-            </Paper>
+            <ViewDetails details={details} />
             {teacher.classes?.length > 0 && (
                 <>
                     <Text size="lg" fw={600} mt="xl" mb="md">
