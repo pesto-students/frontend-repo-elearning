@@ -18,10 +18,11 @@ interface MenuItem {
 interface TableWithSelectionProps<T> {
   rows: T[];
   columns: Column<T>[];
-  menuItems: MenuItem[];
-  updateItem: (item: T) => void;
+  menuItems?: MenuItem[];
+  updateItem?: (item: T) => void;
   autoWidth?: boolean;
   rowClick?: (item: T) => void;
+  noCheckbox?: boolean;
 }
 
 function TableWithSelection<T extends { [key: string]: any }>({
@@ -30,10 +31,11 @@ function TableWithSelection<T extends { [key: string]: any }>({
   menuItems,
   updateItem,
   autoWidth,
-  rowClick
+  rowClick,
+  noCheckbox
 }: TableWithSelectionProps<T>) {
   const [selection, setSelection] = useState<string[]>([]);
-
+  console.log(rows);
   const toggleRow = (id: string) =>
     setSelection((current) =>
       current.includes(id) ? current.filter((item) => item !== id) : [...current, id]
@@ -55,15 +57,15 @@ function TableWithSelection<T extends { [key: string]: any }>({
         }}
         style={{ cursor: rowClick ? 'pointer' : 'default' }}
       >
-        <Table.Td onClick={(e) => e.stopPropagation()}>
+        {noCheckbox ? null : <Table.Td onClick={(e) => e.stopPropagation()}>
           <Checkbox checked={selection.includes(index.toString())} onChange={() => toggleRow(index.toString())} />
-        </Table.Td>
+        </Table.Td>}
         {columns.map((column, columnIndex) => (
           <Table.Td key={column.key + "-" + columnIndex} width={autoWidth ? 'auto' : '100%'}>
             {column.render ? column.render(item) : item[column.key]}
           </Table.Td>
         ))}
-        <Table.Td onClick={(e) => e.stopPropagation()}>
+        {menuItems && <Table.Td onClick={(e) => e.stopPropagation()}>
           <Menu shadow="md" width={200}>
             <Menu.Target>
               <ActionIcon variant="subtle">
@@ -71,7 +73,7 @@ function TableWithSelection<T extends { [key: string]: any }>({
               </ActionIcon>
             </Menu.Target>
             <Menu.Dropdown>
-              {menuItems.map((menuItem, index) => (
+              {menuItems?.map((menuItem, index) => (
                 <Menu.Item key={index} onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
@@ -82,7 +84,7 @@ function TableWithSelection<T extends { [key: string]: any }>({
               ))}
             </Menu.Dropdown>
           </Menu>
-        </Table.Td>
+        </Table.Td>}
       </Table.Tr >
     );
   });
@@ -92,17 +94,17 @@ function TableWithSelection<T extends { [key: string]: any }>({
       <Table miw={800} verticalSpacing="sm" striped highlightOnHover withTableBorder withRowBorders={false}>
         <Table.Thead>
           <Table.Tr >
-            <Table.Th style={{ width: rem(40) }}>
+            {noCheckbox ? null : <Table.Th style={{ width: rem(40) }}>
               <Checkbox
                 onChange={toggleAll}
                 checked={selection.length === rows.length}
                 indeterminate={selection.length > 0 && selection.length !== rows.length}
               />
-            </Table.Th>
+            </Table.Th>}
             {columns.map((column) => (
               <Table.Th key={column.key}>{column.label}</Table.Th>
             ))}
-            <Table.Th>Actions</Table.Th>
+            {menuItems && <Table.Th>Actions</Table.Th>}
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>{tableRows}</Table.Tbody>

@@ -1,0 +1,51 @@
+@keyframes fadeInUp {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .animate-fade-in-up {
+    animation: fadeInUp 0.8s ease-out forwards;
+  }
+  
+  .tilt-effect {
+    /* Add your tilt effect styles or JS here */
+  }
+ 
+  .hit_box .hit_number h1 {
+    color: #efefef;
+    font-size: 80px;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: -1;
+  }
+  .hit_box {
+    z-index: 10;
+  }
+  .hit_box .hit_icon {
+    font-size: 46px;
+  }
+  .text-custom {
+    color: #0ebdca !important;
+  }
+  .mt-2 {
+    margin-top: .5rem !important;
+  }
+  .fw-bold {
+    font-weight: 700 !important;
+  }
+  .text-muted {
+    color: #94989a !important;
+  }
+  .text-muted {
+    --bs-text-opacity: 1;
+  }
+  

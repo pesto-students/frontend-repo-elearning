@@ -20,7 +20,8 @@ const AddStudentForm = (props) => {
     const store = useAppSelector(state => state.store)
     const [, { close }] = useDisclosure(false);
     const [studentSchema, setStudentSchema] = useState([]);
-
+    const {addStudentModalState} = store;
+    const { show, studentData, isEdit, makeRequest } = addStudentModalState
     useEffect(() => {
         fetchStudentSchema();
     }, []);
@@ -33,12 +34,13 @@ const AddStudentForm = (props) => {
             console.error('Failed to fetch student schema:', error);
         }
     };
+    console.log(studentData, 'studentData')
 
     return (
-        <Modal size='lg' opened={Boolean(store.addStudentModalState.show)} onClose={() => { dispatch(setAddStudentModalState({ show: false })); close() }} title={"Add student"} >
+        <Modal size='lg' opened={Boolean(show)} onClose={() => { dispatch(setAddStudentModalState({ show: false })); close(); }} title={isEdit ?  'Edit Student':  'Add Student'} >
             <Paper radius="md" p="xl" withBorder {...props}>
                 <Text size="lg" fw={500}>
-                    Add Student
+                    {isEdit ?  'Edit Student':  'Add Student' }
                 </Text>
                 <Divider label="" labelPosition="center" my="lg" />
 
@@ -53,13 +55,15 @@ const AddStudentForm = (props) => {
                                 }
                                 return value;
                             });
-                            await restClient.post(APIS.CREATE_STUDENT, payload)
+                            makeRequest ? makeRequest(payload) : await restClient.post(isEdit ? APIS.UPDATE_STUDENTS : APIS.CREATE_STUDENT, payload)
                         }}
+                        formValues={studentData}
+                        isEdit={isEdit}
                         formSubmitButtonJsx={
                             <>
                                 <Group justify="space-between" mt="md">
                                     <Button type="submit" radius="xl">
-                                        Add Student
+                                        {isEdit? 'Edit Student' :'Add Student'}
                                     </Button>
                                 </Group>
                             </>
