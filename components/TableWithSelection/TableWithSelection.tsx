@@ -35,7 +35,7 @@ function TableWithSelection<T extends { [key: string]: any }>({
   noCheckbox
 }: TableWithSelectionProps<T>) {
   const [selection, setSelection] = useState<string[]>([]);
-
+  console.log(rows);
   const toggleRow = (id: string) =>
     setSelection((current) =>
       current.includes(id) ? current.filter((item) => item !== id) : [...current, id]

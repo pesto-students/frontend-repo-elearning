@@ -1,14 +1,15 @@
 'use client'
 import restClient from '@/app/api/restClient';
-import { setAddTeacherModalState } from '@/app/lib/slice';
+import { setAddStudentModalState, showConfirmationModal } from '@/app/lib/slice';
 import { APIS } from '@/constant';
 import { getRandomMantineColor } from '@/constant/utils';
 import { Avatar, Group, Text } from '@mantine/core';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import TableWithSelection from '../TableWithSelection/TableWithSelection';
 
-interface Teacher {
+interface Student {
     firstName: string;
     lastName: string;
     email: string;
@@ -19,11 +20,13 @@ interface Teacher {
     state: string;
     country: string;
     branch: string;
+    _id: string;
 }
 
 const Students = () => {
-    const [students, setStudents] = useState<Teacher[]>([]);
+    const [students, setStudents] = useState<Student[]>([]);
     const dispatch = useDispatch();
+    const router = useRouter()
 
     useEffect(() => {
         getStudents();
@@ -33,7 +36,7 @@ const Students = () => {
         try {
             const { data } = await restClient.post(APIS.GET_STUDENTS, {});
             if (data?.length) {
-                const formattedData: Teacher[] = data.map(student => ({
+                const formattedData: Student[] = data.map(student => ({
                     firstName: student.firstName,
                     lastName: student.lastName,
                     email: student.email,
@@ -43,7 +46,8 @@ const Students = () => {
                     city: student.city?.name || '',
                     state: student.state?.name || '',
                     country: student.country?.name || '',
-                    branch: student.branch?.name || ''
+                    branch: student.branch?.name || '',
+                    _id: student._id
                 }));
                 setStudents(formattedData);
             }
@@ -52,9 +56,9 @@ const Students = () => {
         }
     };
 
-    const updateTeacher = async (teacherData) => {
+    const updateStudent = async (studentData) => {
         try {
-            const { data } = await restClient.post(APIS.UPDATE_TEACHER, teacherData);
+            const { data } = await restClient.post(APIS.UPDATE_STUDENTS, studentData);
             if (data) {
                 // Refresh the students list after update
                 getStudents();
@@ -64,8 +68,8 @@ const Students = () => {
         }
     };
 
-    const handleEditTeacher = (student) => {
-        dispatch(setAddTeacherModalState({ show: true, teacherData: student }));
+    const handleEditStudents = (student: any) => {
+        dispatch(setAddStudentModalState({ show: true, studentData: student, isEdit: true,  makeRequest: updateStudent }));
     };
 
     const columns = [
@@ -88,10 +92,38 @@ const Students = () => {
         { key: 'branch', label: 'Branch' }
     ];
 
+    const handleDelete = async (studentData: any) => {
+      try {
+        const { data } = await restClient.delete(`${APIS.DELETE_STUDENTS}?id=${studentData._id}`);
+        if (data) {
+          // Refresh the students list after update
+          getStudents();
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    const handleOnDeleteClick = (studentData) => {
+      dispatch(
+        showConfirmationModal({
+          isOpen: true,
+          title: `Are you sure?`,
+          description: `You will be deleting ${studentData.firstName}`,
+          onConfirm: () => handleDelete(studentData),
+        })
+      );
+    };
+
+
+    const handleViewDetail = (student: Student) => {
+        router.push(`/dashboard/students/${student._id}`)
+    };
+
     const menuItems = [
-        { label: 'Edit', onClick: handleEditTeacher },
-        { label: 'Delete', onClick: (student) => console.log('Delete', student) },
-        { label: 'View Details', onClick: (student) => console.log('View Details', student) },
+        { label: 'Edit', onClick: handleEditStudents },
+        { label: 'Delete', onClick: handleOnDeleteClick },
+        { label: 'View Details', onClick: handleViewDetail },
         { label: 'Assign to Class', onClick: (student) => console.log('Assign to Class', student) },
     ];
 
@@ -101,7 +133,8 @@ const Students = () => {
                 rows={students}
                 columns={columns}
                 menuItems={menuItems}
-                updateItem={updateTeacher}
+                updateItem={updateStudent}
+                rowClick={handleViewDetail}
             />
         </div>
     );

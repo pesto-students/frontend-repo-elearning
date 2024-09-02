@@ -7,7 +7,7 @@ const initialState = {
     roomsCodeData: {},
     scheduleOnlineClassModalState: { show: false, onlineClassData: null },
     activeEditLiveClassData: {},
-    addStudentModalState: { show: false },
+    addStudentModalState: { show: false, studentData: null, isEdit: false, makeRequest: null },
     addTeacherModalState: { show: false, teacherData: null },
     addClassModalState: { show: false },
     addParentModalState: { show: false },
