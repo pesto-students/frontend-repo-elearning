@@ -1,6 +1,6 @@
 'use client'
 import { useFetchData } from "@/app/api/queryApiData";
-import ViewDetails from "@/components/ViewDetails/viewDetails";
+import ViewDetails from "@/components/ViewDetails/ViewDetails";
 import { APIS } from "@/constant";
 import { useParams } from 'next/navigation';
 
