@@ -2,8 +2,7 @@
 import { APP_NAME } from '@/app/constant/app-constant';
 import { faFacebookF, faGooglePlusG, faInstagram, faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { MapPinIcon, PhoneIcon } from '@heroicons/react/24/solid';
-import { IconMail } from '@tabler/icons-react';
+import { IconMailFilled, IconMapPinFilled, IconPhoneFilled } from '@tabler/icons-react';
 import AppLogo from '../AppLogo/AppLogo';
 
 const FooterSection = () => {
@@ -66,15 +65,15 @@ const FooterSection = () => {
               <h5 className="text-lg font-semibold mb-4 border-b-2 border-blue-400 pb-2 text-white">Contact Us</h5>
               <ul className="space-y-4">
                 <li className="flex items-center space-x-3 text-gray-300">
-                  <PhoneIcon className="h-6 w-6 text-gray-300" />
+                  <IconPhoneFilled className="h-6 w-6 text-gray-300" />
                   <span>1800-121-3637<br />+91 555 234-8765</span>
                 </li>
                 <li className="flex items-center space-x-3 text-gray-300">
-                  <IconMail className="h-6 w-6 text-gray-300" />
+                  <IconMailFilled className="h-6 w-6 text-gray-300" />
                   <span><a href="mailto:info@example.com">info@example.com</a><br /><a href="mailto:sale@example.com">sale@example.com</a></span>
                 </li>
                 <li className="flex items-center space-x-3 text-gray-300">
-                  <MapPinIcon className="h-6 w-6 text-gray-300" />
+                  <IconMapPinFilled className="h-6 w-6 text-gray-300" />
                   <span>380 St Kilda Road, Melbourne<br />VIC 3004, Australia</span>
                 </li>
               </ul>

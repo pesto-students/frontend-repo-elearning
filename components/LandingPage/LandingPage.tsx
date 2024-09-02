@@ -8,7 +8,6 @@ import HeroSection from "./Hero";
 import HowItsWorkSection from "./HowItsWorkSection";
 import './LandingPage.module.css';
 import PricingSection from "./PricingSection";
-import TestimonialSection from "./TestimonialSection";
 
 interface LandingPageProps {
   children: ReactNode;
@@ -24,7 +23,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ children }) => {
         <FeatureSection></FeatureSection>
         <AboutSection></AboutSection>
         <HowItsWorkSection></HowItsWorkSection>
-        <TestimonialSection></TestimonialSection>
+        {/* <TestimonialSection></TestimonialSection> */}
         <PricingSection></PricingSection>
         <CtaSection></CtaSection>
         <FooterSection></FooterSection>
