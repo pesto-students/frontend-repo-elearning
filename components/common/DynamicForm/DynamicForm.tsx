@@ -3,12 +3,14 @@ import { DateInput, DateTimePicker, TimeInput } from '@mantine/dates';
 import { useForm } from '@mantine/form';
 import dayjs from 'dayjs';
 import DynamicAutocomplete from './DynamicAutoComplete';
+import DynamicMultiSelect from './DynamicMultiSelect';
 
 interface DynamicFormProps {
     formData: [
         {
             path: string, required: boolean, formControl: {
-                name: string, type: string, data: [], maxLength: number, label: string, options: [], apiDetails: {}
+                name: string, type: string, data: [], maxLength: number, label: string, options: [], apiDetails: {},
+                isMultiSelect: boolean
             }
         }
     ],
@@ -85,6 +87,14 @@ const DynamicForm = (props: DynamicFormProps) => {
                                             {...formHook.getInputProps(path)}
                                             required
                                         ></Textarea>
+                                    case 'multiSelectWithAutoSuggest':
+                                        return <DynamicMultiSelect
+                                            label={label}
+                                            apiDetails={apiDetails}
+                                            onSelect={(items: [], a, b, c, d) => {
+                                                formHook.setFieldValue(path, items)
+                                            }}
+                                        />
                                     default:
                                         break;
                                 }

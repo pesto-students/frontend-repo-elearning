@@ -23,7 +23,7 @@ const initialState = {
     selectedClassForViewRecordings: [],
     chatBotData: { loading: false, data: [], chatId: '' },
     ChatHistoryData: [],
-    addParentModalState: { show: false }
+    assignToClassModalState: { show: false, assigneeData: null }
 }
 
 const storeSlice = createSlice({
@@ -109,12 +109,15 @@ const storeSlice = createSlice({
         setChatBotData(state, action) {
             state.chatBotData = action.payload
         },
+        setAssignToClassModalState(state, action) {
+            state.assignToClassModalState = { ...state.assignToClassModalState, ...action.payload }
+        }
     },
 })
 
 export const { setLoginModal, setRoomsData, setLiveClassFormData, setRoomsCodeData, setScheduleOnlineClassModal, setActiveLiveClassFormData, resetActiveLiveClassFormData,
     setAddStudentModalState, setAddTeacherModalState, setAddClassModalState, setAddParentModalState, setUserData, setNotificationBarState, showLoader, hideLoader, showConfirmationModal,
-    hideConfirmationModal, setSelectedClassForViewRecordings, setChatBotData, setChatHistoryList, updateChatHistory, } = storeSlice.actions
+    hideConfirmationModal, setSelectedClassForViewRecordings, setChatBotData, setChatHistoryList, updateChatHistory, setAssignToClassModalState } = storeSlice.actions
 export default storeSlice.reducer
 
 

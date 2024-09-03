@@ -15,7 +15,7 @@ export const APIS = {
     FETCH_STUDENT: '/api/student/fetch',
     EDIT_STUDENT: "/api/student/:id",
     CREATE_TEACHER: '/api/teacher/create',
-    GET_CLASS: '/api/class/fetch',
+    FETCH_CLASS: '/api/class/fetch',
     CREATE_CLASS: '/api/class/create',
     FETCH_TEACHERS: '/api/teacher/fetch',
     UPDATE_TEACHER: '/api/teacher/update',
@@ -31,8 +31,10 @@ export const APIS = {
     CREATE_QUESTIONS: 'api/gemini/create-questions',
     CHAT_BOT: 'api/gemini/chat-assistance',
 
-    GET_CLASSES: "/api/class/fetch",
-    WHOAMI: '/api/user/whoami'
+    WHOAMI: '/api/user/whoami',
+    UPDATE_TEACHER_ENROLLMENTS: '/api/teacher/update-enrollments',
+    FETCH_TEACHER_ENROLLED_CLASSES: '/api/teacher/fetch-classes',
+    DELETE_TEACHER: '/api/teacher/delete'
 }
 
 export const SCHEMA_APIS = {
