@@ -57,6 +57,7 @@ const DynamicForm = (props: DynamicFormProps) => {
                                             onSelect={(item) => {
                                                 formHook.setFieldValue(path, item)
                                             }}
+                                            defaultValue={formValues && formValues[path]}
                                         />
                                     case 'dateTimePicker':
                                         return <DateTimePicker
@@ -65,7 +66,6 @@ const DynamicForm = (props: DynamicFormProps) => {
                                             value={new Date()}
                                             minDate={new Date()}
                                             maxDate={dayjs(new Date()).add(1, 'month').toDate()}
-                                            {...formHook.getInputProps(path)}
                                             required
                                         />
                                     case 'datePicker':
@@ -91,9 +91,12 @@ const DynamicForm = (props: DynamicFormProps) => {
                                         return <DynamicMultiSelect
                                             label={label}
                                             apiDetails={apiDetails}
-                                            onSelect={(items: [], a, b, c, d) => {
-                                                formHook.setFieldValue(path, items)
+                                            onSelect={(items: []) => {
+                                                const selectedValues = formHook.values[path] || [];
+                                                const updatedValues = [...selectedValues, ...items]
+                                                formHook.setFieldValue(path, updatedValues)
                                             }}
+                                            defaultValue={formValues && formValues[path]}
                                         />
                                     default:
                                         break;

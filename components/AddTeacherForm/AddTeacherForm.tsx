@@ -11,52 +11,62 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import DynamicForm from '../common/DynamicForm/DynamicForm';
 
-const AddTeacherForm = (props) => {
-    const store = useAppSelector(state => state.store)
+interface AddTeacherFormProps {
+    // Add any props if needed
+}
 
-    const router = useRouter()
-    const dispatch = useDispatch()
+interface TeacherFormValues {
+    _id?: string;
+    [key: string]: any;
+}
+
+const AddTeacherForm: React.FC<AddTeacherFormProps> = () => {
+    const store = useAppSelector(state => state.store);
+    const router = useRouter();
+    const dispatch = useDispatch();
     const [, { close }] = useDisclosure(false);
-    const [teacherSchema, setTeacherSchema] = useState([]);
+    const [teacherSchema, setTeacherSchema] = useState<any[]>([]);
 
     useEffect(() => {
         fetchTeacherSchema();
-    }, [])
+    }, []);
 
     const fetchTeacherSchema = async () => {
         try {
-            dispatch(showLoader())
+            dispatch(showLoader());
             const { data } = await restClient.get(SCHEMA_APIS.TEACHER);
             if (data) {
-                setTeacherSchema(data)
+                setTeacherSchema(data);
             }
-            dispatch(hideLoader())
+            dispatch(hideLoader());
         } catch (error) {
             console.error('Failed to fetch teacher schema:', error);
         }
     };
 
-    const handleSubmit = async (values) => {
-        const payload = flattenObject(values)
+    const handleSubmit = async (values: TeacherFormValues) => {
+        const payload = flattenObject(values);
 
         try {
             const apiUrl = payload._id ? APIS.UPDATE_TEACHER : APIS.CREATE_TEACHER;
             const { data } = await restClient.post(apiUrl, payload);
             if (data) {
-                dispatch(setAddTeacherModalState({ show: false }));
-                notifications.show({ title: payload._id ? 'Updated teacher' : 'Added teacher', color: 'green' });
-                setAddTeacherModalState.callback && setAddTeacherModalState.callback()
+                dispatch(setAddTeacherModalState({ show: false, teacherData: null, callbackFunctionName: 'getTeachers' }));
+                notifications.show({ message: payload._id ? 'Updated teacher' : 'Added teacher', color: 'green' });
+                if (typeof store.addTeacherModalState.callback === 'function') {
+                    store.addTeacherModalState.callback();
+                }
             } else {
-                notifications.show({ title: `Failed to ${payload._id ? 'update' : 'add'} teacher`, color: 'red' });
+                notifications.show({ message: `Failed to ${payload._id ? 'update' : 'add'} teacher`, color: 'red' });
             }
         } catch (error) {
             console.error('Error:', error);
-            notifications.show({ title: `Failed to ${payload._id ? 'update' : 'add'} teacher`, color: 'red' });
+            notifications.show({ message: `Failed to ${payload._id ? 'update' : 'add'} teacher`, color: 'red' });
         }
     };
 
     return (
-        <Modal size={"lg"} opened={Boolean(store.addTeacherModalState.show)} onClose={() => { dispatch(setAddTeacherModalState({ show: false, teacherData: null })); close() }} title={store.addTeacherModalState.teacherData ? "Edit teacher" : "Add teacher"} >
+        <Modal size="lg" opened={Boolean(store.addTeacherModalState.show)} onClose={() => { dispatch(setAddTeacherModalState({ show: false })); close(); }} title={store.addTeacherModalState.teacherData ? "Edit teacher" : "Add teacher"} >
             <Paper radius="md" p="xl" withBorder >
                 <Text size="lg" fw={500}>
                     {store.addTeacherModalState.teacherData ? "Edit Teacher" : "Add Teacher"}
@@ -64,23 +74,21 @@ const AddTeacherForm = (props) => {
                 <Divider label="" labelPosition="center" my="lg" />
 
                 <Stack>
-                    <>
-                        <DynamicForm
-                            formData={teacherSchema}
-                            formSubmit={handleSubmit}
-                            formSubmitButtonJsx={
-                                <>
-                                    <Group justify="space-between" mt="md">
-                                        <Button type="submit" radius="xl">
-                                            {store.addTeacherModalState.teacherData ? "Edit Teacher" : "Add Teacher"}
-                                        </Button>
-                                    </Group>
-                                </>
-                            }
-                            formValues={store.addTeacherModalState.teacherData}
-                            isEdit={Boolean(store.addTeacherModalState.teacherData)}
-                        />
-                    </>
+                    <DynamicForm
+                        formData={teacherSchema}
+                        formSubmit={handleSubmit}
+                        formSubmitButtonJsx={
+                            <>
+                                <Group justify="space-between" mt="md">
+                                    <Button type="submit" radius="xl">
+                                        {store.addTeacherModalState.teacherData ? "Edit Teacher" : "Add Teacher"}
+                                    </Button>
+                                </Group>
+                            </>
+                        }
+                        formValues={store.addTeacherModalState.teacherData}
+                        isEdit={Boolean(store.addTeacherModalState.teacherData)}
+                    />
                 </Stack>
             </Paper>
         </Modal >

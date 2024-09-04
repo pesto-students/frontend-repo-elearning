@@ -1,5 +1,6 @@
 import restClient from "@/app/api/restClient";
 import { MultiSelect } from "@mantine/core";
+import { useDebouncedCallback } from "@mantine/hooks";
 import { useEffect, useState } from "react";
 
 interface ApiDetails {
@@ -41,6 +42,12 @@ const DynamicMultiSelect: React.FC<DynamicMultiSelectProps> = ({ apiDetails, onS
         }
     };
 
+    const handleSearch = useDebouncedCallback((value: string) => {
+        if (!apiDetails.onMount && value.length > 2) {
+            getOptions(value);
+        }
+    }, 300);
+
     return (
         <MultiSelect
             label={label}
@@ -49,16 +56,14 @@ const DynamicMultiSelect: React.FC<DynamicMultiSelectProps> = ({ apiDetails, onS
             defaultValue={isEdit ? values.map(item => (item[apiDetails.resultKey] || item.name)) : []}
             clearable
             searchable
-            onSearchChange={(value) => {
-                if (!apiDetails.onMount) {
-                    getOptions(value);
-                }
-            }}
+            onSearchChange={(value) => handleSearch(value)}
             onChange={(selectedValues) => {
                 const selectedObjects = options.filter(option =>
                     selectedValues.includes(option[apiDetails.resultKey] || option.name)
                 );
-                onSelect(selectedObjects);
+                if (selectedObjects.length) {
+                    onSelect(selectedObjects);
+                }
             }}
         />
     );

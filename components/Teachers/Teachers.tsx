@@ -1,5 +1,6 @@
 'use client'
 import restClient from '@/app/api/restClient';
+import { useAppSelector } from '@/app/lib/hooks';
 import { setAddTeacherModalState, setAssignToClassModalState } from '@/app/lib/slice';
 import { APIS } from '@/constant';
 import { getRandomMantineColor } from '@/constant/utils';
@@ -9,7 +10,7 @@ import { IconPlus } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { showConfirmation } from '../ConfirmationModal/ConfirmationModal';
+import { useConfirmation } from '../ConfirmationModal/ConfirmationModal';
 import TableWithSelection from '../TableWithSelection/TableWithSelection';
 
 interface Teacher {
@@ -45,9 +46,24 @@ const Teachers = () => {
     const dispatch = useDispatch();
     const router = useRouter()
 
+    const store = useAppSelector(state => state.store)
+
     useEffect(() => {
         getTeachers();
-    }, []);
+    }, [])
+
+    useEffect(() => {
+        if ('callbackFunctionName' in store.addTeacherModalState) {
+            const callbacks: { [key: string]: () => Promise<void> } = {
+                getTeachers: getTeachers
+            };
+            const callbackName = store.addTeacherModalState.callbackFunctionName as keyof typeof callbacks;
+            if (callbackName in callbacks) {
+                callbacks[callbackName]();
+                dispatch(setAddTeacherModalState({ callbackFunctionName: null }))
+            }
+        }
+    }, [store.addTeacherModalState]);
 
     const getTeachers = async () => {
         try {
@@ -87,7 +103,7 @@ const Teachers = () => {
     };
 
     const handleEditTeacher = (teacher: Teacher) => {
-        dispatch(setAddTeacherModalState({ show: true, teacherData: teacher }));
+        dispatch(setAddTeacherModalState({ show: true, teacherData: teacher, callback: getTeachers }));
     };
 
     const handleRowClick = (teacher: Teacher) => {
@@ -115,17 +131,23 @@ const Teachers = () => {
         { key: 'branch', label: 'Branch' }
     ];
 
+    const confirmation = useConfirmation()
+
     const menuItems = [
         { label: 'Edit', onClick: handleEditTeacher },
         {
             label: 'Delete', onClick: (teacher: Teacher) => {
                 console.log('Delete', teacher)
-                showConfirmation({
+                confirmation({
                     title: 'Delete a teacher', description: 'Are you sure you want to delete this entry?', onConfirm: async () => {
-                        const { data } = await restClient.post(APIS.DELETE_TEACHER, { teacherIds: [teacher._id] })
-                        if (data) {
-                            notifications.show({ message: 'Teacher deleted successfully', color: 'green' })
-                            getTeachers()
+                        try {
+                            const { data } = await restClient.post(APIS.DELETE_TEACHER, { teacherIds: [teacher._id] })
+                            if (data) {
+                                notifications.show({ message: 'Teacher deleted successfully', color: 'green' })
+                                getTeachers()
+                            }
+                        } catch (error) {
+                            console.log(error)
                         }
                     }
                 })
@@ -142,7 +164,7 @@ const Teachers = () => {
         <>
             <Group>
                 <Text size="lg" fw={500}> Teachers</Text>
-                <Button size={"xs"} leftSection={<IconPlus />} onClick={() => dispatch(setAddTeacherModalState({ show: true, teacherData: null }))}>Add Teacher</Button>
+                <Button size={"xs"} leftSection={<IconPlus />} onClick={() => dispatch(setAddTeacherModalState({ show: true, teacherData: null, callbackFunctionName: 'getTeachers' }))}>Add Teacher</Button>
             </Group>
 
             <Group mt={"md"}>

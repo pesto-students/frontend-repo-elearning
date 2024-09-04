@@ -3,7 +3,8 @@ import restClient from '@/app/api/restClient';
 import { setAddStudentModalState, showConfirmationModal } from '@/app/lib/slice';
 import { APIS } from '@/constant';
 import { getRandomMantineColor } from '@/constant/utils';
-import { Avatar, Group, Text } from '@mantine/core';
+import { Avatar, Button, Group, Text } from '@mantine/core';
+import { IconPlus } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -69,7 +70,7 @@ const Students = () => {
     };
 
     const handleEditStudents = (student: any) => {
-        dispatch(setAddStudentModalState({ show: true, studentData: student, isEdit: true,  makeRequest: updateStudent }));
+        dispatch(setAddStudentModalState({ show: true, studentData: student, isEdit: true, makeRequest: updateStudent }));
     };
 
     const columns = [
@@ -93,26 +94,26 @@ const Students = () => {
     ];
 
     const handleDelete = async (studentData: any) => {
-      try {
-        const { data } = await restClient.delete(`${APIS.DELETE_STUDENTS}?id=${studentData._id}`);
-        if (data) {
-          // Refresh the students list after update
-          getStudents();
+        try {
+            const { data } = await restClient.delete(`${APIS.DELETE_STUDENTS}?id=${studentData._id}`);
+            if (data) {
+                // Refresh the students list after update
+                getStudents();
+            }
+        } catch (err) {
+            console.log(err);
         }
-      } catch (err) {
-        console.log(err);
-      }
     };
 
     const handleOnDeleteClick = (studentData) => {
-      dispatch(
-        showConfirmationModal({
-          isOpen: true,
-          title: `Are you sure?`,
-          description: `You will be deleting ${studentData.firstName}`,
-          onConfirm: () => handleDelete(studentData),
-        })
-      );
+        dispatch(
+            showConfirmationModal({
+                isOpen: true,
+                title: `Are you sure?`,
+                description: `You will be deleting ${studentData.firstName}`,
+                onConfirm: () => handleDelete(studentData),
+            })
+        );
     };
 
 
@@ -127,16 +128,26 @@ const Students = () => {
         { label: 'Assign to Class', onClick: (student) => console.log('Assign to Class', student) },
     ];
 
+    const handleAddStudent = () => {
+        dispatch(setAddStudentModalState({ show: true, studentData: null, isEdit: false, makeRequest: null }));
+    }
+
     return (
-        <div>
-            <TableWithSelection
-                rows={students}
-                columns={columns}
-                menuItems={menuItems}
-                updateItem={updateStudent}
-                rowClick={handleViewDetail}
-            />
-        </div>
+        <>
+            <Group>
+                <Text fw={500} size="lg">Students</Text>
+                <Button leftSection={<IconPlus />} onClick={handleAddStudent}>Add Student</Button>
+            </Group>
+            <div>
+                <TableWithSelection
+                    rows={students}
+                    columns={columns}
+                    menuItems={menuItems}
+                    updateItem={updateStudent}
+                    rowClick={handleViewDetail}
+                />
+            </div>
+        </>
     );
 };
 

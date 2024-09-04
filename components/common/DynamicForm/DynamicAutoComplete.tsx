@@ -14,12 +14,14 @@ interface AutocompleteProps {
         resultKey?: string
     };
     onSelect: (selectedValue: string) => void;
+    formValues?: any
 }
 
 const DynamicAutoComplete: React.FC<AutocompleteProps> = ({
     label,
     apiDetails,
-    onSelect
+    onSelect,
+    defaultValue
 }) => {
     const combobox = useCombobox({
         onDropdownClose: () => combobox.resetSelectedOption(),
@@ -30,6 +32,12 @@ const DynamicAutoComplete: React.FC<AutocompleteProps> = ({
     const [value, setValue] = useState('');
     const [empty, setEmpty] = useState(false);
     const abortController = useRef<AbortController>();
+
+    useEffect(() => {
+        if (defaultValue) {
+            setValue(defaultValue[apiDetails.resultKey || "name"])
+        }
+    }, [defaultValue])
 
     const fetchOptions = useDebouncedCallback(async (keyword: string) => {
         abortController.current?.abort();
@@ -90,12 +98,12 @@ const DynamicAutoComplete: React.FC<AutocompleteProps> = ({
                         }
                     }}
                     onClick={() => combobox.openDropdown()}
-                    onFocus={() => {
-                        combobox.openDropdown();
-                        // if (data === null) {
-                        //     fetchOptions(value);
-                        // }
-                    }}
+                    // onFocus={() => {
+                    //     combobox.openDropdown();
+                    //     // if (data === null) {
+                    //     //     fetchOptions(value);
+                    //     // }
+                    // }}
                     onBlur={() => combobox.closeDropdown()}
                     rightSection={loading && <Loader size={18} />}
                 />
