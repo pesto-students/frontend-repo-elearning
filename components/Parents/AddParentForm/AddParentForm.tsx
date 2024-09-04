@@ -5,19 +5,14 @@ import { useAppSelector } from "@/app/lib/hooks";
 import { setAddParentModalState } from "@/app/lib/slice";
 import DynamicForm from "@/components/common/DynamicForm/DynamicForm";
 import { APIS, SCHEMA_APIS } from "@/constant";
+import { flattenObject } from "@/constant/utils";
 import { Button, Divider, Group, Modal, Paper, Stack, Text } from "@mantine/core";
-import { useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
-import { isObject, mapValues } from "lodash";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
 const AddParentForm = (props) => {
-
-    const form = useForm({
-        initialValues: {}
-    })
     const router = useRouter()
     const dispatch = useDispatch()
     const store = useAppSelector(state => state.store)
@@ -38,35 +33,31 @@ const AddParentForm = (props) => {
     };
 
     return (
-        <Modal size='lg' opened={Boolean(store.addParentModalState.show)} onClose={() => { dispatch(setAddParentModalState({ show: false })); close() }} title={"Add student"} >
+        <Modal size='lg' opened={Boolean(store.addParentModalState.show)} onClose={() => { dispatch(setAddParentModalState({ show: false })); close() }} title={store.addParentModalState.parentData ? "Edit Parent" : "Add Parent"} >
             <Paper radius="md" p="xl" withBorder {...props}>
                 <Text size="lg" fw={500}>
-                    Add Student
+                    {store.addParentModalState.parentData ? "Edit" : "Add"} student's parent
                 </Text>
                 <Divider label="" labelPosition="center" my="lg" />
-
                 <Stack>
-
                     <DynamicForm
                         formData={parentSchema}
-                        formSubmit={async (values = {}) => {
-                            const payload = mapValues(values, (value) => {
-                                if (isObject(value) && value.id) {
-                                    return value.id || value._id;
-                                }
-                                return value;
-                            });
-                            await restClient.post(APIS.CREATE_STUDENT, payload)
+                        formSubmit={async (values) => {
+                            const payload = flattenObject(values)
+                            const apiUrl = store.addParentModalState.parentData ? APIS.UPDATE_PARENT : APIS.CREATE_PARENT
+                            await restClient.post(apiUrl, payload)
                         }}
                         formSubmitButtonJsx={
                             <>
                                 <Group justify="space-between" mt="md">
                                     <Button type="submit" radius="xl">
-                                        Add Parent
+                                        {store.addParentModalState.parentData ? "Edit Parent" : "Add Parent"}
                                     </Button>
                                 </Group>
                             </>
                         }
+                        formValues={store.addParentModalState.parentData}
+                        isEdit={Boolean(store.addParentModalState.parentData)}
                     />
 
                 </Stack>

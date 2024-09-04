@@ -1,4 +1,5 @@
 import dayjs from "dayjs"
+import isObject from "lodash/isObject"
 import mapValues from "lodash/mapValues"
 
 export const formatDate = (date, dateFormat = 'DD/MM/YYYY hh:mm') => {
@@ -23,9 +24,16 @@ export const safeJsonParse = (data) => {
 }
 
 export const flattenObject = (values = {}) => {
-    mapValues(values, (value) => {
-        if (isObject(value) && value.id) {
-            return value.id;
+    return mapValues(values, (value) => {
+        if (isObject(value) && (value.id || value._id)) {
+            return value.id || value._id;
+        } else if (Array.isArray(value)) {
+            return value.map((item) => {
+                if (isObject(item) && (item.id || item._id)) {
+                    return item.id || item._id;
+                }
+                return item;
+            })
         }
         return value;
     })
@@ -40,12 +48,12 @@ export function getRandomMantineColor() {
     return mantineColors[randomIndex];
 }
 
-export const cleanChatData =  ( chatData) => {
+export const cleanChatData = (chatData) => {
 
 
     return chatData.map((chat) => {
         const chatCopy = { ...chat };
         chatCopy['id'] = undefined;
-        return chatCopy; 
+        return chatCopy;
     })
 }

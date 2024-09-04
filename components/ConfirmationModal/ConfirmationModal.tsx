@@ -1,6 +1,7 @@
 import { useAppDispatch, useAppSelector } from '@/app/lib/hooks';
-import { hideConfirmationModal } from '@/app/lib/slice';
+import { hideConfirmationModal, showConfirmationModal } from '@/app/lib/slice';
 import { Button, Group, Modal, Text } from '@mantine/core';
+import { useCallback } from 'react';
 
 const ConfirmationModal = () => {
     const dispatch = useAppDispatch();
@@ -34,15 +35,18 @@ const ConfirmationModal = () => {
 
 export default ConfirmationModal;
 
-import { showConfirmationModal } from '@/app/lib/slice';
-
 interface ConfirmationModalOptions {
     title: string;
     description: string;
     onConfirm: () => void;
 }
 
-export const showConfirmation = ({ title, description, onConfirm }: ConfirmationModalOptions) => {
-    const dispatch = useAppDispatch()
-    dispatch(showConfirmationModal({ isOpen: true, title, description, onConfirm }));
+export const useConfirmation = () => {
+    const dispatch = useAppDispatch();
+
+    const showConfirmation = useCallback(({ title, description, onConfirm }: ConfirmationModalOptions) => {
+        dispatch(showConfirmationModal({ isOpen: true, title, description, onConfirm }));
+    }, [dispatch]);
+
+    return showConfirmation;
 };

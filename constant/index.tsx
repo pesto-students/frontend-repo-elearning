@@ -15,7 +15,7 @@ export const APIS = {
     FETCH_STUDENT: '/api/student/fetch',
     EDIT_STUDENT: "/api/student/:id",
     CREATE_TEACHER: '/api/teacher/create',
-    GET_CLASS: '/api/class/fetch',
+    FETCH_CLASS: '/api/class/fetch',
     CREATE_CLASS: '/api/class/create',
     FETCH_TEACHERS: '/api/teacher/fetch',
     UPDATE_TEACHER: '/api/teacher/update',
@@ -31,8 +31,14 @@ export const APIS = {
     CREATE_QUESTIONS: 'api/gemini/create-questions',
     CHAT_BOT: 'api/gemini/chat-assistance',
 
-    GET_CLASSES: "/api/class/fetch",
-    WHOAMI: '/api/user/whoami'
+    WHOAMI: '/api/user/whoami',
+    UPDATE_TEACHER_ENROLLMENTS: '/api/teacher/update-enrollments',
+    FETCH_TEACHER_ENROLLED_CLASSES: '/api/teacher/fetch-classes',
+    DELETE_TEACHER: '/api/teacher/delete',
+    CREATE_PARENT: '/api/parent/create',
+    FETCH_PARENT: 'api/parent/fetch',
+    DELETE_PARENT: '/api/parent/delete',
+    UPDATE_PARENT: '/api/parent/update'
 }
 
 export const SCHEMA_APIS = {
@@ -113,5 +119,17 @@ export const ROUTES = {
     DASHBOARD: '/dashboard',
     TEACHERS: '/dashboard/teachers',
     RECORDED_CLASSES: '/dashboard/recorded-classes',
-    RECORDED_CLASS_BY_ROOM_ID: '/dashboard/recorded-classes/:roomId'
+    RECORDED_CLASS_BY_ROOM_ID: '/dashboard/recorded-classes/:roomId',
+    PARENTS: '/dashboard/parents',
+    PARENT_DETAILS: '/dashboard/parents/:parentId',
+    STUDENTS: '/dashboard/students',
+    STUDENT_DETAILS: '/dashboard/students/:studentId',
+    CLASSES: '/dashboard/classes',
+    CLASS_DETAILS: '/dashboard/classes/:classId',
+    ONLINE_CLASSES: '/dashboard/online-classes',
+    ONLINE_CLASS_DETAILS: '/dashboard/online-classes/:classId',
+    QUESTIONNAIRE: '/dashboard/questionnaire',
+    QUESTIONNAIRE_DETAILS: '/dashboard/questionnaire/:questionId',
+    AI_ASSISTANCE: '/dashboard/ai-assistance',
+    AI_ASSISTANCE_DETAILS: '/dashboard/ai-assistance/:aiId'
 }
