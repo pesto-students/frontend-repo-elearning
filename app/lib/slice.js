@@ -95,8 +95,11 @@ const storeSlice = createSlice({
         setSelectedClassForViewRecordings: (state, action) => {
             state.selectedClassForViewRecordings = action.payload
         },
+        setChatHistoryListData(state, action) {
+            state.ChatHistoryData = [...state.ChatHistoryData, action.payload]
+        },
         setChatHistoryList(state, action) {
-            state.ChatHistoryData = [...state.ChatHistoryData, ...action.payload]
+            state.ChatHistoryData = action.payload;
         },
         updateChatHistory(state, action) {
             const { data, id } = action.payload;
@@ -117,7 +120,7 @@ const storeSlice = createSlice({
 
 export const { setLoginModal, setRoomsData, setLiveClassFormData, setRoomsCodeData, setScheduleOnlineClassModal, setActiveLiveClassFormData, resetActiveLiveClassFormData,
     setAddStudentModalState, setAddTeacherModalState, setAddClassModalState, setAddParentModalState, setUserData, setNotificationBarState, showLoader, hideLoader, showConfirmationModal,
-    hideConfirmationModal, setSelectedClassForViewRecordings, setChatBotData, setChatHistoryList, updateChatHistory, setAssignToClassModalState } = storeSlice.actions
+    hideConfirmationModal, setSelectedClassForViewRecordings, setChatBotData, setChatHistoryList, setChatHistoryListData, updateChatHistory, setAssignToClassModalState } = storeSlice.actions
 export default storeSlice.reducer
 
 

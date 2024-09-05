@@ -74,7 +74,6 @@ export function AppShellLayout({ children }: { children: React.ReactNode }) {
                 <AppShell.Main
                     style={{
                         paddingLeft: isDashboard && desktopOpened ? 250 : 24,
-                        paddingBottom: 94
                     }}
                 >
                     {children}
