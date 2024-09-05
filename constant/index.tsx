@@ -30,7 +30,8 @@ export const APIS = {
     UPLOAD_DOCUMENT: 'api/gemini/upload-file',
     CREATE_QUESTIONS: 'api/gemini/create-questions',
     CHAT_BOT: 'api/gemini/chat-assistance',
-
+    SAVE_CHAT_HISTORY: '/api/chat/create',
+    FETCH_CHAT_HISTORY: '/api/chat/fetch',
     GET_CLASSES: "/api/class/fetch",
     WHOAMI: '/api/user/whoami'
 }
