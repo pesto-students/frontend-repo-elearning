@@ -50,7 +50,6 @@ const CreateQuestionnaire = () => {
   const {difficulty, questionType, notes, example} = form.getValues()
   const handleFile = async(file: any) => {
     if (file?.length) {
-        console.log(file);
         const formData = new FormData();
         formData.append('file', file[0]);
         const resp =  await uploadDocument(formData);
@@ -58,7 +57,6 @@ const CreateQuestionnaire = () => {
     }
     
   }
-  console.log(fileData)
   
   const getPrompts = () => {
     if(fileData){
@@ -84,7 +82,6 @@ const CreateQuestionnaire = () => {
     setHtmlContent(res)
   }
 
-  console.log(htmlContent)
 
   return (
     <main>

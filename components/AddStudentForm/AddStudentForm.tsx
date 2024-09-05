@@ -40,8 +40,6 @@ const AddStudentForm: React.FC<AddStudentFormProps> = () => {
         }
     };
 
-    console.log(studentData, 'studentData');
-
     return (
         <Modal size='lg' opened={Boolean(show)} onClose={() => { dispatch(setAddStudentModalState({ show: false })); close(); }} title={isEdit ? 'Edit Student' : 'Add Student'} >
             <Paper radius="md" p="xl" withBorder>

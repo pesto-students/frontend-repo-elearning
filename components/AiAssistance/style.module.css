@@ -18,7 +18,16 @@
     position: fixed;
     top: 48%;
     left: 55%;
+    font-size: 24px;
+    font-weight: 700;
 }
+
+.containerChatHistory{
+    font-weight: 700;
+    font-size: 16px;
+}
+
+
 
 .chatHistoryBox{
     padding: 5px;

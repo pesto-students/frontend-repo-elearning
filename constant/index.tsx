@@ -30,7 +30,9 @@ export const APIS = {
     UPLOAD_DOCUMENT: 'api/gemini/upload-file',
     CREATE_QUESTIONS: 'api/gemini/create-questions',
     CHAT_BOT: 'api/gemini/chat-assistance',
-
+    SAVE_CHAT_HISTORY: '/api/chat/create',
+    FETCH_CHAT_HISTORY: '/api/chat/fetch',
+    GET_CLASSES: "/api/class/fetch",
     WHOAMI: '/api/user/whoami',
     UPDATE_TEACHER_ENROLLMENTS: '/api/teacher/update-enrollments',
     FETCH_TEACHER_ENROLLED_CLASSES: '/api/teacher/fetch-classes',
@@ -38,7 +40,10 @@ export const APIS = {
     CREATE_PARENT: '/api/parent/create',
     FETCH_PARENT: 'api/parent/fetch',
     DELETE_PARENT: '/api/parent/delete',
-    UPDATE_PARENT: '/api/parent/update'
+    UPDATE_PARENT: '/api/parent/update',
+    MODULE_MANAGEMENT_MODULES: '/api/module-management/modules',
+    MODULE_MANAGEMENT_UNSUBSCRIBE: '/api/module-management/unsubscribe',
+    MODULE_MANAGEMENT_SUBSCRIBE: '/api/module-management/subscribe',
 }
 
 export const SCHEMA_APIS = {
@@ -131,5 +136,16 @@ export const ROUTES = {
     QUESTIONNAIRE: '/dashboard/questionnaire',
     QUESTIONNAIRE_DETAILS: '/dashboard/questionnaire/:questionId',
     AI_ASSISTANCE: '/dashboard/ai-assistance',
-    AI_ASSISTANCE_DETAILS: '/dashboard/ai-assistance/:aiId'
+    AI_ASSISTANCE_DETAILS: '/dashboard/ai-assistance/:aiId',
+    USER_PROFILE: '/dashboard/user/profile',
+    USER_SETTINGS: '/dashboard/user/settings'
+}
+
+const USER_TYPE = {
+    SUPER_ADMIN: 'SUPER_ADMIN',
+    ORG_ADMIN: 'ORG_ADMIN',
+    BRANCH_ADMIN: 'BRANCH_ADMIN',
+    TEACHER: 'TEACHER',
+    STUDENT: 'STUDENT',
+    PARENT: 'PARENT'
 }

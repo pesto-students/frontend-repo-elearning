@@ -134,7 +134,7 @@ const Students = () => {
 
     return (
         <>
-            <Group>
+            <Group mb={"md"}>
                 <Text fw={500} size="lg">Students</Text>
                 <Button leftSection={<IconPlus />} onClick={handleAddStudent}>Add Student</Button>
             </Group>

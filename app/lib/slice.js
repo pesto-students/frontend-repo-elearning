@@ -42,15 +42,15 @@ const storeSlice = createSlice({
         setRoomsCodeData(state, action) {
             state.roomsCodeData[action.payload.id] = action.payload.data
         },
-        setScheduleOnlineClassModal(state, action) {
+        setScheduleOnlineClassModalState(state, action) {
             state.scheduleOnlineClassModalState = { ...state.scheduleOnlineClassModalState, ...action.payload }
         },
         resetLiveClassFormData(state) {
             state.liveClassFormData = {}
         },
-        setActiveLiveClassFormData(state, action) {
-            state.activeEditLiveClassData = action.payload
-        },
+        // setActiveLiveClassFormData(state, action) {
+        //     state.activeEditLiveClassData = action.payload
+        // },
         resetActiveLiveClassFormData(state) {
             state.activeEditLiveClassData = {}
         },
@@ -95,8 +95,11 @@ const storeSlice = createSlice({
         setSelectedClassForViewRecordings: (state, action) => {
             state.selectedClassForViewRecordings = action.payload
         },
+        setChatHistoryListData(state, action) {
+            state.ChatHistoryData = [...state.ChatHistoryData, action.payload]
+        },
         setChatHistoryList(state, action) {
-            state.ChatHistoryData = [...state.ChatHistoryData, ...action.payload]
+            state.ChatHistoryData = action.payload;
         },
         updateChatHistory(state, action) {
             const { data, id } = action.payload;
@@ -115,9 +118,9 @@ const storeSlice = createSlice({
     },
 })
 
-export const { setLoginModal, setRoomsData, setLiveClassFormData, setRoomsCodeData, setScheduleOnlineClassModal, setActiveLiveClassFormData, resetActiveLiveClassFormData,
+export const { setLoginModal, setRoomsData, setLiveClassFormData, setRoomsCodeData, setScheduleOnlineClassModalState, resetActiveLiveClassFormData,
     setAddStudentModalState, setAddTeacherModalState, setAddClassModalState, setAddParentModalState, setUserData, setNotificationBarState, showLoader, hideLoader, showConfirmationModal,
-    hideConfirmationModal, setSelectedClassForViewRecordings, setChatBotData, setChatHistoryList, updateChatHistory, setAssignToClassModalState } = storeSlice.actions
+    hideConfirmationModal, setSelectedClassForViewRecordings, setChatBotData, setChatHistoryList, setChatHistoryListData, updateChatHistory, setAssignToClassModalState } = storeSlice.actions
 export default storeSlice.reducer
 
 

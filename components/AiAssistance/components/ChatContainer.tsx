@@ -5,7 +5,7 @@ import { useAppSelector } from '@/app/lib/hooks';
 import { setChatBotData } from '@/app/lib/slice';
 import typingAnimation from '@/app/public/typingAnimation.json';
 import { cleanChatData } from '@/constant/utils';
-import { Button, Container, Flex, Textarea } from '@mantine/core';
+import { Button, Container, Flex, Text, Textarea } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { IconSend2 } from '@tabler/icons-react';
 import Lottie from 'react-lottie';
@@ -46,12 +46,11 @@ const ChatContainer = () => {
     const res = await handleChat(msgBody.parts[0].text, cleanChatData(chatData) as never);
     dispatch(setChatBotData( {chatId, data: [...updatedData, res], loading: false} ))
   };
-  console.log(chatData, chatId, 'chatBotData')
 
   return (
     <main>
-      <h1>Ai Assistant</h1>
-      <Container p="0" mah="70vh" mih="70vh" className={style.chatContainer}>
+      <Text size="lg" fw={700}>Ai Assistant</Text>
+      <Container p="0" mah="75vh" mih="75vh" className={style.chatContainer}>
         {!chatId ? <h1 className={style.startChatMsg}>Start Chat</h1> : chatData.map((chat) => {
           return <ChatBox key={chat.id} role={chat.role} text={chat.parts[0].text} />;
         })}
