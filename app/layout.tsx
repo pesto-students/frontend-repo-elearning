@@ -1,13 +1,13 @@
 
 import { AppShellLayout } from '@/components/AppShell/AppShell';
-import { ColorSchemeScript, MantineProvider } from '@mantine/core';
+import { DynamicThemeProvider } from '@/components/DynamicTheme/DynamicTheme';
+import { ColorSchemeScript } from '@mantine/core';
 import '@mantine/core/styles.css';
 import '@mantine/dates/styles.css';
 import { Notifications } from '@mantine/notifications';
 import '@mantine/notifications/styles.css';
 import { QueryClient } from '@tanstack/react-query';
 import '../styles/globals.css';
-import { theme } from '../theme';
 import { ClientQueryProvider } from './lib/reactQueryProvider';
 import StoreProvider from './lib/storeprovider';
 
@@ -31,7 +31,7 @@ export default function RootLayout({ children }: { children: any }) {
         />
       </head>
       <body>
-        <MantineProvider theme={theme}>
+        <DynamicThemeProvider>
           <StoreProvider>
             <ClientQueryProvider >
               <AppShellLayout>{children}</AppShellLayout>
@@ -39,7 +39,7 @@ export default function RootLayout({ children }: { children: any }) {
             </ClientQueryProvider>
           </StoreProvider>
           <Notifications />
-        </MantineProvider>
+        </DynamicThemeProvider>
       </body>
     </html>
   );

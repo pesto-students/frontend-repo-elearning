@@ -3,7 +3,7 @@ import hms from '@/app/api/hms';
 import restClient from '@/app/api/restClient';
 import { getOnlineClassesAction } from '@/app/dashboard/online-classes/page';
 import { useAppDispatch, useAppSelector } from '@/app/lib/hooks';
-import { hideLoader, resetActiveLiveClassFormData, setLiveClassFormData, setScheduleOnlineClassModal, showLoader } from '@/app/lib/slice';
+import { hideLoader, resetActiveLiveClassFormData, setLiveClassFormData, setScheduleOnlineClassModalState, showLoader } from '@/app/lib/slice';
 import { APIS, SCHEMA_APIS } from '@/constant';
 import { isNotEmptyObject } from '@/constant/utils';
 import { Button, Divider, Group, Modal, Paper, Stack, Text } from '@mantine/core';
@@ -29,7 +29,7 @@ const ScheduleOnlineClass = () => {
     })
 
     const close = () => {
-        dispatch(setScheduleOnlineClassModal({ show: false }))
+        dispatch(setScheduleOnlineClassModalState({ show: false }))
         dispatch(resetActiveLiveClassFormData())
     }
 
@@ -43,7 +43,7 @@ const ScheduleOnlineClass = () => {
             id: id
         })
         dispatch(setLiveClassFormData({ id: newRoomData.id, data: values }))
-        dispatch(setScheduleOnlineClassModal({ show: false }))
+        dispatch(setScheduleOnlineClassModalState({ show: false }))
         dispatch(resetActiveLiveClassFormData())
         getOnlineClassesAction()
     }

@@ -40,7 +40,7 @@ const LoginFormModal = (props: PaperProps) => {
 
     const [schemas, setSchemas] = useState<{ organization: any[] }>({ organization: [] })
 
-    const [, setAccessToken] = useLocalStorage({ key: 'accessToken', defaultValue: null });
+    const [accessToken, setAccessToken] = useLocalStorage({ key: 'accessToken', defaultValue: null });
 
     useEffect(() => {
         getOrganizationSchema()

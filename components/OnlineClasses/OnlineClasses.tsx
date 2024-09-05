@@ -2,7 +2,7 @@
 import { getOnlineClassesApi } from '@/app/api/common';
 import { getOnlineClassesAction, getRoomCodeByRoomIdAction, updateLiveClassByIdAction } from '@/app/dashboard/online-classes/page';
 import { useAppDispatch, useAppSelector } from '@/app/lib/hooks';
-import { setActiveLiveClassFormData, setRoomsCodeData, setScheduleOnlineClassModal } from '@/app/lib/slice';
+import { setRoomsCodeData, setScheduleOnlineClassModalState } from '@/app/lib/slice';
 import { APIS } from '@/constant';
 import { Button, Grid, Group, useMatches } from '@mantine/core';
 import { useEffect, useState } from 'react';
@@ -13,15 +13,18 @@ const OnlineClasses = ({ rooms = { data: [] } }) => {
     const store = useAppSelector(state => state.store);
     const dispatch = useAppDispatch()
 
-    // useEffect(() => {
-    //     if (rooms?.data?.length) {
-    //         setRoomsData(rooms.data)
-    //     }
-    // }, [rooms])
-
     useEffect(() => {
         getOnlineClasses()
     }, [])
+
+    useEffect(() => {
+        if (store.scheduleOnlineClassModalState.callbackFunctionName) {
+            const callbacks = {
+                getOnlineClasses: getOnlineClasses
+            }
+            callbacks[store.scheduleOnlineClassModalState.callbackFunctionName] && callbacks[store.scheduleOnlineClassModalState.callbackFunctionName]()
+        }
+    }, [store.scheduleOnlineClassModalState.callbackFunctionName])
 
     const getOnlineClasses = async () => {
         const data = await getOnlineClassesApi()
@@ -59,15 +62,14 @@ const OnlineClasses = ({ rooms = { data: [] } }) => {
     }
 
     const handleEditLiveClass = (data: {}) => {
-        dispatch(setActiveLiveClassFormData(data))
-        dispatch(setScheduleOnlineClassModal({ show: true }))
+        dispatch(setScheduleOnlineClassModalState({ show: true, onlineClassData: data, callbackFunctionName: "getOnlineClasses" }))
     }
 
     return (
         <div>
-            <Group>
+            <Group mb={"md"}>
                 <h1>Scheduled classes</h1>
-                <Button onClick={() => dispatch(setScheduleOnlineClassModal({ show: true }))} >Schedule online class</Button>
+                <Button size={"sm"} onClick={() => dispatch(setScheduleOnlineClassModalState({ show: true }))} >Schedule online class</Button>
             </Group>
             <Grid >
                 {
