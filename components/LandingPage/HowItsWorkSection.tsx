@@ -1,4 +1,4 @@
-import { AcademicCapIcon, BookOpenIcon, ClipboardDocumentListIcon } from "@heroicons/react/24/solid";
+import { IconBook, IconClipboardText, IconSchool } from "@tabler/icons-react";
 
 const HowItsWorkSection = () => {
     return (
@@ -16,7 +16,7 @@ const HowItsWorkSection = () => {
           <div className="w-full px-4 mb-8">
             <div className="bg-white p-8 rounded-lg shadow-lg relative h-full">
               <div className="bg-blue-500 p-4 rounded-full inline-block text-white mb-4">
-                <AcademicCapIcon className="h-12 w-12" />
+                <IconSchool className="h-12 w-12" />
               </div>
               <h4 className="text-xl font-semibold">Step 1: Register Your Organization</h4>
               <p className="mt-2 text-gray-600">
@@ -29,7 +29,7 @@ const HowItsWorkSection = () => {
           <div className="w-full px-4 mb-8">
             <div className="bg-white p-8 rounded-lg shadow-lg relative h-full">
               <div className="bg-indigo-500 p-4 rounded-full inline-block text-white mb-4">
-                <BookOpenIcon className="h-12 w-12" />
+                <IconBook className="h-12 w-12" />
               </div>
               <h4 className="text-xl font-semibold">Step 2: Create and Schedule Classes</h4>
               <p className="mt-2 text-gray-600">
@@ -42,7 +42,7 @@ const HowItsWorkSection = () => {
           <div className="w-full px-4 mb-8">
             <div className="bg-white p-8 rounded-lg shadow-lg relative h-full">
               <div className="bg-green-500 p-4 rounded-full inline-block text-white mb-4">
-                <ClipboardDocumentListIcon className="h-12 w-12" />
+                <IconClipboardText className="h-12 w-12" />
               </div>
               <h4 className="text-xl font-semibold">Step 3: Monitor Progress and Results</h4>
               <p className="mt-2 text-gray-600">

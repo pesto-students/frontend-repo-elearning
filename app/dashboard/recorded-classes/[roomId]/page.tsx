@@ -20,9 +20,13 @@ export const getRecordingAssetsAction = async (roomId = '') => {
 }
 
 export const getRecordingAssetByRoomId = async (roomId = '') => {
-    const apiUrl = '/recording-assets?room_id=:roomId'
-    const { data } = await hms.get(apiUrl.replace(":roomId", roomId))
-    return data.data
+    try {
+        const apiUrl = '/recording-assets?room_id=:roomId'
+        const { data } = await hms.get(apiUrl.replace(":roomId", roomId))
+        return data.data
+    } catch (error) {
+        console.log('error getRecordingAssetByRoomId ===>', error)
+    }
 }
 
 export const getRecordedLectureUrlAction = async (asset_id = '') => {
@@ -30,21 +34,6 @@ export const getRecordedLectureUrlAction = async (asset_id = '') => {
         const apiUrl = "/recording-assets/" + asset_id + "/presigned-url"
         const { data } = await hms.get(apiUrl)
         return data
-    } catch (error) {
-        console.log(error)
-    }
-}
-
-export const getSessionsByRoomId = async (roomId = '') => {
-    const apiUrl = '/sessions?room_Id=' + roomId
-    try {
-        const sessions = await hms.get(apiUrl)
-        const processSessions = asyncLib.mapLimit(sessions, 5, (session) => {
-
-        })
-
-
-        // return data.data        
     } catch (error) {
         console.log(error)
     }

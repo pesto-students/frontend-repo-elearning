@@ -62,7 +62,7 @@ const TeacherDetails = () => {
 
     return (
         <>
-           <ViewDetails details={details} />
+            <ViewDetails details={details} />
             {teacher.classes?.length > 0 && (
                 <>
                     <Text size="lg" fw={600} mt="xl" mb="md">

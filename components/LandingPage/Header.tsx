@@ -1,6 +1,6 @@
 import { useAppDispatch } from '@/app/lib/hooks';
 import { setLoginModal } from '@/app/lib/slice';
-import { Bars3Icon, HomeIcon, PhoneIcon, SparklesIcon, StarIcon, XMarkIcon } from '@heroicons/react/24/solid';
+import { IconHomeFilled, IconMenu2, IconPhoneFilled, IconSparkles, IconStarFilled, IconX } from '@tabler/icons-react';
 import { useEffect, useState } from "react";
 import AppLogo from '../AppLogo/AppLogo';
 
@@ -45,7 +45,7 @@ const Header = () => {
                     scrolled ? 'text-gray-600' : 'text-white'
                   } hover:text-gray-900`}
                 >
-                  <HomeIcon className="h-5 w-5 mr-2" />
+                  <IconHomeFilled className="h-5 w-5 mr-2" />
                   Home
                 </a>
                 <a
@@ -54,7 +54,7 @@ const Header = () => {
                     scrolled ? 'text-gray-600' : 'text-white'
                   } hover:text-gray-900`}
                 >
-                  <StarIcon className="h-5 w-5 mr-2" />
+                  <IconStarFilled className="h-5 w-5 mr-2" />
                   Features
                 </a>
                 <a
@@ -63,7 +63,7 @@ const Header = () => {
                     scrolled ? 'text-gray-600' : 'text-white'
                   } hover:text-gray-900`}
                 >
-                  <SparklesIcon className="h-5 w-5 mr-2" />
+                  <IconSparkles className="h-5 w-5 mr-2" />
                   Pricing
                 </a>
                 <a
@@ -72,7 +72,7 @@ const Header = () => {
                     scrolled ? 'text-gray-600' : 'text-white'
                   } hover:text-gray-900`}
                 >
-                  <PhoneIcon className="h-5 w-5 mr-2" />
+                  <IconPhoneFilled className="h-5 w-5 mr-2" />
                   Contact
                 </a>
               </nav>
@@ -96,9 +96,9 @@ const Header = () => {
                   className="text-white focus:outline-none"
                 >
                   {menuOpen ? (
-                    <XMarkIcon className="h-6 w-6" />
+                    <IconX className="h-6 w-6" />
                   ) : (
-                    <Bars3Icon className="h-6 w-6" />
+                    <IconMenu2 className="h-6 w-6" />
                   )}
                 </button>
               </div>
@@ -113,7 +113,7 @@ const Header = () => {
                     scrolled ? 'text-gray-600' : 'text-white'
                   } hover:text-gray-900`}
                 >
-                  <HomeIcon className="h-5 w-5 mr-2 inline" />
+                  <IconHomeFilled className="h-5 w-5 mr-2 inline" />
                   Home
                 </a>
                 <a
@@ -122,7 +122,7 @@ const Header = () => {
                     scrolled ? 'text-gray-600' : 'text-white'
                   } hover:text-gray-900`}
                 >
-                  <StarIcon className="h-5 w-5 mr-2 inline" />
+                  <IconStarFilled className="h-5 w-5 mr-2 inline" />
                   Features
                 </a>
                 <a
@@ -131,7 +131,7 @@ const Header = () => {
                     scrolled ? 'text-gray-600' : 'text-white'
                   } hover:text-gray-900`}
                 >
-                  <SparklesIcon className="h-5 w-5 mr-2 inline" />
+                  <IconSparkles className="h-5 w-5 mr-2 inline" />
                   Pricing
                 </a>
                 <a
@@ -140,7 +140,7 @@ const Header = () => {
                     scrolled ? 'text-gray-600' : 'text-white'
                   } hover:text-gray-900`}
                 >
-                  <PhoneIcon className="h-5 w-5 mr-2 inline" />
+                  <IconPhoneFilled className="h-5 w-5 mr-2 inline" />
                   Contact
                 </a>
                 <a
