@@ -5,11 +5,20 @@ import { ColorSwatch, Group, Select, Stack, Text } from '@mantine/core';
 import { useEffect, useState } from 'react';
 
 const Settings = () => {
-    const [settings, setSettings] = useState(() => ({
-        primaryColor: localStorage.getItem('mantine-primary-color') || 'myColor',
-        fontColor: localStorage.getItem('mantine-font-color') || 'dark.9',
-        fontFamily: localStorage.getItem('mantine-font-family') || 'Roboto, sans-serif',
-    }));
+    const [settings, setSettings] = useState({
+        primaryColor: 'myColor',
+        fontColor: 'dark.9',
+        fontFamily: 'Roboto, sans-serif',
+    });
+
+    useEffect(() => {
+        // Initialize settings from localStorage on the client side
+        setSettings({
+            primaryColor: localStorage.getItem('mantine-primary-color') || 'myColor',
+            fontColor: localStorage.getItem('mantine-font-color') || 'dark.9',
+            fontFamily: localStorage.getItem('mantine-font-family') || 'Roboto, sans-serif',
+        });
+    }, []);
 
     const theme = createAppTheme();
     const colorOptions = Object.keys(theme.colors).map((color) => ({
@@ -34,11 +43,13 @@ const Settings = () => {
 
     const updateSetting = (key: string, value: string) => {
         setSettings(prev => ({ ...prev, [key]: value }));
-        localStorage.setItem(`mantine-${key}`, value);
-        window.dispatchEvent(new StorageEvent('storage', {
-            key: `mantine-${key}`,
-            newValue: value,
-        }));
+        if (typeof window !== 'undefined') {
+            localStorage.setItem(`mantine-${key}`, value);
+            window.dispatchEvent(new StorageEvent('storage', {
+                key: `mantine-${key}`,
+                newValue: value,
+            }));
+        }
     };
 
     useEffect(() => {
