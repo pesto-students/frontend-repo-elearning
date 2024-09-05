@@ -3,12 +3,14 @@ import { DateInput, DateTimePicker, TimeInput } from '@mantine/dates';
 import { useForm } from '@mantine/form';
 import dayjs from 'dayjs';
 import DynamicAutocomplete from './DynamicAutoComplete';
+import DynamicMultiSelect from './DynamicMultiSelect';
 
 interface DynamicFormProps {
     formData: [
         {
             path: string, required: boolean, formControl: {
-                name: string, type: string, data: [], maxLength: number, label: string, options: [], apiDetails: {}
+                name: string, type: string, data: [], maxLength: number, label: string, options: [], apiDetails: {},
+                isMultiSelect: boolean
             }
         }
     ],
@@ -55,6 +57,7 @@ const DynamicForm = (props: DynamicFormProps) => {
                                             onSelect={(item) => {
                                                 formHook.setFieldValue(path, item)
                                             }}
+                                            defaultValue={formValues && formValues[path]}
                                         />
                                     case 'dateTimePicker':
                                         return <DateTimePicker
@@ -63,7 +66,6 @@ const DynamicForm = (props: DynamicFormProps) => {
                                             value={new Date()}
                                             minDate={new Date()}
                                             maxDate={dayjs(new Date()).add(1, 'month').toDate()}
-                                            {...formHook.getInputProps(path)}
                                             required
                                         />
                                     case 'datePicker':
@@ -85,6 +87,17 @@ const DynamicForm = (props: DynamicFormProps) => {
                                             {...formHook.getInputProps(path)}
                                             required
                                         ></Textarea>
+                                    case 'multiSelectWithAutoSuggest':
+                                        return <DynamicMultiSelect
+                                            label={label}
+                                            apiDetails={apiDetails}
+                                            onSelect={(items: []) => {
+                                                const selectedValues = formHook.values[path] || [];
+                                                const updatedValues = [...selectedValues, ...items]
+                                                formHook.setFieldValue(path, updatedValues)
+                                            }}
+                                            defaultValue={formValues && formValues[path]}
+                                        />
                                     default:
                                         break;
                                 }

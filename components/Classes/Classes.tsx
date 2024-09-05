@@ -46,7 +46,7 @@ const Classes = () => {
     }, [classId, classes]);
 
     const getClasses = async () => {
-        const { data } = await restClient.post<ClassObject[]>(APIS.GET_CLASSES, {});
+        const { data } = await restClient.post<ClassObject[]>(APIS.FETCH_CLASS, classId ? { _id: classId } : {});
         if (data?.length) {
             setClasses(data);
         }
@@ -112,7 +112,7 @@ const Classes = () => {
                                 {/* </Grid> */}
                             </Group>
                         </Paper>
-                        {selectedClass.teachers?.length && (
+                        {selectedClass.teachers?.length ? (
                             <>
                                 <Text size="lg" fw={600} mt="xl" mb="md">
                                     {selectedClass.className} - Teachers
@@ -124,9 +124,9 @@ const Classes = () => {
                                     rowClick={(teacher) => router.push(`/dashboard/teachers/${teacher._id}`)}
                                 />
                             </>
-                        )}
+                        ) : null}
 
-                        {selectedClass.students?.length && (
+                        {selectedClass.students?.length ? (
                             <>
                                 <Text size="lg" fw={600} mt="xl" mb="md">
                                     {selectedClass.className} - Students
@@ -138,7 +138,7 @@ const Classes = () => {
                                     rowClick={(student) => router.push(`/dashboard/students/${student._id}`)}
                                 />
                             </>
-                        )}
+                        ) : null}
                     </>
                 )
             )}

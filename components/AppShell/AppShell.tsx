@@ -18,6 +18,7 @@ import LoginFormModal from '../LoginForm/LoginForm';
 import Navbar from '../Navbar/Navbar';
 import AddParentForm from '../Parents/AddParentForm/AddParentForm';
 import ScheduleOnlineClass from '../ScheduleOnlineClass/ScheduleOnlineClassModal';
+import AssignToClass from '../common/DynamicForm/AssignToClass/AssignToClass';
 
 export function AppShellLayout({ children }: { children: React.ReactNode }) {
     const [mobileOpened, { toggle: toggleMobile }] = useDisclosure();
@@ -89,6 +90,7 @@ export function AppShellLayout({ children }: { children: React.ReactNode }) {
                 {store.confirmationModal.isOpen ? <ConfirmationModal></ConfirmationModal> : null}
                 {store.isLoading && <AppLoader></AppLoader>}
                 {store.addParentModalState.show ? <AddParentForm></AddParentForm> : null}
+                {store.assignToClassModalState.show ? <AssignToClass></AssignToClass> : null}
             </AppShell> : <LandingPage>{store.loginModalState.show && <LoginFormModal></LoginFormModal>}</LandingPage>}
         </HMSRoomProvider>
     );
