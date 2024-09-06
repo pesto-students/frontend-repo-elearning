@@ -44,11 +44,11 @@ const OnlineClasses = ({ rooms = { data: [] } }) => {
     }
 
     const handleJoinLiveClass = async (roomId = '') => {
-        if (roomId) {
+        if (roomId && store.userData.userType) {
             let roomCodeResponse = await createRoomCodeByRoomId(roomId)
             if (roomCodeResponse) {
                 dispatch(setRoomsCodeData({ id: roomId, data: roomCodeResponse }))
-                const { code = '' } = roomCodeResponse?.find((d = { role: '', code: '' }) => d.role === "broadcaster") || {}
+                const { code = '' } = roomCodeResponse?.find((d = { role: '', code: '' }) => d.role === store.userData.userType.toLowerCase() || "viewer-near-realtime") || {}
                 if (code) {
                     window.open(APIS.LIVE_CLASS.replace(":roomCode", code), '_blank', 'noopener noreferrer')
                 }
