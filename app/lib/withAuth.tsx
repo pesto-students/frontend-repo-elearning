@@ -5,13 +5,14 @@ import { useEffect } from 'react';
 const WithAuth = (WrappedComponent) => {
   return (props) => {
     const router = useRouter();
-    const accessToken = localStorage.getItem('accessToken')
-    const isAuthenticated = Boolean(accessToken);
+   
     useEffect(() => {
+      const accessToken = localStorage.getItem('accessToken')
+      const isAuthenticated = Boolean(accessToken);
       if (!isAuthenticated) {
         router.push('/'); // Redirect to login page if not authenticated
       }
-    }, [isAuthenticated]);
+    }, []);
 
     return <WrappedComponent {...props} />;
   };
