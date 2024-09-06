@@ -63,7 +63,7 @@ export function AppShellLayout({ children }: { children: React.ReactNode }) {
                 <Group h="100%" px="md">
                     <Burger opened={mobileOpened} onClick={toggleMobile} hiddenFrom="sm" size="sm" />
                     <Burger opened={desktopOpened} onClick={toggleDesktop} visibleFrom="sm" size="sm" />
-                    <AppLogo />
+                    <AppLogo path={isDashboard? '/dashboard' : ''} />
                 </Group>
                 <Group px="md">
                     {store.userData?.username ?
