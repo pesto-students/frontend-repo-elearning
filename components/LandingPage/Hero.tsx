@@ -28,7 +28,7 @@ const HeroSection = () => {
                 </div>
                 <div className="mt-10 animate-fadeInUp delay-400">
                     <img
-                        src="/path/to/mockup-image.png"
+                        src="https://res.cloudinary.com/dy4zxtxoe/image/upload/v1725652661/dashboard-removebg-preview_pwgxlg.png"
                         alt="Applify - App Landing Page"
                         className="max-w-full mx-auto"
                         style={{ maxWidth: '1000px' }}
