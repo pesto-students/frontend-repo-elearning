@@ -4,9 +4,9 @@ import {
   Badge,
   Card,
   Container,
-  Group,
+  Flex,
   Image,
-  Text,
+  Text
 } from '@mantine/core';
 import { useRouter } from 'next/navigation';
 import classes from "./DashboardCards.module.css";
@@ -39,16 +39,16 @@ function DashboardCards({ data }: { data: Module }) {
           />
         </Card.Section>
 
-        <Group position="apart" mt="md" mb="xs">
+        <Flex  justify="space-between"  mt="md" mb="xs">
           <Text fw={500} className={classes.cardTitle}>
             {data.moduleName}
           </Text>
           <Badge color={data.status === 'ACTIVE' ? 'green' : 'red'} variant="light">
             {data.status}
           </Badge>
-        </Group>
+        </Flex>
 
-        <Text size="sm" c="dimmed" mb="md">
+        <Text className={classes.cardDesc}  size="sm" c="dimmed" mb="md">
           {data.description}
         </Text>
 
@@ -56,6 +56,7 @@ function DashboardCards({ data }: { data: Module }) {
           color={data.isSubscribed ? 'blue' : 'gray'}
           variant="outline"
           fullWidth
+          className={classes.cardSubBadge}
         >
           {data.isSubscribed ? 'Subscribed' : 'Not Subscribed'}
         </Badge>
