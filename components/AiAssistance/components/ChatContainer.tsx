@@ -1,9 +1,9 @@
 'use client';
-
 import { handleChat } from '@/app/dashboard/ai-assistance/page';
 import { useAppSelector } from '@/app/lib/hooks';
 import { setChatBotData } from '@/app/lib/slice';
 import typingAnimation from '@/app/public/typingAnimation.json';
+import { defaultMsgBody } from '@/constant';
 import { cleanChatData } from '@/constant/utils';
 import { Button, Container, Flex, Text, Textarea } from '@mantine/core';
 import { useForm } from '@mantine/form';
@@ -14,10 +14,7 @@ import { v4 as uuidv4 } from 'uuid';
 import style from '../style.module.css';
 import ChatBox from './Chatbox';
 
-const defaultMsgBody = {
-  parts: [{ text: "" }],
-  role: 'user',
-};
+
 
 const ChatContainer = () => {
   const form = useForm({

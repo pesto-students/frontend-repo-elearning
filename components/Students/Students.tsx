@@ -1,6 +1,7 @@
 'use client'
 import restClient from '@/app/api/restClient';
 import { setAddStudentModalState, showConfirmationModal } from '@/app/lib/slice';
+import withAuth from '@/app/lib/withAuth';
 import { APIS } from '@/constant';
 import { getRandomMantineColor } from '@/constant/utils';
 import { Avatar, Button, Group, Text } from '@mantine/core';
@@ -151,4 +152,4 @@ const Students = () => {
     );
 };
 
-export default Students;
+export default withAuth(Students);

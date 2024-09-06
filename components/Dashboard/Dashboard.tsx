@@ -1,6 +1,7 @@
 "use client"
 import restClient from '@/app/api/restClient';
 import { useAppDispatch } from '@/app/lib/hooks';
+import withAuth from '@/app/lib/withAuth';
 import { APIS, MODULES_MAPPING } from '@/constant';
 import { Card, Grid, SimpleGrid, Text, useMatches } from '@mantine/core';
 import { useRouter } from 'next/navigation';
@@ -75,4 +76,4 @@ const Dashboard = () => {
     );
 };
 
-export default Dashboard;
+export default withAuth(Dashboard);
