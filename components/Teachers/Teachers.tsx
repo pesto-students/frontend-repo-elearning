@@ -2,6 +2,7 @@
 import restClient from '@/app/api/restClient';
 import { useAppSelector } from '@/app/lib/hooks';
 import { setAddTeacherModalState, setAssignToClassModalState } from '@/app/lib/slice';
+import withAuth from '@/app/lib/withAuth';
 import { APIS } from '@/constant';
 import { getRandomMantineColor } from '@/constant/utils';
 import { Avatar, Button, Group, Text } from '@mantine/core';
@@ -180,4 +181,4 @@ const Teachers = () => {
     );
 };
 
-export default Teachers;
+export default withAuth(Teachers);

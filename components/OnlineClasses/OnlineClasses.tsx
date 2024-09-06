@@ -3,6 +3,7 @@ import { getOnlineClassesApi } from '@/app/api/common';
 import { getOnlineClassesAction, getRoomCodeByRoomIdAction, updateLiveClassByIdAction } from '@/app/dashboard/online-classes/page';
 import { useAppDispatch, useAppSelector } from '@/app/lib/hooks';
 import { setRoomsCodeData, setScheduleOnlineClassModalState } from '@/app/lib/slice';
+import withAuth from '@/app/lib/withAuth';
 import { APIS } from '@/constant';
 import { Button, Grid, Group, useMatches } from '@mantine/core';
 import { useEffect, useState } from 'react';
@@ -91,4 +92,4 @@ const OnlineClasses = ({ rooms = { data: [] } }) => {
     );
 };
 
-export default OnlineClasses;
+export default withAuth(OnlineClasses);
