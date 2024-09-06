@@ -135,3 +135,8 @@ export const ROUTES = {
     AI_ASSISTANCE: '/dashboard/ai-assistance',
     AI_ASSISTANCE_DETAILS: '/dashboard/ai-assistance/:aiId'
 }
+
+export const defaultMsgBody = {
+    parts: [{ text: "" }],
+    role: 'user',
+  };

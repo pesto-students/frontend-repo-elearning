@@ -3,7 +3,7 @@ import { createQuestions, uploadDocument } from '@/app/dashboard/questionnaire/c
 import { useAppSelector } from '@/app/lib/hooks';
 import { MultiOptionPicker } from '@/components/multiOptionsPicker';
 import { examplePrompt } from '@/constant';
-import { Button, Flex, Tabs, Textarea } from '@mantine/core';
+import { Button, Flex, Tabs, Text, Textarea } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useDisclosure } from '@mantine/hooks';
 import { IconCloudUpload, IconTextPlus } from '@tabler/icons-react';
@@ -86,9 +86,9 @@ const CreateQuestionnaire = () => {
   return (
     <main>
        
-      <h1>Questionnaire</h1>
+      <Text size="xl" fw="bold">Questionnaire</Text>
       <div>
-        <h2>Create Questions</h2>
+        <Text size="md" fw="bold">Create Questions</Text>
       </div>
       <div>
       <Tabs defaultValue="upload">

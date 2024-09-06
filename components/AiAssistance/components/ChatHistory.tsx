@@ -1,5 +1,4 @@
 'use client'
-
 import { getChatHistory, handleUpdateHistory } from "@/app/dashboard/ai-assistance/page";
 import { useAppSelector } from "@/app/lib/hooks";
 import { setChatBotData, setChatHistoryList, setChatHistoryListData, updateChatHistory } from "@/app/lib/slice";
@@ -55,7 +54,6 @@ const ChatHistory = () => {
          handleUpdateHistory(ChatHistoryData)
 
     }
-    console.log(ChatHistoryData)
     return <Container pos="absolute" p="0" className={style.container} h="90vh" w="24%">
        <Text size="lg" fw={700}  >Chat History</Text>
        <Container h="75vh" mah="75vh" w="100%">
