@@ -14,6 +14,7 @@ export const APIS = {
     LIST_STUDENT: "/api/student",
     FETCH_STUDENT: '/api/student/fetch',
     EDIT_STUDENT: "/api/student/:id",
+    UPDATE_STUDENT_ENROLLMENTS: '/api/student/update-enrollments',
     CREATE_TEACHER: '/api/teacher/create',
     FETCH_CLASS: '/api/class/fetch',
     CREATE_CLASS: '/api/class/create',

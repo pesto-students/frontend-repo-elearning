@@ -1,6 +1,6 @@
 'use client'
 import restClient from '@/app/api/restClient';
-import { setAddStudentModalState, showConfirmationModal } from '@/app/lib/slice';
+import { setAddStudentModalState, setAssignToClassModalState, showConfirmationModal } from '@/app/lib/slice';
 import withAuth from '@/app/lib/withAuth';
 import { APIS } from '@/constant';
 import { getRandomMantineColor } from '@/constant/utils';
@@ -121,12 +121,15 @@ const Students = () => {
     const handleViewDetail = (student: Student) => {
         router.push(`/dashboard/students/${student._id}`)
     };
-
+    
     const menuItems = [
         { label: 'Edit', onClick: handleEditStudents },
         { label: 'Delete', onClick: handleOnDeleteClick },
         { label: 'View Details', onClick: handleViewDetail },
-        { label: 'Assign to Class', onClick: (student) => console.log('Assign to Class', student) },
+        { label: 'Assign to Class', onClick: (student: Student) => {
+            dispatch(setAssignToClassModalState({ show: true, assigneeData: { ...student }, editType: "student", callBack: getStudents }))
+
+        } },
     ];
 
     const handleAddStudent = () => {

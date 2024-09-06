@@ -20,9 +20,17 @@ interface DynamicFormProps {
     isEdit: boolean;
 }
 
+const formName = {
+    countryId: 'country',
+    stateId: 'state',
+    cityId: 'city',
+    branchId: 'branch'
+} 
+
 const DynamicForm = (props: DynamicFormProps) => {
     const { formData, formSubmit, formSubmitButtonJsx, formValues, isEdit } = props
-    const formHook = useForm({ initialValues: isEdit ? formValues : {} })
+    const formHook = useForm({ initialValues: isEdit ? {...formValues} : {} })
+    console.log(formData);
     return (
         <div>
             <form onSubmit={formHook.onSubmit(formSubmit)}>
@@ -30,8 +38,9 @@ const DynamicForm = (props: DynamicFormProps) => {
                     <Stack>
                         {
                             formData.map(field => {
-                                const { path, required, formControl } = field
+                                const { path, required, formControl } = field;
                                 const { name, type, options = [], maxLength, label, apiDetails } = formControl || {}
+
                                 switch (name) {
                                     case "input":
                                         return <TextInput
@@ -55,9 +64,9 @@ const DynamicForm = (props: DynamicFormProps) => {
                                             label={label}
                                             apiDetails={apiDetails}
                                             onSelect={(item) => {
-                                                formHook.setFieldValue(path, item)
+                                                formHook.setFieldValue(formName[path], item)
                                             }}
-                                            defaultValue={formValues && formValues[path]}
+                                            defaultValue={formValues && formValues[formName[path]]}
                                         />
                                     case 'dateTimePicker':
                                         return <DateTimePicker
