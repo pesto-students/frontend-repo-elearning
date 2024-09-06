@@ -54,6 +54,7 @@ const ChatHistory = () => {
          handleUpdateHistory(ChatHistoryData)
 
     }
+    console.log(ChatHistoryData)
     return <Container pos="absolute" p="0" className={style.container} h="90vh" w="24%">
        <Text size="lg" fw={700}  >Chat History</Text>
        <Container h="75vh" mah="75vh" w="100%">

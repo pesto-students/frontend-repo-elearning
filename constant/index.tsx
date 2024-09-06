@@ -40,7 +40,11 @@ export const APIS = {
     CREATE_PARENT: '/api/parent/create',
     FETCH_PARENT: 'api/parent/fetch',
     DELETE_PARENT: '/api/parent/delete',
-    UPDATE_PARENT: '/api/parent/update'
+    UPDATE_PARENT: '/api/parent/update',
+    MODULE_MANAGEMENT_MODULES: '/api/module-management/modules',
+    MODULE_MANAGEMENT_UNSUBSCRIBE: '/api/module-management/unsubscribe',
+    MODULE_MANAGEMENT_SUBSCRIBE: '/api/module-management/subscribe',
+    DASHBOARD_COUNTS: '/api/dashboard/counts'
 }
 
 export const SCHEMA_APIS = {
@@ -133,10 +137,29 @@ export const ROUTES = {
     QUESTIONNAIRE: '/dashboard/questionnaire',
     QUESTIONNAIRE_DETAILS: '/dashboard/questionnaire/:questionId',
     AI_ASSISTANCE: '/dashboard/ai-assistance',
-    AI_ASSISTANCE_DETAILS: '/dashboard/ai-assistance/:aiId'
+    AI_ASSISTANCE_DETAILS: '/dashboard/ai-assistance/:aiId',
+    USER_PROFILE: '/dashboard/user/profile',
+    USER_SETTINGS: '/dashboard/user/settings'
 }
 
 export const defaultMsgBody = {
     parts: [{ text: "" }],
     role: 'user',
   };
+const USER_TYPE = {
+    SUPER_ADMIN: 'SUPER_ADMIN',
+    ORG_ADMIN: 'ORG_ADMIN',
+    BRANCH_ADMIN: 'BRANCH_ADMIN',
+    TEACHER: 'TEACHER',
+    STUDENT: 'STUDENT',
+    PARENT: 'PARENT'
+}
+
+export const MODULES_MAPPING = {
+    teachers: '/dashboard/teachers',
+    students: '/dashboard/students',
+    classes: '/dashboard/classes',
+    onlineClasses: '/dashboard/online-classes',
+    questionnaire: '/dashboard/questionnaire',
+    aiAssistance: '/dashboard/ai-assistance'
+}
