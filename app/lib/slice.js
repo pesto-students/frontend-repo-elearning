@@ -7,7 +7,7 @@ const initialState = {
     roomsCodeData: {},
     scheduleOnlineClassModalState: { show: false, onlineClassData: null },
     activeEditLiveClassData: {},
-    addStudentModalState: { show: false },
+    addStudentModalState: { show: false, studentData: null, isEdit: false, makeRequest: null },
     addTeacherModalState: { show: false, teacherData: null },
     addClassModalState: { show: false },
     addParentModalState: { show: false },
@@ -21,8 +21,9 @@ const initialState = {
         onConfirm: null,
     },
     selectedClassForViewRecordings: [],
-    chatBotData: { loading: false, data: [], currentChatId: '' },
-    ChatHistoryData: []
+    chatBotData: { loading: false, data: [], chatId: '' },
+    ChatHistoryData: [],
+    assignToClassModalState: { show: false, assigneeData: null }
 }
 
 const storeSlice = createSlice({
@@ -41,15 +42,15 @@ const storeSlice = createSlice({
         setRoomsCodeData(state, action) {
             state.roomsCodeData[action.payload.id] = action.payload.data
         },
-        setScheduleOnlineClassModal(state, action) {
+        setScheduleOnlineClassModalState(state, action) {
             state.scheduleOnlineClassModalState = { ...state.scheduleOnlineClassModalState, ...action.payload }
         },
         resetLiveClassFormData(state) {
             state.liveClassFormData = {}
         },
-        setActiveLiveClassFormData(state, action) {
-            state.activeEditLiveClassData = action.payload
-        },
+        // setActiveLiveClassFormData(state, action) {
+        //     state.activeEditLiveClassData = action.payload
+        // },
         resetActiveLiveClassFormData(state) {
             state.activeEditLiveClassData = {}
         },
@@ -94,19 +95,32 @@ const storeSlice = createSlice({
         setSelectedClassForViewRecordings: (state, action) => {
             state.selectedClassForViewRecordings = action.payload
         },
+        setChatHistoryListData(state, action) {
+            state.ChatHistoryData = [...state.ChatHistoryData, action.payload]
+        },
         setChatHistoryList(state, action) {
-            state.ChatHistoryData = [...state.ChatHistoryData, ...action.payload]
+            state.ChatHistoryData = action.payload;
         },
-        updateChatHistory(state, action, id) {
-            const chatHistory = state.ChatHistoryData.filter((chatHistory) => chatHistory.id === id);
-            chatHistory.data = { ...chatHistory, data: action.payload }
+        updateChatHistory(state, action) {
+            const { data, id } = action.payload;
+            const chatHistoryIndex = state.ChatHistoryData.findIndex((chatHistory) => chatHistory.chatId === id);
+            if (chatHistoryIndex !== -1) {
+                state.ChatHistoryData[chatHistoryIndex] = { ...state.ChatHistoryData[chatHistoryIndex], data }
+            }
+
         },
+        setChatBotData(state, action) {
+            state.chatBotData = action.payload
+        },
+        setAssignToClassModalState(state, action) {
+            state.assignToClassModalState = { ...state.assignToClassModalState, ...action.payload }
+        }
     },
 })
 
-export const { setLoginModal, setRoomsData, setLiveClassFormData, setRoomsCodeData, setScheduleOnlineClassModal, setActiveLiveClassFormData, resetActiveLiveClassFormData,
+export const { setLoginModal, setRoomsData, setLiveClassFormData, setRoomsCodeData, setScheduleOnlineClassModalState, resetActiveLiveClassFormData,
     setAddStudentModalState, setAddTeacherModalState, setAddClassModalState, setAddParentModalState, setUserData, setNotificationBarState, showLoader, hideLoader, showConfirmationModal,
-    hideConfirmationModal, setSelectedClassForViewRecordings, setChatBotData, setChatHistoryList } = storeSlice.actions
+    hideConfirmationModal, setSelectedClassForViewRecordings, setChatBotData, setChatHistoryList, setChatHistoryListData, updateChatHistory, setAssignToClassModalState } = storeSlice.actions
 export default storeSlice.reducer
 
 

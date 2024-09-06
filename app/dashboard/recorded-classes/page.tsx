@@ -2,8 +2,12 @@ import RecordedLectures from "@/components/RecordedLectures/RecordedLectures";
 import { getOnlineClassesAction } from "../online-classes/page";
 
 export const getRecordedSessionsAction = async () => {
-    const allActiveRooms: { data: [] } = await getOnlineClassesAction()
-    return allActiveRooms.data
+    try {
+        const { data } = await getOnlineClassesAction()
+        return data
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 export default async function Page() {

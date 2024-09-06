@@ -1,38 +1,61 @@
 "use client"
-import { useAppSelector } from '@/app/lib/hooks';
+import restClient from '@/app/api/restClient';
+import { useAppDispatch, useAppSelector } from '@/app/lib/hooks';
+import { setUserData } from '@/app/lib/slice';
+import { APIS, ROUTES } from '@/constant';
 import { HMSRoomProvider } from '@100mslive/react-sdk';
-import { AppShell, Burger, Flex, Group } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
+import { AppShell, Avatar, Burger, Flex, Group, Menu, rem } from '@mantine/core';
+import { useDisclosure, useLocalStorage } from '@mantine/hooks';
+import { IconSettings, IconUser } from '@tabler/icons-react';
 import { usePathname, useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import AddClassForm from '../AddClassForm/AddClassForm';
 import AddStudentForm from '../AddStudentForm/AddStudentForm';
 import AddTeacherForm from '../AddTeacherForm/AddTeacherForm';
+import AppLoader from '../AppLoader/AppLoader';
 import AppLogo from '../AppLogo/AppLogo';
 import ConfirmationModal from '../ConfirmationModal/ConfirmationModal';
 import { FooterMenu } from '../FooterMenu/FooterMenu';
 import { HeaderMenu } from '../HeaderMenu/HeaderMenu';
-import { LandingPage } from '../LandingPage/LandingPage';
+import LandingPage from '../LandingPage/LandingPage';
 import LoginFormModal from '../LoginForm/LoginForm';
 import Navbar from '../Navbar/Navbar';
+import AddParentForm from '../Parents/AddParentForm/AddParentForm';
 import ScheduleOnlineClass from '../ScheduleOnlineClass/ScheduleOnlineClassModal';
+import AssignToClass from '../common/DynamicForm/AssignToClass/AssignToClass';
+
 
 export function AppShellLayout({ children }: { children: React.ReactNode }) {
     const [mobileOpened, { toggle: toggleMobile }] = useDisclosure();
-    const [desktopOpened, setDesktopOpened] = useState(true);
+    const [desktopOpened, { toggle: toggleDesktop }] = useDisclosure();
     const router = useRouter()
     const pathname = usePathname()
     const store = useAppSelector(state => state.store)
+    const [accessToken] = useLocalStorage({ key: 'accessToken' })
+    const dispatch = useAppDispatch()
 
     const isDashboard = pathname.includes("/dashboard");
 
-    React.useEffect(() => {
-        setDesktopOpened(false);
+    useEffect(() => {
+        toggleMobile()
     }, [pathname]);
 
-    const toggleDesktop = () => {
-        setDesktopOpened(!desktopOpened);
-    };
+    useEffect(() => {
+        const getUserData = async () => {
+            if (accessToken) {
+                try {
+                    const { data } = await restClient.get(APIS.WHOAMI)
+                    if (data) {
+                        dispatch(setUserData(data))
+                    }
+                } catch (error) {
+                    console.log(error)
+                }
+
+            }
+        }
+        getUserData()
+    }, [accessToken]);
 
     const HeaderMenuWithSideBar = () => {
         return (
@@ -43,7 +66,21 @@ export function AppShellLayout({ children }: { children: React.ReactNode }) {
                     <AppLogo />
                 </Group>
                 <Group px="md">
-                    D.A.V School
+                    {store.userData?.username ?
+                        <>
+                            <Menu trigger="click-hover" shadow="md" width={200}>
+                                <Menu.Target>
+                                    <Avatar size={"md"} color='blue'>{store.userData?.username.toUpperCase().charAt(0)}</Avatar>
+                                </Menu.Target>
+                                <Menu.Dropdown>
+                                    <Menu.Item leftSection={<IconSettings style={{ width: rem(14), height: rem(14) }} />} onClick={() => { router.push(ROUTES.USER_SETTINGS) }}>
+                                        Settings
+                                    </Menu.Item>
+                                    <Menu.Item leftSection={<IconUser style={{ width: rem(14), height: rem(14) }} />} onClick={() => { router.push(ROUTES.USER_PROFILE) }}>Profile</Menu.Item>
+                                </Menu.Dropdown>
+                            </Menu>
+                        </>
+                        : null}
                 </Group>
             </Flex>
         )
@@ -54,7 +91,7 @@ export function AppShellLayout({ children }: { children: React.ReactNode }) {
             {isDashboard ? <AppShell
                 header={{ height: 60 }}
                 navbar={{
-                    width: 235,
+                    width: 250,
                     breakpoint: 'sm',
                     collapsed: { mobile: !mobileOpened, desktop: !desktopOpened },
                 }}
@@ -64,14 +101,13 @@ export function AppShellLayout({ children }: { children: React.ReactNode }) {
                     {isDashboard ? <HeaderMenuWithSideBar /> : <HeaderMenu />}
                 </AppShell.Header>
                 {isDashboard ?
-                    <AppShell.Navbar >
+                    <AppShell.Navbar   >
                         <Navbar toggleDesktop={toggleDesktop} />
                     </AppShell.Navbar> : null
                 }
                 <AppShell.Main
                     style={{
-                        paddingLeft: isDashboard && desktopOpened ? 235 : 24,
-                        paddingBottom: 94
+                        paddingLeft: isDashboard && desktopOpened ? 260 : 24,
                     }}
                 >
                     {children}
@@ -85,7 +121,10 @@ export function AppShellLayout({ children }: { children: React.ReactNode }) {
                 {store.addStudentModalState.show ? <AddStudentForm></AddStudentForm> : null}
                 {store.addClassModalState.show ? <AddClassForm></AddClassForm> : null}
                 {store.confirmationModal.isOpen ? <ConfirmationModal></ConfirmationModal> : null}
-            </AppShell> : <LandingPage></LandingPage>}
+                {store.isLoading && <AppLoader></AppLoader>}
+                {store.addParentModalState.show ? <AddParentForm></AddParentForm> : null}
+                {store.assignToClassModalState.show ? <AssignToClass></AssignToClass> : null}
+            </AppShell> : <LandingPage>{store.loginModalState.show && <LoginFormModal></LoginFormModal>}</LandingPage>}
         </HMSRoomProvider>
     );
 }

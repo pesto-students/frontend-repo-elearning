@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const geminiClient = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_HMS_BASE_URI
+    baseURL: process.env.NEXT_PUBLIC_BACKEND_URI
 });
 
 // Request interceptor

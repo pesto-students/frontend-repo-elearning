@@ -1,3 +1,4 @@
+'use client';
 import { Button, Group, Text, rem, useMantineTheme } from '@mantine/core';
 import { Dropzone, MIME_TYPES } from '@mantine/dropzone';
 import { IconCloudUpload, IconDownload, IconX } from '@tabler/icons-react';
@@ -13,7 +14,6 @@ export function DropzoneButton({onDrop}:IDropZoneButton) {
   const theme = useMantineTheme();
   const openRef = useRef<() => void>(null);
   const inputRef = useRef(null)
-  console.log(inputRef.current?.file[0])
   return (
     <div className={classes.wrapper}>
       <Dropzone

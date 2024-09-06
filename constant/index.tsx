@@ -12,25 +12,39 @@ export const APIS = {
     USER_LOGIN: "/api/auth/login",
     CREATE_STUDENT: "/api/student/create",
     LIST_STUDENT: "/api/student",
+    FETCH_STUDENT: '/api/student/fetch',
     EDIT_STUDENT: "/api/student/:id",
     CREATE_TEACHER: '/api/teacher/create',
-    GET_CLASS: '/api/class/fetch',
+    FETCH_CLASS: '/api/class/fetch',
     CREATE_CLASS: '/api/class/create',
-    GET_TEACHERS: '/api/teacher/fetch',
-
+    FETCH_TEACHERS: '/api/teacher/fetch',
+    UPDATE_TEACHER: '/api/teacher/update',
     CREATE_ONLINE_CLASS: '/api/onlineClass/create',
     FETCH_ONLINE_CLASS: '/api/onlineClass/fetch',
     FETCH_RECORDINGS: '/api/recordedClass/fetch',
-
     GET_RECORDINGS_BY_ROOM_ID: '/recordings?room_id=:roomId',
     FETCH_RECORDINGS_BY_ROOM_ID: '/api/onlineClass/recordings',
-
     GET_STUDENTS: '/api/student/fetch',
-
-    CREATE_ONLINE_CLASS: '/api/onlineClass/create',
+    DELETE_STUDENTS: '/api/student/delete',
+    UPDATE_STUDENTS: '/api/student/update',
     UPLOAD_DOCUMENT: 'api/gemini/upload-file',
     CREATE_QUESTIONS: 'api/gemini/create-questions',
-    CHAT_BOT: 'api/gemini/chat-assistance'
+    CHAT_BOT: 'api/gemini/chat-assistance',
+    SAVE_CHAT_HISTORY: '/api/chat/create',
+    FETCH_CHAT_HISTORY: '/api/chat/fetch',
+    GET_CLASSES: "/api/class/fetch",
+    WHOAMI: '/api/user/whoami',
+    UPDATE_TEACHER_ENROLLMENTS: '/api/teacher/update-enrollments',
+    FETCH_TEACHER_ENROLLED_CLASSES: '/api/teacher/fetch-classes',
+    DELETE_TEACHER: '/api/teacher/delete',
+    CREATE_PARENT: '/api/parent/create',
+    FETCH_PARENT: 'api/parent/fetch',
+    DELETE_PARENT: '/api/parent/delete',
+    UPDATE_PARENT: '/api/parent/update',
+    MODULE_MANAGEMENT_MODULES: '/api/module-management/modules',
+    MODULE_MANAGEMENT_UNSUBSCRIBE: '/api/module-management/unsubscribe',
+    MODULE_MANAGEMENT_SUBSCRIBE: '/api/module-management/subscribe',
+    DASHBOARD_COUNTS: '/api/dashboard/counts'
 }
 
 export const SCHEMA_APIS = {
@@ -42,7 +56,7 @@ export const SCHEMA_APIS = {
     ONLINE_CLASS: "/api/schema/OnlineClass",
     SCHEMA_BY_SERVICE: '/api/schema/:service',
     CREATE_ORGANIZATION: "/api/organization/create",
-
+    PARENT: '/api/schema/Parent'
 }
 
 export const ORGANIZATION_TYPE = [
@@ -99,7 +113,6 @@ export const examplePrompt = ` <!DOCTYPE html>
     </div>
 
 
-
     <div class="answer-key">
         <h2>Answer Key:</h2>
         <p>1. b</p>
@@ -112,5 +125,41 @@ export const ROUTES = {
     DASHBOARD: '/dashboard',
     TEACHERS: '/dashboard/teachers',
     RECORDED_CLASSES: '/dashboard/recorded-classes',
-    RECORDED_CLASS_BY_ROOM_ID: '/dashboard/recorded-classes/:roomId'
+    RECORDED_CLASS_BY_ROOM_ID: '/dashboard/recorded-classes/:roomId',
+    PARENTS: '/dashboard/parents',
+    PARENT_DETAILS: '/dashboard/parents/:parentId',
+    STUDENTS: '/dashboard/students',
+    STUDENT_DETAILS: '/dashboard/students/:studentId',
+    CLASSES: '/dashboard/classes',
+    CLASS_DETAILS: '/dashboard/classes/:classId',
+    ONLINE_CLASSES: '/dashboard/online-classes',
+    ONLINE_CLASS_DETAILS: '/dashboard/online-classes/:classId',
+    QUESTIONNAIRE: '/dashboard/questionnaire',
+    QUESTIONNAIRE_DETAILS: '/dashboard/questionnaire/:questionId',
+    AI_ASSISTANCE: '/dashboard/ai-assistance',
+    AI_ASSISTANCE_DETAILS: '/dashboard/ai-assistance/:aiId',
+    USER_PROFILE: '/dashboard/user/profile',
+    USER_SETTINGS: '/dashboard/user/settings'
+}
+
+export const defaultMsgBody = {
+    parts: [{ text: "" }],
+    role: 'user',
+  };
+const USER_TYPE = {
+    SUPER_ADMIN: 'SUPER_ADMIN',
+    ORG_ADMIN: 'ORG_ADMIN',
+    BRANCH_ADMIN: 'BRANCH_ADMIN',
+    TEACHER: 'TEACHER',
+    STUDENT: 'STUDENT',
+    PARENT: 'PARENT'
+}
+
+export const MODULES_MAPPING = {
+    teachers: '/dashboard/teachers',
+    students: '/dashboard/students',
+    classes: '/dashboard/classes',
+    onlineClasses: '/dashboard/online-classes',
+    questionnaire: '/dashboard/questionnaire',
+    aiAssistance: '/dashboard/ai-assistance'
 }

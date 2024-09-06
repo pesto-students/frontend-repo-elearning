@@ -20,7 +20,7 @@ import { useDispatch } from 'react-redux';
 import { LinksGroup } from './NavbarLinks';
 import classes from './style.module.css';
 
-const Navbar = (props) => {
+const Navbar = () => {
   const router = useRouter()
   const dispatch = useDispatch()
 
@@ -37,7 +37,7 @@ const Navbar = (props) => {
     {
       link: '', label: 'Manage Students', icon: IconIdBadge2, options: [{ label: 'Students', icon: <IconEyeFilled />, onClick: () => { router.push("/dashboard/students") } }, {
         label: 'Add Student', icon: <IconCirclePlusFilled />, onClick: () => {
-          dispatch(setAddStudentModalState({ show: true }))
+          dispatch(setAddStudentModalState({ show: true, studentData: null, isEdit: false, makeRequest: null }))
         }
       }]
     },
@@ -46,10 +46,10 @@ const Navbar = (props) => {
       { label: 'Add Classes', icon: <IconCirclePlusFilled />, onClick: () => { dispatch(setAddClassModalState({ show: true })) } }]
     },
     { link: '/dashboard/online-classes', label: 'Online Classes', icon: IconBrandYoutubeFilled },
-    { link: '/dashboard/questionnaire', label: 'Questionnaire', icon: IconFileStack },
+    { link: '/dashboard/questionnaire/create-questions', label: 'Questionnaire', icon: IconFileStack },
     { link: '/dashboard/ai-assistance', label: 'AI Assistance', icon: IconAi },
 
-    { link: '/dashboard/recorded-lectures', label: 'Recorded Lectures', icon: IconVideo },
+    { link: '/dashboard/recorded-classes', label: 'Recorded Lectures', icon: IconVideo },
     { link: '/dashboard/parents', label: 'Manage Parents', icon: IconUsers },
 
   ];
@@ -70,6 +70,7 @@ const Navbar = (props) => {
         <Link href="/" className={classes.link} onClick={(e) => {
           // e.preventDefault();
           // props.toggleDesktop()
+          localStorage.removeItem('accessToken')
         }} >
           <IconLogout className={classes.linkIcon} stroke={1.5} />
           <span>Logout</span>

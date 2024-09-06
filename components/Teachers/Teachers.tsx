@@ -1,11 +1,17 @@
 'use client'
 import restClient from '@/app/api/restClient';
-import { setAddTeacherModalState } from '@/app/lib/slice';
+import { useAppSelector } from '@/app/lib/hooks';
+import { setAddTeacherModalState, setAssignToClassModalState } from '@/app/lib/slice';
+import withAuth from '@/app/lib/withAuth';
 import { APIS } from '@/constant';
 import { getRandomMantineColor } from '@/constant/utils';
-import { Avatar, Group, Text } from '@mantine/core';
+import { Avatar, Button, Group, Text } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
+import { IconPlus } from '@tabler/icons-react';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useConfirmation } from '../ConfirmationModal/ConfirmationModal';
 import TableWithSelection from '../TableWithSelection/TableWithSelection';
 
 interface Teacher {
@@ -19,19 +25,50 @@ interface Teacher {
     state: string;
     country: string;
     branch: string;
+    _id: string;
+}
+
+interface TeacherResponse {
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone: string;
+    address: string;
+    pincode: string;
+    city?: { name: string };
+    state?: { name: string };
+    country?: { name: string };
+    branch?: { name: string };
+    _id: string;
 }
 
 const Teachers = () => {
     const [teachers, setTeachers] = useState<Teacher[]>([]);
     const dispatch = useDispatch();
+    const router = useRouter()
+
+    const store = useAppSelector(state => state.store)
 
     useEffect(() => {
         getTeachers();
-    }, []);
+    }, [])
+
+    useEffect(() => {
+        if ('callbackFunctionName' in store.addTeacherModalState) {
+            const callbacks: { [key: string]: () => Promise<void> } = {
+                getTeachers: getTeachers
+            };
+            const callbackName = store.addTeacherModalState.callbackFunctionName as keyof typeof callbacks;
+            if (callbackName in callbacks) {
+                callbacks[callbackName]();
+                dispatch(setAddTeacherModalState({ callbackFunctionName: null }))
+            }
+        }
+    }, [store.addTeacherModalState]);
 
     const getTeachers = async () => {
         try {
-            const { data } = await restClient.post(APIS.GET_TEACHERS, {});
+            const { data } = await restClient.post<TeacherResponse[]>(APIS.FETCH_TEACHERS, {});
             if (data?.length) {
                 const formattedData: Teacher[] = data.map(teacher => ({
                     firstName: teacher.firstName,
@@ -43,7 +80,9 @@ const Teachers = () => {
                     city: teacher.city?.name || '',
                     state: teacher.state?.name || '',
                     country: teacher.country?.name || '',
-                    branch: teacher.branch?.name || ''
+                    branch: teacher.branch?.name || '',
+                    _id: teacher._id,
+                    classes: teacher.classes || []
                 }));
                 setTeachers(formattedData);
             }
@@ -52,7 +91,7 @@ const Teachers = () => {
         }
     };
 
-    const updateTeacher = async (teacherData) => {
+    const updateTeacher = async (teacherData: Teacher) => {
         try {
             const { data } = await restClient.post(APIS.UPDATE_TEACHER, teacherData);
             if (data) {
@@ -64,13 +103,18 @@ const Teachers = () => {
         }
     };
 
-    const handleEditTeacher = (teacher) => {
-        dispatch(setAddTeacherModalState({ show: true, teacherData: teacher }));
+    const handleEditTeacher = (teacher: Teacher) => {
+        dispatch(setAddTeacherModalState({ show: true, teacherData: teacher, callback: getTeachers }));
+    };
+
+    const handleRowClick = (teacher: Teacher) => {
+        console.log('Row clicked:', teacher);
+        router.push(`/dashboard/teachers/${teacher._id}`)
     };
 
     const columns = [
         {
-            key: 'firstName', label: 'Name', render: (data = { firstName: '', lastName: '' }) => {
+            key: 'firstName', label: 'Name', render: (data: Teacher) => {
                 const { firstName, lastName } = data
                 return <Group gap={"sm"}>
                     <Avatar size={"sm"} color={getRandomMantineColor()}>{firstName.charAt(0) + lastName.charAt(0)}</Avatar>
@@ -88,23 +132,53 @@ const Teachers = () => {
         { key: 'branch', label: 'Branch' }
     ];
 
+    const confirmation = useConfirmation()
+
     const menuItems = [
         { label: 'Edit', onClick: handleEditTeacher },
-        { label: 'Delete', onClick: (teacher) => console.log('Delete', teacher) },
-        { label: 'View Details', onClick: (teacher) => console.log('View Details', teacher) },
-        { label: 'Assign to Class', onClick: (teacher) => console.log('Assign to Class', teacher) },
+        {
+            label: 'Delete', onClick: (teacher: Teacher) => {
+                console.log('Delete', teacher)
+                confirmation({
+                    title: 'Delete a teacher', description: 'Are you sure you want to delete this entry?', onConfirm: async () => {
+                        try {
+                            const { data } = await restClient.post(APIS.DELETE_TEACHER, { teacherIds: [teacher._id] })
+                            if (data) {
+                                notifications.show({ message: 'Teacher deleted successfully', color: 'green' })
+                                getTeachers()
+                            }
+                        } catch (error) {
+                            console.log(error)
+                        }
+                    }
+                })
+            }
+        },
+        {
+            label: 'Assign to Class', onClick: async (teacher: Teacher) => {
+                dispatch(setAssignToClassModalState({ show: true, assigneeData: { ...teacher }, editType: "teacher", callBack: getTeachers }))
+            }
+        },
     ];
 
     return (
-        <div>
-            <TableWithSelection
-                rows={teachers}
-                columns={columns}
-                menuItems={menuItems}
-                updateItem={updateTeacher}
-            />
-        </div>
+        <>
+            <Group>
+                <Text size="lg" fw={500}> Teachers</Text>
+                <Button size={"xs"} leftSection={<IconPlus />} onClick={() => dispatch(setAddTeacherModalState({ show: true, teacherData: null, callbackFunctionName: 'getTeachers' }))}>Add Teacher</Button>
+            </Group>
+
+            <Group mt={"md"}>
+                <TableWithSelection
+                    rows={teachers}
+                    columns={columns}
+                    menuItems={menuItems}
+                    updateItem={updateTeacher}
+                    rowClick={handleRowClick}
+                />
+            </Group>
+        </>
     );
 };
 
-export default Teachers;
+export default withAuth(Teachers);
