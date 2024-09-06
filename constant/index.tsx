@@ -142,6 +142,10 @@ export const ROUTES = {
     USER_SETTINGS: '/dashboard/user/settings'
 }
 
+export const defaultMsgBody = {
+    parts: [{ text: "" }],
+    role: 'user',
+  };
 const USER_TYPE = {
     SUPER_ADMIN: 'SUPER_ADMIN',
     ORG_ADMIN: 'ORG_ADMIN',

@@ -1,5 +1,4 @@
 'use client'
-
 import { getChatHistory, handleUpdateHistory } from "@/app/dashboard/ai-assistance/page";
 import { useAppSelector } from "@/app/lib/hooks";
 import { setChatBotData, setChatHistoryList, setChatHistoryListData, updateChatHistory } from "@/app/lib/slice";
