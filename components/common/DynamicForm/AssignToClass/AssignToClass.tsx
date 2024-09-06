@@ -21,11 +21,24 @@ const AssignToClass: React.FC<AssignToClassProps> = () => {
     const { assignToClassModalState } = useAppSelector(state => state.store);
     const { show, assigneeData } = assignToClassModalState || {};
 
-    console.log('AssignToClass state:', assignToClassModalState);
 
     const [, { close }] = useDisclosure(false);
+    
+    const getUpdateApi = (editType: string, classIds: any) => {
+        switch(editType){
+            case 'teacher': {
+                return {url: APIS.UPDATE_TEACHER_ENROLLMENTS, body:  { teacherIds: [assigneeData?._id] || '', classIds }}
+            }
+            case 'student': {
+                return {url: APIS.UPDATE_STUDENT_ENROLLMENTS, body:  { studentIds: [assigneeData?._id] || '', classIds }}
 
+            }
+            default: {
+                return {url: '', body: {}}
+            }
+        }
 
+    }
     return (
         <Modal opened={Boolean(show)} onClose={() => { dispatch(setAssignToClassModalState({ show: false, assigneeData: null })); close(); }} title="Add class" >
             <Paper radius="md" p="xl" withBorder>
@@ -39,8 +52,9 @@ const AssignToClass: React.FC<AssignToClassProps> = () => {
                         <form onSubmit={form.onSubmit(async (values) => {
                             const { classIds = [] } = values;
                             try {
-                                const apiUrl = assignToClassModalState.editType === 'teacher' ? APIS.UPDATE_TEACHER_ENROLLMENTS : '';
-                                const { data } = await restClient.post(apiUrl, { teacherIds: [assigneeData?._id] || '', classIds });
+                                const apiUrl = getUpdateApi(assignToClassModalState.editType, classIds).url;
+                                const body = getUpdateApi(assignToClassModalState.editType, classIds).body
+                                const { data } = await restClient.post(apiUrl, body);
                                 if (data) {
                                     dispatch(setAssignToClassModalState({ show: false, assigneeData: null }));
                                     notifications.show({ message: 'Updated enrollments details', color: 'green' });

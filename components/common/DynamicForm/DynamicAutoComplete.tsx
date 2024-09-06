@@ -15,6 +15,7 @@ interface AutocompleteProps {
     };
     onSelect: (selectedValue: string) => void;
     formValues?: any
+    defaultValue?: string;
 }
 
 const DynamicAutoComplete: React.FC<AutocompleteProps> = ({
@@ -26,16 +27,15 @@ const DynamicAutoComplete: React.FC<AutocompleteProps> = ({
     const combobox = useCombobox({
         onDropdownClose: () => combobox.resetSelectedOption(),
     });
-
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState<string[] | null>(null);
     const [value, setValue] = useState('');
     const [empty, setEmpty] = useState(false);
     const abortController = useRef<AbortController>();
-
+    console.log(data);
     useEffect(() => {
         if (defaultValue) {
-            setValue(defaultValue[apiDetails.resultKey || "name"])
+            setValue(defaultValue)
         }
     }, [defaultValue])
 
@@ -61,7 +61,7 @@ const DynamicAutoComplete: React.FC<AutocompleteProps> = ({
     }, 500)
 
     const options = (data || []).map((item) => (
-        <Combobox.Option value={item} key={item}>
+        <Combobox.Option value={item} key={item.id}>
             {item[apiDetails.resultKey || "name"]}
         </Combobox.Option>
     ));
