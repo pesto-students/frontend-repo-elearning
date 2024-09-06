@@ -23,7 +23,7 @@ const initialState = {
     selectedClassForViewRecordings: [],
     chatBotData: { loading: false, data: [], chatId: '' },
     ChatHistoryData: [],
-    assignToClassModalState: { show: false, assigneeData: null }
+    assignToClassModalState: { show: false, assigneeData: null, editType: '' }
 }
 
 const storeSlice = createSlice({
