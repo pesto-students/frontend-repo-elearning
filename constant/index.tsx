@@ -44,6 +44,7 @@ export const APIS = {
     MODULE_MANAGEMENT_MODULES: '/api/module-management/modules',
     MODULE_MANAGEMENT_UNSUBSCRIBE: '/api/module-management/unsubscribe',
     MODULE_MANAGEMENT_SUBSCRIBE: '/api/module-management/subscribe',
+    DASHBOARD_COUNTS: '/api/dashboard/counts'
 }
 
 export const SCHEMA_APIS = {
@@ -148,4 +149,13 @@ const USER_TYPE = {
     TEACHER: 'TEACHER',
     STUDENT: 'STUDENT',
     PARENT: 'PARENT'
+}
+
+export const MODULES_MAPPING = {
+    teachers: '/dashboard/teachers',
+    students: '/dashboard/students',
+    classes: '/dashboard/classes',
+    onlineClasses: '/dashboard/online-classes',
+    questionnaire: '/dashboard/questionnaire',
+    aiAssistance: '/dashboard/ai-assistance'
 }
