@@ -1,4 +1,5 @@
 'use client'
+import withAuth from '@/app/lib/withAuth';
 import { Grid } from "@mantine/core";
 import ChatContainer from "./components/ChatContainer";
 import ChatHistory from "./components/ChatHistory";
@@ -12,4 +13,4 @@ const AiAssistance = () => {
     </div>
 }
 
-export default AiAssistance;
+export default withAuth(AiAssistance);

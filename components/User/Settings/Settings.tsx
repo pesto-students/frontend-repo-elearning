@@ -1,5 +1,6 @@
 "use client"
 
+import withAuth from '@/app/lib/withAuth';
 import { createAppTheme } from '@/theme';
 import { ColorSwatch, Group, Select, Stack, Text } from '@mantine/core';
 import { useEffect, useState } from 'react';
@@ -90,4 +91,4 @@ const Settings = () => {
     );
 };
 
-export default Settings;
+export default withAuth(Settings);

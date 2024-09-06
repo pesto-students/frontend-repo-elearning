@@ -24,6 +24,7 @@ import AddParentForm from '../Parents/AddParentForm/AddParentForm';
 import ScheduleOnlineClass from '../ScheduleOnlineClass/ScheduleOnlineClassModal';
 import AssignToClass from '../common/DynamicForm/AssignToClass/AssignToClass';
 
+
 export function AppShellLayout({ children }: { children: React.ReactNode }) {
     const [mobileOpened, { toggle: toggleMobile }] = useDisclosure();
     const [desktopOpened, { toggle: toggleDesktop }] = useDisclosure();
