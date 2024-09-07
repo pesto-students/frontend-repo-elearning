@@ -18,24 +18,20 @@ const WithAuth = (WrappedComponent) => {
         router.push('/'); // Redirect to login page if not authenticated
       }
     }, [router]);
-    
-    if( parsedToken && !isAuthenticated){
-      return <Alert > User not Authenticated </Alert>;
+
+    if (parsedToken && !isAuthenticated) {
+      return <Alert> User not Authenticated </Alert>;
     }
-    
+
     if (isAuthenticated) {
-    return <WrappedComponent {...props} />;
-
+      return <WrappedComponent {...props} />;
     }
-    
-    return <Flex w="100vw" h="90vh" align="center" justify="center">
-      <Loader size={90} />
-      
-    </Flex>
-    
-    
 
-    
+    return (
+      <Flex w="100vw" h="90vh" align="center" justify="center">
+        <Loader size={90} />
+      </Flex>
+    );
   };
 };
 
