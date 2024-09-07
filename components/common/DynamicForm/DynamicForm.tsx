@@ -26,9 +26,12 @@ export const formName = {
     cityId: 'city',
 } 
 
+
+
+
 const DynamicForm = (props: DynamicFormProps) => {
     const { formData, formSubmit, formSubmitButtonJsx, formValues, isEdit } = props
-    const formHook = useForm({ initialValues: isEdit ? {...formValues} : {} })
+    const formHook = useForm({ initialValues: isEdit ? { ...formValues } : {} })
     console.log(formData);
     return (
         <div>

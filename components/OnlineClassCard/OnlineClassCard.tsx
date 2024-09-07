@@ -87,7 +87,7 @@ export function ScheduledClassCard(props: ScheduledClassCardPropsType) {
                     <Group spacing="xs">
                         <IconClock size={14} />
                         <Text className={classes.label} c="dimmed">
-                            {formatDate(data.scheduledDate)} {data.startTime} - {data.endTime}
+                            {formatDate(data.scheduledDate, 'DD-MM-YYYY')} {data.startTime} - {data.endTime}
                         </Text>
                     </Group>
                     <Text className={classes.label} c="dimmed">
@@ -102,7 +102,7 @@ export function ScheduledClassCard(props: ScheduledClassCardPropsType) {
             </Card.Section>
 
             <Group mt="xs">
-                {dayjs(data.scheduledDate).isBefore(dayjs()) && (
+                {dayjs().isAfter(dayjs(`${data.scheduledDate}T${data.startTime}`)) && dayjs().isBefore(dayjs(`${data.scheduledDate}T${data.endTime}`)) && (
                     <Button onClick={() => handleJoinLiveClass(data.hmsRoomInfo.id)}>
                         Join class
                     </Button>

@@ -29,7 +29,7 @@ const ScheduleOnlineClass = () => {
     })
 
     const close = () => {
-        dispatch(setScheduleOnlineClassModalState({ show: false }))
+        dispatch(setScheduleOnlineClassModalState({ show: false, onlineClassData: null, callbackFunctionName: null }))
         dispatch(resetActiveLiveClassFormData())
     }
 
@@ -80,6 +80,7 @@ const ScheduleOnlineClass = () => {
             const { data } = await restClient.post(apiUrl, payload)
             if (data) {
                 notifications.show({ title: 'Added online class' })
+                dispatch(setScheduleOnlineClassModalState({ show: false, onlineClassData: null, callbackFunctionName: "getOnlineClasses" }))
             }
         } catch (error) {
             console.log(error)
@@ -110,6 +111,8 @@ const ScheduleOnlineClass = () => {
                                         </Group>
                                     </>
                                 }
+                            // formValues={store.scheduleOnlineClassModalState.onlineClassData || {}}
+                            // isEdit={Boolean(store.scheduleOnlineClassModalState.onlineClassData)}
                             />
                         </>
                     </Stack>
