@@ -1,0 +1,68 @@
+.container{
+    border-right: 1px solid lightgray;
+
+}
+
+.chatContainer{
+    overflow-y: auto;
+}
+
+.chatBox{
+  border-radius: 12px;
+  padding: 5px 15px;
+  border: 0.5px solid lightgray;
+  text-align: left;
+}
+
+.startChatMsg{
+    position: fixed;
+    top: 48%;
+    left: 55%;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.containerChatHistory{
+    font-weight: 700;
+    font-size: 16px;
+}
+
+
+
+.chatHistoryBox{
+    padding: 5px;
+    border-bottom: 1px solid lightgray ;
+    white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+.chatBox > p{
+    font-size: 14px;
+    margin: 0;
+    padding: 5px 0;
+}
+
+.chatBoxLeft{
+    justify-content: flex-start;
+    
+}
+.chatBoxLeft > div{
+    background-color: lightgray;
+}
+
+.chatBoxRight{
+    justify-content: flex-end;
+}
+
+.chatBoxRight > div{
+    background-color: #2f2f2f;
+    color: white;
+}
+
+.chatBoxContainer{
+    display: flex;
+    padding: 0 10px;
+    margin: 20px 0;
+}

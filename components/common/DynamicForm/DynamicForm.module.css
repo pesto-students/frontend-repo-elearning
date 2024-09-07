@@ -1,0 +1,5 @@
+.dynamic-form-container{
+    max-height: 60vh;
+    overflow: auto;
+    padding-right: 1rem;
+}
