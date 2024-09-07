@@ -36,7 +36,10 @@ const ChatHistory = () => {
 
 
     useEffect(() => {
-      handleFetchChatHistory();
+      if(!ChatHistoryData.length){
+         handleFetchChatHistory();
+
+      }
     
       return () => {
          dispatch(updateChatHistory({data: chatBotData.data, id: chatBotData.chatId}));
