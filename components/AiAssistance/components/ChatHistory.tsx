@@ -16,19 +16,31 @@ const ChatHistory = () => {
     const { store } = useAppSelector((state) => state); 
     const { ChatHistoryData, chatBotData } = store;
      
+    const initiateChat = () => {
+      const chatData = {chatId: uuidv4(), data: [], loading: false }
+      
+            dispatch(setChatBotData(chatData));
+
+            dispatch(setChatHistoryListData( chatData as never ));
+    }
+
     const handleFetchChatHistory = async () => {
          const data = await getChatHistory();
-         if(data){
+         if(data.length){
             dispatch(setChatHistoryList(data));
-
+         }else{
+               initiateChat();
          }
     }
 
+
+
     useEffect(() => {
       handleFetchChatHistory();
+    
       return () => {
          dispatch(updateChatHistory({data: chatBotData.data, id: chatBotData.chatId}));
-
+    
          handleUpdateHistory(ChatHistoryData)
 
       } 
@@ -57,7 +69,6 @@ const ChatHistory = () => {
          handleUpdateHistory(ChatHistoryData)
 
     }
-    console.log(ChatHistoryData)
     return <Container p="0" className={style.container} h="90vh" w="auto">
        <Text size="lg" fw={700}  >Chat History</Text>
        <Container h="80vh" mah="80vh" w="100%">
