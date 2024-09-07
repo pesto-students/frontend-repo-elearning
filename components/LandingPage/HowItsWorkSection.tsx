@@ -1,3 +1,5 @@
+'use client';
+
 import { IconBook, IconClipboardText, IconSchool } from "@tabler/icons-react";
 
 const HowItsWorkSection = () => {

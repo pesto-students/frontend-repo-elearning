@@ -1,4 +1,6 @@
 
+'use client';
+
 import img from '../../app/public/elearning-logo.svg';
 
 const HeroSection = () => {

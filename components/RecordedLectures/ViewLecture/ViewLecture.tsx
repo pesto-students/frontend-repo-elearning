@@ -1,4 +1,5 @@
-'use client'
+'use client';
+
 import { getOnlineClassesApi } from '@/app/api/common';
 import { Card, Grid, Group, List, rem, Tabs, Text, ThemeIcon } from '@mantine/core';
 import { IconPlayerPause, IconPlayerPlay, IconScript, IconTextGrammar } from '@tabler/icons-react';

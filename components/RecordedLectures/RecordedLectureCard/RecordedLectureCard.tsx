@@ -1,4 +1,5 @@
-'use client'
+'use client';
+
 import { Badge, Button, Card, Group, Image, Loader, Text } from '@mantine/core';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';

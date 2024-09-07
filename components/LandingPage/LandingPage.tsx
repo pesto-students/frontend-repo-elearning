@@ -1,3 +1,5 @@
+'use client';
+
 import { ReactNode } from "react";
 import AboutSection from "./AboutSection";
 import CtaSection from "./CtaSection";

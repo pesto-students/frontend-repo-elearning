@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import restClient from "@/app/api/restClient";
 import { useAppSelector } from "@/app/lib/hooks";

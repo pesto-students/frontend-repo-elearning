@@ -1,3 +1,5 @@
+'use client';
+
 const FeatureSection = () => {
     return (
         <section id="features" className="py-16 bg-gray-100">

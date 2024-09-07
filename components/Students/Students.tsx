@@ -1,4 +1,5 @@
-'use client'
+'use client';
+
 import restClient from '@/app/api/restClient';
 import { setAddStudentModalState, setAssignToClassModalState, showConfirmationModal } from '@/app/lib/slice';
 import withAuth from '@/app/lib/withAuth';

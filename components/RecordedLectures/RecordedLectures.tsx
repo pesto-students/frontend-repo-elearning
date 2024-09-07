@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { useAppDispatch } from "@/app/lib/hooks";
 import { ROUTES } from "@/constant";

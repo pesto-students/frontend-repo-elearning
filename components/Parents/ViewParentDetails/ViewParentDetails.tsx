@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { useFetchData } from '@/app/api/queryApiData';
 import ViewDetails from '@/components/ViewDetails/ViewDetails';

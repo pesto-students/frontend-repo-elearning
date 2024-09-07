@@ -1,3 +1,5 @@
+'use client';
+
 import { APP_NAME } from "@/app/constant/app-constant";
 
 const PricingSection = () => {
