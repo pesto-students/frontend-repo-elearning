@@ -1,0 +1,39 @@
+
+.control {
+    font-weight: 500;
+    display: block;
+    width: 100%;
+    padding: var(--mantine-spacing-xs) var(--mantine-spacing-md);
+    color: var(--mantine-color-text);
+    font-size: var(--mantine-font-size-sm);
+  
+    @mixin hover {
+      background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-7));
+      color: light-dark(var(--mantine-color-black), var(--mantine-color-dark-0));
+    }
+  }
+  
+  .link {
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    padding: 10px 5px;
+    text-decoration: none;
+    gap: 5px;
+    border-left: 1px solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));;
+    margin-left: 20px;
+    @mixin hover {
+      background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-7));
+      color: light-dark(var(--mantine-color-black), var(--mantine-color-dark-0));
+    }
+    cursor: pointer;
+  }
+  .link > svg{
+    width: 16px;
+    height: 16px;
+    color: var(--mantine-color-blue-light-color);
+  }
+  .chevron {
+    transition: transform 200ms ease;
+  }
+  

@@ -1,0 +1,24 @@
+name: npm test
+
+on:
+  pull_request:
+    branches:
+      - '**'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number || github.sha }}
+  cancel-in-progress: true
+
+jobs:
+  test_pull_request:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v4.0.0
+        with:
+          version: 9.6.0
+      - name: Install
+        run: pnpm install
+      - name: Build
+        run: pnpm run build
+        
