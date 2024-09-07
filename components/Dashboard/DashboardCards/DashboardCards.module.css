@@ -25,11 +25,11 @@
   
   .card {
     border: 1px solid light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-5));
-    height: 400px;
+    height: 300px;
   }
   .card  img{
     margin: 0 auto;
-    width: 70%;
+    width: 35%;
   }
   .cardDesc{
     min-height: 40px;
