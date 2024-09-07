@@ -98,6 +98,8 @@ const LoginFormModal = (props: PaperProps) => {
         }
     }
 
+
+
     return (
         <Modal opened={Boolean(store.loginModalState.show)} onClose={() => { dispatch(setLoginModal({ show: false })); close() }} title={type === "login" ? "Sign In" : "Sign up"} size={'l8g'} >
             <Paper radius="md" p="xl" withBorder {...props}>
@@ -112,6 +114,13 @@ const LoginFormModal = (props: PaperProps) => {
                                 formData={schemas.organization}
                                 formSubmit={async (values = {}) => {
                                     await restClient.post(APIS.CREATE_ORGANIZATION, values)
+                                    dispatch(setLoginModal({ show: false }))
+                                    notifications.show({
+                                        title: 'Success',
+                                        message: 'Organization created successfully, you will receive an email with the login details',
+                                        color: 'green',
+                                        autoClose: false,
+                                    });
                                 }}
                                 formSubmitButtonJsx={
                                     <>
