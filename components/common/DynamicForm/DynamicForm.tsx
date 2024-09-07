@@ -21,15 +21,17 @@ interface DynamicFormProps {
 }
 
 const formName = {
-    countryId: 'country',
-    stateId: 'state',
-    cityId: 'city',
-    branchId: 'branch'
-} 
+    country: "countryId",
+    state: "stateId",
+    city: "cityId",
+    branch: "branchId"
+}
+
+
 
 const DynamicForm = (props: DynamicFormProps) => {
     const { formData, formSubmit, formSubmitButtonJsx, formValues, isEdit } = props
-    const formHook = useForm({ initialValues: isEdit ? {...formValues} : {} })
+    const formHook = useForm({ initialValues: isEdit ? { ...formValues } : {} })
     console.log(formData);
     return (
         <div>
@@ -64,9 +66,9 @@ const DynamicForm = (props: DynamicFormProps) => {
                                             label={label}
                                             apiDetails={apiDetails}
                                             onSelect={(item) => {
-                                                formHook.setFieldValue(formName[path], item)
+                                                formHook.setFieldValue(formName[path] || path, item)
                                             }}
-                                            defaultValue={formValues && formValues[formName[path]]}
+                                            defaultValue={formValues && formValues[formName[path] || path]}
                                         />
                                     case 'dateTimePicker':
                                         return <DateTimePicker

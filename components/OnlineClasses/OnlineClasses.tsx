@@ -25,7 +25,7 @@ const OnlineClasses = ({ rooms = { data: [] } }) => {
             }
             callbacks[store.scheduleOnlineClassModalState.callbackFunctionName] && callbacks[store.scheduleOnlineClassModalState.callbackFunctionName]()
         }
-    }, [store.scheduleOnlineClassModalState.callbackFunctionName])
+    }, [store.scheduleOnlineClassModalState])
 
     const getOnlineClasses = async () => {
         const data = await getOnlineClassesApi()
@@ -63,7 +63,7 @@ const OnlineClasses = ({ rooms = { data: [] } }) => {
     }
 
     const handleEditLiveClass = (data: {}) => {
-        dispatch(setScheduleOnlineClassModalState({ show: true, onlineClassData: data, callbackFunctionName: "getOnlineClasses" }))
+        dispatch(setScheduleOnlineClassModalState({ show: true, onlineClassData: data, }))
     }
 
     return (
