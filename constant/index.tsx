@@ -171,5 +171,4 @@ export const getFormIDConstants = {
     country: 'countryId',
     state: 'stateId',
     city: 'cityId',
-    branch: 'branchId'
 } 

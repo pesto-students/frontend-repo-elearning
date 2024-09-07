@@ -24,7 +24,6 @@ export const formName = {
     countryId: 'country',
     stateId: 'state',
     cityId: 'city',
-    branchId: 'branch'
 } 
 
 const DynamicForm = (props: DynamicFormProps) => {
