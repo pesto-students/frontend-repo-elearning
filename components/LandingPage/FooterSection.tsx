@@ -1,4 +1,4 @@
-
+'use client'
 import { APP_NAME } from '@/app/constant/app-constant';
 import { faFacebookF, faGooglePlusG, faInstagram, faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -13,9 +13,7 @@ const FooterSection = () => {
             {/* Column 1 - Logo and Description */}
             <div className="flex flex-col mb-8">
               <div className="mb-6">
-                <a href="#">
                     <AppLogo></AppLogo>
-                </a>
               </div>
               <p className="text-gray-300 mb-6">
               Welcome to {APP_NAME}, your go-to solution for transforming educational institutions. We provide powerful tools to streamline school management and enhance learning experiences. Join us and revolutionize the way education is delivered.

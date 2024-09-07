@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import { MODULES_MAPPING } from '@/constant';
 import {
   Badge,

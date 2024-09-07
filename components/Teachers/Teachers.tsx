@@ -1,4 +1,5 @@
-'use client'
+'use client';
+
 import restClient from '@/app/api/restClient';
 import { useAppSelector } from '@/app/lib/hooks';
 import { setAddTeacherModalState, setAssignToClassModalState } from '@/app/lib/slice';

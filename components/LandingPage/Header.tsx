@@ -1,3 +1,5 @@
+'use client';
+
 import { useAppDispatch } from '@/app/lib/hooks';
 import { setLoginModal } from '@/app/lib/slice';
 import { IconHomeFilled, IconMenu2, IconPhoneFilled, IconSparkles, IconStarFilled, IconX } from '@tabler/icons-react';

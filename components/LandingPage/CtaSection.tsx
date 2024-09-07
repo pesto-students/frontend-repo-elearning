@@ -1,3 +1,4 @@
+'use client'
 const CtaSection = () => {
     return (
         <section className="py-16 bg-indigo-600 text-white bg-[#1A488E]">
