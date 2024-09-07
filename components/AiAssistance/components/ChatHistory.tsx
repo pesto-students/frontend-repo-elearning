@@ -58,9 +58,9 @@ const ChatHistory = () => {
 
     }
     console.log(ChatHistoryData)
-    return <Container pos="absolute" p="0" className={style.container} h="90vh" w="24%">
+    return <Container p="0" className={style.container} h="90vh" w="auto">
        <Text size="lg" fw={700}  >Chat History</Text>
-       <Container h="75vh" mah="75vh" w="100%">
+       <Container h="80vh" mah="80vh" w="100%">
        {ChatHistoryData?.length === 0 ? 'No Chats': ChatHistoryData.map((chat) => {
         return <Box className={style.chatHistoryBox} key={uuidv4()} onClick={() => handleChatClick(chat.chatId)}>{chat.data.length ===0 ? 'New conversation' : chat.data[0].parts[0].text}</Box>
        } )}

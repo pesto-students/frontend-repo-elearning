@@ -20,7 +20,7 @@ interface DynamicFormProps {
     isEdit: boolean;
 }
 
-const formName = {
+export const formName = {
     countryId: 'country',
     stateId: 'state',
     cityId: 'city',
@@ -64,9 +64,9 @@ const DynamicForm = (props: DynamicFormProps) => {
                                             label={label}
                                             apiDetails={apiDetails}
                                             onSelect={(item) => {
-                                                formHook.setFieldValue(formName[path], item)
+                                                formHook.setFieldValue(formName[path] || path, item)
                                             }}
-                                            defaultValue={formValues && formValues[formName[path]]}
+                                            defaultValue={formValues && formValues[formName[path]] || path}
                                         />
                                     case 'dateTimePicker':
                                         return <DateTimePicker

@@ -67,11 +67,11 @@ const CreateQuestionnaire = () => {
                 fileUri: fileData.file.uri
               }
             },
-            { text: `Create ${questionType} regarding for class 4 students with the following notes attached in the fileData, it should of ${difficulty} difficulty. Create it in a question paper format and send it in a html format and styling like this ${example || examplePrompt}` },
+            { text: `Generate a ${questionType} for students based on the attached notes in fileData, with a difficulty level of ${difficulty}. Format the content as a question paper and send it in HTML, styled like this ${example || examplePrompt}. Include a button to print the questions on the top right, ensuring the answer keys are placed in a separate section or column that does not appear when printing.` },
           ]
     }
     if(notes){
-        return `Create ${questionType} regarding for class 4 students with the following notes, it should of ${difficulty} difficulty, here are the notes ${notes}. Create it in a question paper format and send it in a html format like this ${examplePrompt}`
+        return `Create ${questionType} regarding for students with the following notes, it should of ${difficulty} difficulty, here are the notes ${notes}. Create it in a question paper format and send it in a html format like this ${examplePrompt}. Include a button to print the questions on the top right, ensuring the answer keys are placed in a separate section or column that does not appear when printing`
     }
     return ''
   }
