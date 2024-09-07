@@ -6,6 +6,7 @@ import { examplePrompt } from '@/constant';
 import { Button, Flex, Tabs, Text, Textarea } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useDisclosure } from '@mantine/hooks';
+import { notifications } from '@mantine/notifications';
 import { IconCloudUpload, IconTextPlus } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -35,6 +36,7 @@ const CreateQuestionnaire = () => {
   const [showExample, setShowExample] = useState(false);
   const [fileData, setFileData] = useState(null as any);
   const [htmlContent, setHtmlContent] = useState('');
+  const [loading, setLoading] = useState(false);
   const form = useForm({
     initialValues: {
         notes: '',
@@ -49,12 +51,28 @@ const CreateQuestionnaire = () => {
   const [, { close }] = useDisclosure(false);
   const {difficulty, questionType, notes, example} = form.getValues()
   const handleFile = async(file: any) => {
-    if (file?.length) {
+    try{
+      if (file?.length) {
         const formData = new FormData();
         formData.append('file', file[0]);
+        setLoading(true)
         const resp =  await uploadDocument(formData);
+        setLoading(false);
+        notifications.show({
+          title: 'Success',
+          message: 'File Uploaded',
+          color: 'green',
+      });
         setFileData(resp as never);
     }
+    }catch(e){
+      notifications.show({
+        title: 'Error',
+        message: 'Something went wrong',
+        color: 'red',
+    });
+    }
+    
     
   }
   
@@ -81,7 +99,7 @@ const CreateQuestionnaire = () => {
     const res = await createQuestions(getPrompts());
     setHtmlContent(res)
   }
-
+  
 
   return (
     <main>
@@ -103,7 +121,7 @@ const CreateQuestionnaire = () => {
       </Tabs.List>
 
       <Tabs.Panel value="upload">
-        <DropzoneButton onDrop={handleFile} />
+        <DropzoneButton onDrop={handleFile} isLoading={loading} fileUploaded={!!fileData}/>
       </Tabs.Panel>
 
       <Tabs.Panel value="messages">

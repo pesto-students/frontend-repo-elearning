@@ -1,5 +1,7 @@
 'use client';
 
+import { useAppDispatch } from '@/app/lib/hooks';
+import { hideLoader, showLoader } from '@/app/lib/slice';
 import { Button, Group, Text, rem, useMantineTheme } from '@mantine/core';
 import { Dropzone, MIME_TYPES } from '@mantine/dropzone';
 import { IconCloudUpload, IconDownload, IconX } from '@tabler/icons-react';
@@ -7,14 +9,25 @@ import { useRef } from 'react';
 import classes from './style.module.css';
 
 interface IDropZoneButton{
-  onDrop: (file: any) => void
+  onDrop: (file: any) => void;
+  isLoading: boolean;
+  fileUploaded: boolean;
 }
 
 
-export function DropzoneButton({onDrop}:IDropZoneButton) {
+export function DropzoneButton({onDrop, isLoading, fileUploaded}:IDropZoneButton) {
   const theme = useMantineTheme();
   const openRef = useRef<() => void>(null);
   const inputRef = useRef(null)
+  const dispatch = useAppDispatch();
+
+  if(isLoading){
+    dispatch(showLoader());
+     
+  }else{
+    dispatch(hideLoader());
+    
+  }
   return (
     <div className={classes.wrapper}>
       <Dropzone
@@ -49,7 +62,7 @@ export function DropzoneButton({onDrop}:IDropZoneButton) {
           <Text ta="center" fw={700} fz="lg" mt="xl">
             <Dropzone.Accept>Drop files here</Dropzone.Accept>
             <Dropzone.Reject>Pdf file less than 30mb</Dropzone.Reject>
-            <Dropzone.Idle>Upload Document</Dropzone.Idle>
+            <Dropzone.Idle>{fileUploaded ? 'Document Uploaded' :'Upload Document' }</Dropzone.Idle>
           </Text>
           <Text ta="center" fz="sm" mt="xs" c="dimmed">
             Drag&apos;n&apos;drop files here to upload. We can accept only <i>.pdf</i> files that
