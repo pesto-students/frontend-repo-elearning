@@ -3,6 +3,8 @@ import { APIS } from '@/constant';
 import { ActionIcon, Button, Card, Group, Stack, Text } from '@mantine/core';
 import { IconClock, IconPencil, IconTrash } from '@tabler/icons-react';
 import dayjs from 'dayjs';
+import timezone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
 import Link from 'next/link';
 import { formatDate } from "../../constant/utils";
 import classes from './OnlineClassCard.module.css';
@@ -49,10 +51,22 @@ export function ScheduledClassCard(props: ScheduledClassCardPropsType) {
     const { data, handleJoinLiveClass, roomsCodeData, handleDeleteLiveClass, handleEditLiveClass } = props;
     const store = useAppSelector((state: AppState) => state.store);
 
+    dayjs.extend(utc);
+    dayjs.extend(timezone);
+
     const getLiveClassFormData = (id = '', key = '') => {
         if (id && key) {
             return store.liveClassFormData?.[id]?.[key];
         }
+    };
+
+    const isClassActive = () => {
+        const now = dayjs();
+        const classDate = dayjs(data.scheduledDate).format('YYYY-MM-DD');
+        const startDateTime = dayjs(`${classDate}T${data.startTime}`);
+        const endDateTime = dayjs(`${classDate}T${data.endTime}`);
+
+        return now.isAfter(startDateTime) && now.isBefore(endDateTime);
     };
 
     return (
@@ -102,7 +116,7 @@ export function ScheduledClassCard(props: ScheduledClassCardPropsType) {
             </Card.Section>
 
             <Group mt="xs">
-                {dayjs().isAfter(dayjs(`${data.scheduledDate}T${data.startTime}`)) && dayjs().isBefore(dayjs(`${data.scheduledDate}T${data.endTime}`)) && (
+                {isClassActive() && (
                     <Button onClick={() => handleJoinLiveClass(data.hmsRoomInfo.id)}>
                         Join class
                     </Button>
