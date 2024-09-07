@@ -1,6 +1,8 @@
-import dayjs from "dayjs"
-import isObject from "lodash/isObject"
-import mapValues from "lodash/mapValues"
+import { getFormIDConstants } from '@/constant';
+import dayjs from "dayjs";
+import isObject from "lodash/isObject";
+import mapValues from "lodash/mapValues";
+
 
 export const formatDate = (date, dateFormat = 'DD/MM/YYYY hh:mm') => {
     return date ? dayjs(date).format(dateFormat) : ''
@@ -24,7 +26,7 @@ export const safeJsonParse = (data) => {
 }
 
 export const flattenObject = (values = {}) => {
-    return mapValues(values, (value) => {
+    const flattedObj = mapValues(values, (value) => {
         if (isObject(value) && (value.id || value._id)) {
             return value.id || value._id;
         } else if (Array.isArray(value)) {
@@ -37,6 +39,13 @@ export const flattenObject = (values = {}) => {
         }
         return value;
     })
+    Object.keys(flattedObj).forEach((key) => {
+       if(getFormIDConstants[key]){
+        flattedObj[getFormIDConstants[key]] = flattedObj[key];
+        delete flattedObj[key];
+       }
+    })
+    return flattedObj;
 }
 
 export function getRandomMantineColor() {
